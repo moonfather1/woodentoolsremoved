@@ -1,0 +1,44 @@
+{
+	"item.woodentoolsremoved.flint_hatchet": "Секирче од кремена",
+	"item.woodentoolsremoved.flint_pick": "Мали пијук од кремена",
+	"item.woodentoolsremoved.powder_bowl": "Чинија црног праха",
+	"item.woodentoolsremoved.javelin": "Крхко копље од кремена",
+	"item.woodentoolsremoved.firepit": "Једноставна логорска ватра",
+
+	"block.woodentoolsremoved.powder_bowl_block": "Чинија црног праха",
+	"block.woodentoolsremoved.firepit_block": "Једноставна логорска ватра",
+
+	"message.woodentoolsremoved.tree_message_h1": "Ијао!",
+	"message.woodentoolsremoved.tree_message_h2": "Ау, ау! Боли.",
+	"message.woodentoolsremoved.tree_message_n1": "То неће да може.",
+	"message.woodentoolsremoved.tree_message_n2": "Ово не води никуда.",
+	"message.woodentoolsremoved.tree_message_n3": "Нема ефекта.",
+	"message.woodentoolsremoved.tree_message_n4": "Нема ефекта.",
+	"message.woodentoolsremoved.tree_message_n5": "Тиме нисмо постигли баш ништа.",
+	"message.woodentoolsremoved.sword_message_1": "Ова ствар је бескорисна у борби.",
+
+	"item.woodentoolsremoved.powder_bowl.tooltip1": "Активирај помоћу кремена да разнесеш стене у ваздух.",
+	"item.woodentoolsremoved.powder_bowl.tooltip2": "Одмакни се мало пре тога.",
+	"block.woodentoolsremoved.powder_bowl.error": "Make a spark using flint or a tool made of flint.",
+
+	"item.woodentoolsremoved.original.tooltip1": "Ово је само модел.",
+	"item.woodentoolsremoved.original.tooltip2": "Бескорисно је. Направи прави алат од тврђих материјала.",
+	"item.woodentoolsremoved.tetra.tooltip": "Wooden tool heads are useless. Try using flint or stone.",
+	"item.woodentoolsremoved.javelin1dur.tooltip": "Превише је оштећено да га бациш. Још један замах и готово.",
+
+	"item.woodentoolsremoved.peaceful.tooltip1": "Not very sturdy but it should take down a tree.",
+	"item.woodentoolsremoved.peaceful.tooltip2": "Also might help you get coal from a coal deposit in stone.",
+
+	"ego.advancement.root": "Твоја прича почиње",
+	"ego.advancement.root.desc": "Овај свет ће се клањати твојој вољи.\n\nАли прво се треба повиновати његовој вољи; почни са прикупљањем малих ствари и меких материјала.",
+	"ego.advancement.craft_hatchet": "Време је за дрва",
+	"ego.advancement.craft_hatchet.desc": "Од неколико штапова и повећег комада кремена направи малу секиру. То би требало да може да посече стабла око тебе.",
+	"ego.advancement.puncher": "Покушавамо све",
+	"ego.advancement.puncher.desc": "Није имало смисла, али одлучили сте да ударите неколико пута у дрво, да пошаљете поруку.\n\nИли сте били погрешно информисани и мислили сте да ће то успети?",
+	"ego.advancement.stone_in_hard_mode": "Добијање камена (тежак режим)",
+	"ego.advancement.stone_in_hard_mode.desc": "Време је да се ствари дижу у ваздух. Набави мало црног праха од чудног зеленог створења.\n\nЈедном када набавиш ломљени камен, твоја прича почиње застварно; такође, нема више помоћи овде.",
+	"ego.advancement.stone_in_easy_mode": "Добијање камена (лак режим)",
+	"ego.advancement.stone_in_easy_mode.desc": "Алатка од кремена би требало да може да разбије неколико камених блокова. \n\nДаље ћеш успети сам.",
+	"ego.advancement.stone_in_null_mode": "Авантура почиње",
+	"ego.advancement.stone_in_null_mode.desc": "Сакупи мало камена.\n\nДаље ћеш успети сам. Срећно!"
+}

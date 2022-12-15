@@ -1,0 +1,44 @@
+{
+	"item.woodentoolsremoved.flint_hatchet": "Flint hatchet",
+	"item.woodentoolsremoved.flint_pick": "Flimsy flint pick",
+	"item.woodentoolsremoved.powder_bowl": "Bowl of black powder",
+	"item.woodentoolsremoved.javelin": "Flimsy flint javelin",
+	"item.woodentoolsremoved.firepit": "Simple firepit",
+
+	"block.woodentoolsremoved.powder_bowl_block": "Bowl of black powder",
+	"block.woodentoolsremoved.firepit_block": "Simple firepit",
+
+	"message.woodentoolsremoved.tree_message_h1": "Ouch!",
+	"message.woodentoolsremoved.tree_message_h2": "Ow! Hurts.",
+	"message.woodentoolsremoved.tree_message_n1": "That didn't work.",
+	"message.woodentoolsremoved.tree_message_n2": "That's not getting us anywhere.",
+	"message.woodentoolsremoved.tree_message_n3": "No effect.",
+	"message.woodentoolsremoved.tree_message_n4": "No effect.",
+	"message.woodentoolsremoved.tree_message_n5": "That did nothing at all.",
+	"message.woodentoolsremoved.sword_message_1": "This thing is useless as a weapon.",
+
+	"item.woodentoolsremoved.powder_bowl.tooltip1": "Activate using flint to blow up some stone.",
+	"item.woodentoolsremoved.powder_bowl.tooltip2": "Don't stand right next to it.",
+	"block.woodentoolsremoved.powder_bowl.error": "Make a spark using flint or a tool made of flint.",
+
+	"item.woodentoolsremoved.original.tooltip1": "This is a model only.",
+	"item.woodentoolsremoved.original.tooltip2": "It's useless. Make a real tool from harder materials.",
+	"item.woodentoolsremoved.tetra.tooltip": "Wooden tool heads are useless. Try using flint or stone.",
+	"item.woodentoolsremoved.javelin1dur.tooltip": "It's too damaged to throw it. One more swing and it's gone.",
+
+	"item.woodentoolsremoved.peaceful.tooltip1": "Not very sturdy but it should take down a tree.",
+	"item.woodentoolsremoved.peaceful.tooltip2": "Also might help you get coal from a coal deposit in stone.",
+
+	"ego.advancement.root": "Your story starts",
+	"ego.advancement.root.desc": "You shall bend this world to your will. \n\nBut first you need to bend to its will; start by gathering small things and soft materials.",
+	"ego.advancement.craft_hatchet": "Time to get wood",
+	"ego.advancement.craft_hatchet.desc": "Make a flint tool from a few sticks and a larger piece of flint. That should be able to cut down some logs.",
+	"ego.advancement.puncher": "Trying everything",
+	"ego.advancement.puncher.desc": "It made no sense but you decided to punch the tree a few times, to send a message. \n\nOr you were misinformed and thought that would work?",
+	"ego.advancement.stone_in_hard_mode": "Obtaining stone (hard mode)",
+	"ego.advancement.stone_in_hard_mode.desc": "Time to blow things up. Obtain some black powder from a strange green creature. \n\nOnce you obtain cobblestone, your story starts for real; also, you're on your own.",
+	"ego.advancement.stone_in_easy_mode": "Obtaining stone (easy mode)",
+	"ego.advancement.stone_in_easy_mode.desc": "A flint tool should be able to break a few stone blocks. \n\nAfter that, you're on your own.",
+	"ego.advancement.stone_in_null_mode": "Adventure begins",
+	"ego.advancement.stone_in_null_mode.desc": "Gather some stone. \n\nYou're on your own now. Good luck!"
+}

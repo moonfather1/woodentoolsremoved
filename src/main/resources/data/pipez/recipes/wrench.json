@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " F ",
+    " FF",
+    "S  "
+  ],
+  "key": {
+    "F": {
+      "tag": "forge:nuggets/iron"
+    },
+    "S": {
+      "tag": "forge:rods"
+    }
+  },
+  "result": {
+    "item": "pipez:wrench",
+    "count": 1
+  },
+  "conditions": [
+    {
+      "modid": "pipez",
+      "type": "forge:mod_loaded"
+    }
+  ]
+}

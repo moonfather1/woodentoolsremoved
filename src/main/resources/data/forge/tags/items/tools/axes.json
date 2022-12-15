@@ -1,0 +1,7 @@
+{
+  "replace": false,
+  "values": [
+    "woodentoolsremoved:flint_hatchet",
+	"minecraft:stone_axe"
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "b"
+  ],
+  "key": {
+    "b": {
+      "item": "woodentoolsremoved:powder_bowl"
+    }
+  },
+  "result": {
+    "item": "minecraft:gunpowder",
+    "count": 1
+  },
+  "group": "",
+  "conditions":
+  [
+    {
+      "type": "woodentoolsremoved:optional",
+      "flag_code": "allow_powder_bowl"
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "sf",
+    "s "
+  ],
+  "key": {
+    "f": {
+      "item": "minecraft:flint"
+    },
+    "s": {
+      "tag": "forge:rods/wooden" 
+    }
+  },
+  "result": {
+    "item": "woodentoolsremoved:flint_hatchet",
+    "count": 1
+  }
+}
