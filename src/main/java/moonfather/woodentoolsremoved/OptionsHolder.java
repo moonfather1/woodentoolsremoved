@@ -65,9 +65,5 @@ public class OptionsHolder
 		Pair<Common, ForgeConfigSpec> commonSpecPair = new ForgeConfigSpec.Builder().configure(Common::new);
 		COMMON = commonSpecPair.getLeft();
 		COMMON_SPEC = commonSpecPair.getRight();
-
-		Pair<Server, ForgeConfigSpec> serverSpecPair = new ForgeConfigSpec.Builder().configure(Server::new);
-		SERVER = serverSpecPair.getLeft();
-		SERVER_SPEC = serverSpecPair.getRight();
 	}
 }

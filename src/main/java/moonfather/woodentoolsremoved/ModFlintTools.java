@@ -22,7 +22,6 @@ public class ModFlintTools
     public ModFlintTools()
     {
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, OptionsHolder.COMMON_SPEC);
-        ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, OptionsHolder.SERVER_SPEC);
         RegistryManager.Init();
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
     }

@@ -51,8 +51,12 @@ public class PeacefulGameplaySupport
     {
         if (! checkedForCoalCust)
         {
-            coalDust = GetFirstItemMatchingTag(TagCoalDust);
             checkedForCoalCust = true;
+            for (Holder<Item> holder: Registry.ITEM.getTagOrEmpty(TagCoalDust))
+            {
+                coalDust = holder;
+                return true;
+            }
         }
         return coalDust != null;
     }

@@ -1,6 +1,7 @@
 package moonfather.woodentoolsremoved.items.tools;
 
 
+import moonfather.woodentoolsremoved.peaceful.PeacefulGameplaySupport;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TranslatableComponent;
