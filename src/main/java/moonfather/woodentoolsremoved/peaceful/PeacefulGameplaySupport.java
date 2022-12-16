@@ -47,6 +47,15 @@ public class PeacefulGameplaySupport
     }
 
 
+    public static boolean HaveCoalDust()
+    {
+        if (! checkedForCoalCust)
+        {
+            coalDust = GetFirstItemMatchingTag(TagCoalDust);
+            checkedForCoalCust = true;
+        }
+        return coalDust != null;
+    }
 
     private static Block GetBaseBlock(BlockState stateOfOreBlock)
     {

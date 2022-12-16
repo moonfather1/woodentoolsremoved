@@ -47,40 +47,17 @@ public class OptionsHolder
 
 	///////////////////////////////////////////////////
 
-	public static class Server
-	{
-		private static final boolean defaultSimpleModeEnabled = false;
-		private static final boolean defaultHardModeEnabled = false;
-		public final ConfigValue<Boolean> SimpleModeOverrideEnabled;
-		public final ConfigValue<Boolean> HardModeOverrideEnabled;
-
-		public Server(ForgeConfigSpec.Builder builder)
-		{
-			builder.push("Per-world overrides");
-			this.HardModeOverrideEnabled = builder.comment("These two override usual options for a specific (current) world. If unneeded, they should both be false.").worldRestart()
-					.define("Override - Hard mode enabled", defaultHardModeEnabled);
-			this.SimpleModeOverrideEnabled = builder.comment("These two override usual options for a specific (current) world. If unneeded, they should both be false. \n\nFor example if this is a peaceful world, enable this to run the world in SIMPLE mode (flint pickaxe) while other worlds remain as set in main config file.").worldRestart()
-					.define("Override - Simple mode enabled", defaultSimpleModeEnabled);
-			builder.pop();
-		}
-	}
-	///////////////////////////////////////////////////
-
 	public static final Common COMMON;
 	public static final ForgeConfigSpec COMMON_SPEC;
-	public static final Server SERVER;
-	public static final ForgeConfigSpec SERVER_SPEC;
 
 	public static boolean IsResolvedModeSimple()
 	{
-		return (OptionsHolder.SERVER.SimpleModeOverrideEnabled.get() && ! OptionsHolder.SERVER.HardModeOverrideEnabled.get())
-			|| (OptionsHolder.COMMON.SimpleModeEnabled.get()  && ! OptionsHolder.SERVER.HardModeOverrideEnabled.get() && ! OptionsHolder.COMMON.HardModeEnabled.get());
+		return OptionsHolder.COMMON.SimpleModeEnabled.get() && ! OptionsHolder.COMMON.HardModeEnabled.get();
 	}
 
 	public static boolean IsResolvedModeHard()
 	{
-		return (OptionsHolder.SERVER.HardModeOverrideEnabled.get())
-				|| (OptionsHolder.COMMON.HardModeEnabled.get()  && ! OptionsHolder.SERVER.SimpleModeOverrideEnabled.get());
+		return OptionsHolder.COMMON.HardModeEnabled.get();
 	}
 
 	static //constructor
