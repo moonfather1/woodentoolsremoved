@@ -1,0 +1,37 @@
+{
+  "parent": "woodentoolsremoved:tut/g1_root",
+  "display": {
+    "icon": {
+      "item": "woodentoolsremoved:painting1"
+    },
+    "title": {
+      "translate": "ego.advancement.puncher"
+    },
+    "description": {
+      "translate": "ego.advancement.puncher.desc"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": true
+  },
+  "criteria": {
+    "command_block": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "minecraft:command_block"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "command_block"
+    ]
+  ]
+}

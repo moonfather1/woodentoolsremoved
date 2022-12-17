@@ -1,0 +1,7 @@
+{
+  "replace": false,
+  "entries": [
+    "woodentoolsremoved:loot_modifier_for_bonus_chest",
+    "woodentoolsremoved:loot_modifier_for_sticks_and_flint"
+  ]
+}

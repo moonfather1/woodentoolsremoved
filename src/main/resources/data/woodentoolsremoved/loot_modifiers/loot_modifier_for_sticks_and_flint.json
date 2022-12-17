@@ -1,0 +1,5 @@
+{
+  "type": "woodentoolsremoved:loot_modifier_for_sticks_and_flint",
+  "conditions": [],
+  "what_drops_from_gravel": "minecraft:flint"
+}

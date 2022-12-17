@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "  f",
+    " s ",
+    "s  "
+  ],
+  "key": {
+    "f": {
+      "item": "minecraft:flint"
+    },
+    "s": {
+      "tag": "forge:rods/wooden" 
+    }
+  },
+  "result": {
+    "item": "woodentoolsremoved:javelin",
+    "count": 1
+  },
+  "conditions":
+  [
+    {
+      "type": "woodentoolsremoved:optional",
+      "flag_code": "allow_javelin"
+    }
+  ]
+}

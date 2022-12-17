@@ -1,0 +1,38 @@
+{
+  "parent": "woodentoolsremoved:tut/g1_root",
+  "display": {
+    "icon": {
+      "item": "woodentoolsremoved:flint_hatchet",
+      "nbt": "{Damage:0}"
+    },
+    "title": {
+      "translate": "ego.advancement.craft_hatchet"
+    },
+    "description": {
+      "translate": "ego.advancement.craft_hatchet.desc"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": false
+  },
+  "criteria": {
+    "flint_hatchet": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "woodentoolsremoved:flint_hatchet"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "flint_hatchet"
+    ]
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "s s",
+    "sss",
+    "gsg"
+  ],
+  "key": {
+    "g": {
+      "item": "minecraft:gravel"
+    },
+    "s": {
+      "tag": "forge:rods/wooden" 
+    }
+  },
+  "result": {
+    "item": "woodentoolsremoved:firepit",
+    "count": 1
+  },
+  "group": "",
+  "conditions":
+  [
+    {
+      "type": "woodentoolsremoved:optional",
+      "flag_code": "allow_firepit"
+    }
+  ]
+}

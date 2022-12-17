@@ -1,0 +1,38 @@
+{
+  "parent": "woodentoolsremoved:tut/g2_hatchet",
+  "display": {
+    "icon": {
+      "item": "woodentoolsremoved:flint_pick",
+      "nbt": "{Damage:0}"
+    },
+    "title": {
+      "translate": "ego.advancement.stone_in_easy_mode"
+    },
+    "description": {
+      "translate": "ego.advancement.stone_in_easy_mode.desc"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": true
+  },
+  "criteria": {
+    "stone1": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "woodentoolsremoved:flint_pick"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "stone1"
+    ]
+  ]
+}
