@@ -11,6 +11,7 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
+import net.minecraftforge.common.Tags;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModList;
@@ -51,7 +52,7 @@ public class EventForPunchingLogs
 	@SubscribeEvent
 	public static void OnBreakSpeed(PlayerEvent.BreakSpeed event)
 	{
-		if (!event.getEntity().getMainHandItem().isEmpty())
+		if (! event.getEntity().getMainHandItem().isEmpty())
 		{
 			if ( event.getEntity().getMainHandItem().getItem() instanceof AxeItem && ((AxeItem)event.getEntity().getMainHandItem().getItem()).getTier().equals(Tiers.WOOD)
 					|| event.getEntity().getMainHandItem().getItem() instanceof PickaxeItem && ((PickaxeItem)event.getEntity().getMainHandItem().getItem()).getTier().equals(Tiers.WOOD))
@@ -63,7 +64,7 @@ public class EventForPunchingLogs
 				event.setCanceled(true);
 				return;
 			}
-            if (!checkedForTetra)
+            if (! checkedForTetra)
             {
                 usingTetra = ModList.get().isLoaded("tetra");
                 checkedForTetra = true;
@@ -90,11 +91,17 @@ public class EventForPunchingLogs
 			{
 				return; // later game, accidental left-click
 			}
-			if (!event.getEntity().level().isClientSide() && ShouldGiveAdvancement(event.getEntity()))
+			if (! event.getEntity().getMainHandItem().isEmpty() && event.getEntity().getMainHandItem().is(Tags.Items.TOOLS))
+			{
+				event.setNewSpeed(event.getOriginalSpeed() / 8);
+				event.setCanceled(false);
+				return;
+			}
+			if (! event.getEntity().level().isClientSide() && ShouldGiveAdvancement(event.getEntity()))
 			{
 				AdvancementForPunchingLogs.Grant(event.getEntity());
 			}
-			if (!event.getEntity().level().isClientSide() && ShouldShowMessage(event.getEntity()))
+			if (! event.getEntity().level().isClientSide() && ShouldShowMessage(event.getEntity()))
 			{
 				if (ShouldHurtPlayer(event.getEntity()))
 				{
