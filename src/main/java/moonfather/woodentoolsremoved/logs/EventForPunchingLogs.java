@@ -8,6 +8,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
 import net.minecraftforge.event.entity.player.PlayerEvent;
@@ -89,21 +90,21 @@ public class EventForPunchingLogs
 			{
 				return; // later game, accidental left-click
 			}
-			if (!event.getEntity().getLevel().isClientSide() && ShouldGiveAdvancement(event.getEntity()))
+			if (!event.getEntity().level().isClientSide() && ShouldGiveAdvancement(event.getEntity()))
 			{
 				AdvancementForPunchingLogs.Grant(event.getEntity());
 			}
-			if (!event.getEntity().getLevel().isClientSide() && ShouldShowMessage(event.getEntity()))
+			if (!event.getEntity().level().isClientSide() && ShouldShowMessage(event.getEntity()))
 			{
 				if (ShouldHurtPlayer(event.getEntity()))
 				{
-					event.getEntity().hurt(DamageSource.GENERIC, 1);
-					int m = event.getEntity().getLevel().getRandom().nextInt(handHurtsMessages.length);
+					event.getEntity().hurt(event.getEntity().damageSources().flyIntoWall(), 1);
+					int m = event.getEntity().level().getRandom().nextInt(handHurtsMessages.length);
 					event.getEntity().displayClientMessage(handHurtsMessages[m], true);
 				}
 				else
 				{
-					int m = event.getEntity().getLevel().getRandom().nextInt(handNoEffectMessages.length);
+					int m = event.getEntity().level().getRandom().nextInt(handNoEffectMessages.length);
 					event.getEntity().displayClientMessage(handNoEffectMessages[m], true);
 				}
 			}
@@ -126,14 +127,14 @@ public class EventForPunchingLogs
 		Long last = lastClientMessageTick.get(player.getUUID());
 		if (last == null)
 		{
-			prevClientMessageTick.put(player.getUUID(), player.level.getGameTime() - 200);
-			lastClientMessageTick.put(player.getUUID(), player.level.getGameTime());
+			prevClientMessageTick.put(player.getUUID(), player.level().getGameTime() - 200);
+			lastClientMessageTick.put(player.getUUID(), player.level().getGameTime());
 			return true;
 		}
-		if (player.level.getGameTime() - last.longValue() > 3*20)
+		if (player.level().getGameTime() - last.longValue() > 3*20)
 		{
 			prevClientMessageTick.put(player.getUUID(), last);
-			lastClientMessageTick.put(player.getUUID(), player.level.getGameTime());
+			lastClientMessageTick.put(player.getUUID(), player.level().getGameTime());
 			return true;
 		}
 		else
@@ -148,13 +149,13 @@ public class EventForPunchingLogs
 		Long last = lastHurtPlayerTick.get(player.getUUID());
 		if (last == null)
 		{
-			lastHurtPlayerTick.put(player.getUUID(), player.level.getGameTime() + 80);
+			lastHurtPlayerTick.put(player.getUUID(), player.level().getGameTime() + 80);
 			return false;
 		}
-		boolean longTimeSinceLastPunch = player.level.getGameTime() - prevClientMessageTick.get(player.getUUID()) > 5*20;  // so we don't hurt instantly after every pause in punching
-		if (player.level.getGameTime() - last.longValue() > 7*20 && !longTimeSinceLastPunch)
+		boolean longTimeSinceLastPunch = player.level().getGameTime() - prevClientMessageTick.get(player.getUUID()) > 5*20;  // so we don't hurt instantly after every pause in punching
+		if (player.level().getGameTime() - last.longValue() > 7*20 && !longTimeSinceLastPunch)
 		{
-			lastHurtPlayerTick.put(player.getUUID(), player.level.getGameTime());
+			lastHurtPlayerTick.put(player.getUUID(), player.level().getGameTime());
 			return true;
 		}
 		else
@@ -172,7 +173,7 @@ public class EventForPunchingLogs
 			return false;
 		}
 		Long lastHurt = lastHurtPlayerTick.get(player.getUUID());
-		if (player.level.getGameTime() - last > 3*20 /*time for msg*/ && (lastHurt == null/*never true*/ || lastHurt > player.level.getGameTime() /*never hurt*/ || player.level.getGameTime() - lastHurt > 7*20/*time to hurt*/))
+		if (player.level().getGameTime() - last > 3*20 /*time for msg*/ && (lastHurt == null/*never true*/ || lastHurt > player.level().getGameTime() /*never hurt*/ || player.level().getGameTime() - lastHurt > 7*20/*time to hurt*/))
 		{
 			return true;
 		}

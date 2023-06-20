@@ -4,11 +4,11 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.block.model.ItemTransforms;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
+import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.CampfireBlock;
 import net.minecraft.world.level.block.entity.CampfireBlockEntity;
@@ -36,7 +36,7 @@ public class FirepitRenderer implements BlockEntityRenderer<CampfireBlockEntity>
                     poseStack.mulPose(Axis.XP.rotationDegrees(90.0F));
                     poseStack.translate(-0.3125D, -0.3125D, 0.0D);
                     poseStack.scale(0.375F, 0.375F, 0.375F);
-                    Minecraft.getInstance().getItemRenderer().renderStatic(itemstack, ItemTransforms.TransformType.FIXED, combinedLight, combinedOverlay, poseStack, buffer, i + j);
+                    Minecraft.getInstance().getItemRenderer().renderStatic(itemstack, ItemDisplayContext.FIXED, combinedLight, combinedOverlay, poseStack, buffer, campfireBlockEntity.getLevel(), i + j);
                     poseStack.popPose();
                 }
             }
@@ -62,7 +62,7 @@ public class FirepitRenderer implements BlockEntityRenderer<CampfireBlockEntity>
                     poseStack.translate(direction.getStepX() * -0.5, direction.getStepX() * +0.5, -10 / 16D - 1 / 64d);
                 }
                 poseStack.scale(0.5F, 0.5F, 0.5F);     //was 0.375
-                Minecraft.getInstance().getItemRenderer().renderStatic(itemstack, ItemTransforms.TransformType.FIXED, combinedLight, combinedOverlay, poseStack, buffer, i);
+                Minecraft.getInstance().getItemRenderer().renderStatic(itemstack, ItemDisplayContext.FIXED, combinedLight, combinedOverlay, poseStack, buffer, campfireBlockEntity.getLevel(), i);
                 poseStack.popPose();
             }
         }

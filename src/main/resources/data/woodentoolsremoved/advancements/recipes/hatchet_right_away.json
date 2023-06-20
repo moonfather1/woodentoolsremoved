@@ -1,0 +1,26 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "woodentoolsremoved:hatchet"
+    ]
+  },
+  "criteria": {
+    "unlock_right_away": {
+      "conditions": {},
+      "trigger": "minecraft:tick"
+    } ,
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "woodentoolsremoved:hatchet"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "unlock_right_away",
+      "has_the_recipe"
+    ]
+  ]
+}

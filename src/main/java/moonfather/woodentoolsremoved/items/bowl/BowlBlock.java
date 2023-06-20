@@ -24,8 +24,6 @@ import net.minecraft.world.item.*;
 import net.minecraft.world.level.*;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.material.Material;
-import net.minecraft.world.level.material.MaterialColor;
 import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
@@ -40,7 +38,7 @@ public class BowlBlock extends Block
 
     public BowlBlock()
     {
-        super(Properties.of(WOOD_NOT_SOLID).instabreak());
+        super(Properties.of().instabreak().pushReaction(PushReaction.DESTROY).explosionResistance(1e-5f).ignitedByLava().forceSolidOff());
     }
 
     public static Item.Properties GetItemProperties()
@@ -50,7 +48,6 @@ public class BowlBlock extends Block
 
 
 
-    private static final Material WOOD_NOT_SOLID = new Material(MaterialColor.WOOD, false, false/*solid*/, false/*blocksmotion*/, false/*solidblocking*/, true/*flammable*/, false/*replaceable*/, PushReaction.NORMAL);
     private static final VoxelShape SHAPE_BOWL = Block.box(3d, 0.0D, 3d, 13d, 2d, 13.d);
     @Override
     public VoxelShape getShape(BlockState p_60555_, BlockGetter p_60556_, BlockPos p_60557_, CollisionContext p_60558_)
@@ -169,6 +166,21 @@ public class BowlBlock extends Block
                 level.destroyBlock(pos, true);
             }
         }
+    }
+
+    @Override
+    public boolean canSurvive(BlockState blockState, LevelReader level, BlockPos pos) {
+        if (pos.getY() <= level.getMinBuildHeight())
+        {
+            return false;
+        }
+        BlockPos belowPos = pos.below();
+        BlockState below = level.getBlockState(belowPos);
+        if (! below.isFaceSturdy(level, belowPos, Direction.UP, SupportType.CENTER))
+        {
+            return false;
+        }
+        return super.canSurvive(blockState, level, pos);
     }
 
 

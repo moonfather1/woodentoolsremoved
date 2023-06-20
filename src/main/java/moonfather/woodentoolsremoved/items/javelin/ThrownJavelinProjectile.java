@@ -80,10 +80,9 @@ public class ThrownJavelinProjectile extends AbstractArrow
         float f = 7.0F;
 
         Entity entity1 = this.getOwner();
-        DamageSource damagesource = DamageSource.trident(this, (Entity)(entity1 == null ? this : entity1));
         this.dealtDamage = true;
         SoundEvent soundevent = SoundEvents.TRIDENT_HIT;
-        if (entity.hurt(damagesource, f)) {
+        if (entity.hurt(entity.level().damageSources().trident(this, (Entity)(entity1 == null ? this : entity1)), f)) {
             if (entity.getType() == EntityType.ENDERMAN) {
                 return;
             }

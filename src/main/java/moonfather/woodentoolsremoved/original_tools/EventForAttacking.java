@@ -2,7 +2,7 @@ package moonfather.woodentoolsremoved.original_tools;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
-import net.minecraft.world.damagesource.EntityDamageSource;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
@@ -16,18 +16,18 @@ public class EventForAttacking
     @SubscribeEvent
     public static void OnLivingHurt(LivingHurtEvent event)
     {
-        if (event.getSource().msgId.equals("mob") || event.getSource().msgId.equals("player"))
+        if (event.getSource().getMsgId().equals("mob") || event.getSource().getMsgId().equals("player"))
         {
-            EntityDamageSource ds = (EntityDamageSource)event.getSource();
-            if (ds.getEntity() instanceof LivingEntity)
+            DamageSource source = event.getSource();
+            if (source.getEntity() instanceof LivingEntity)
             {
-                ItemStack stack = ((LivingEntity)ds.getEntity()).getMainHandItem();
+                ItemStack stack = ((LivingEntity)source.getEntity()).getMainHandItem();
                 if (!stack.isEmpty() && !(stack.getItem() instanceof ShovelItem) && stack.getItem() instanceof TieredItem && ((TieredItem)stack.getItem()).getTier().equals(Tiers.WOOD))
                 {
                     event.setAmount(1f);
-                    if (event.getSource().msgId.equals("player"))
+                    if (event.getSource().getMsgId().equals("player"))
                     {
-                        ((Player)ds.getEntity()).displayClientMessage(woodenToolMessage, true);
+                        ((Player)source.getEntity()).displayClientMessage(woodenToolMessage, true);
                     }
                 }
             }

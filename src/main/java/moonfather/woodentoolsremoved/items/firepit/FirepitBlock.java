@@ -18,6 +18,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.CampfireCookingRecipe;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.CampfireBlock;
 import net.minecraft.world.level.block.SoundType;
@@ -32,8 +33,8 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
-import net.minecraft.world.level.material.Material;
-import net.minecraft.world.level.material.MaterialColor;
+import net.minecraft.world.level.material.MapColor;
+import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
@@ -47,7 +48,7 @@ public class FirepitBlock extends CampfireBlock
 {
     public FirepitBlock()
     {
-        super(false /*spawnParticles*/, 0 /*fireDamage*/, BlockBehaviour.Properties.of(Material.DECORATION, MaterialColor.PODZOL).strength(1.0F).sound(SoundType.GRAVEL).lightLevel(litBlockEmission(7)).noOcclusion());
+        super(false /*spawnParticles*/, 0 /*fireDamage*/, BlockBehaviour.Properties.of().strength(1.0F).sound(SoundType.GRAVEL).lightLevel(litBlockEmission(7)).noOcclusion().mapColor(MapColor.COLOR_BROWN).pushReaction(PushReaction.DESTROY));
     }
 
     private static ToIntFunction<BlockState> litBlockEmission(int lightValue)
@@ -89,6 +90,20 @@ public class FirepitBlock extends CampfireBlock
         }
     }
 
+    @Override
+    public boolean canSurvive(BlockState blockState, LevelReader level, BlockPos pos) {
+        if (pos.getY() <= level.getMinBuildHeight())
+        {
+            return false;
+        }
+        BlockPos belowPos = pos.below();
+        BlockState below = level.getBlockState(belowPos);
+        if (! below.isFaceSturdy(level, belowPos, Direction.UP, SupportType.CENTER))
+        {
+            return false;
+        }
+        return super.canSurvive(blockState, level, pos);
+    }
 
 
     @Override

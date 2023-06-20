@@ -2,23 +2,23 @@ package moonfather.woodentoolsremoved.items;
 
 import moonfather.woodentoolsremoved.RegistryManager;
 import net.minecraft.world.item.CreativeModeTabs;
-import net.minecraftforge.event.CreativeModeTabEvent;
+import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 
 
 public class EventForCreativeTabs
 {
-	public static void OnCreativeModeTab(CreativeModeTabEvent.BuildContents event)
+	public static void OnCreativeModeTab(BuildCreativeModeTabContentsEvent event)
 	{
-		if (event.getTab() == CreativeModeTabs.TOOLS_AND_UTILITIES)
+		if (event.getTabKey().equals(CreativeModeTabs.TOOLS_AND_UTILITIES))
 		{
 			event.accept(RegistryManager.ItemHatchet.get());
 			event.accept(RegistryManager.ItemMiniPick.get());
 		}
-		if (event.getTab() == CreativeModeTabs.COMBAT)
+		if (event.getTabKey().equals(CreativeModeTabs.COMBAT))
 		{
 			event.accept(RegistryManager.ItemJavelin.get());
 		}
-		if (event.getTab() == CreativeModeTabs.FUNCTIONAL_BLOCKS)
+		if (event.getTabKey().equals(CreativeModeTabs.FUNCTIONAL_BLOCKS))
 		{
 			event.accept(RegistryManager.ItemFirepit.get());
 			event.accept(RegistryManager.ItemBlackPowderBowl.get());

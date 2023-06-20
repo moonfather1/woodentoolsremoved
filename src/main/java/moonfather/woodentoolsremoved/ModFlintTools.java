@@ -11,14 +11,13 @@ import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 
-// The value here should match an entry in the META-INF/mods.toml file
 @Mod(Constants.MODID)
 public class ModFlintTools
 {
+    // todo: when tetra is out for 1.19 and 1.20, update wood materials in data folder
     public ModFlintTools()
     {
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, OptionsHolder.COMMON_SPEC);
-        //ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, OptionsHolder.SERVER_SPEC);
         RegistryManager.Init();
         // Register the commonSetup method for modloading
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::commonSetup);

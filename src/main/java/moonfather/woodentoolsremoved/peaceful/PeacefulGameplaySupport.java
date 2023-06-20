@@ -1,5 +1,6 @@
 package moonfather.woodentoolsremoved.peaceful;
 
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
@@ -22,24 +23,19 @@ public class PeacefulGameplaySupport
 {
     public static void CheckForHittingCoalOre(PlayerEvent.BreakSpeed event)
     {
-        if (! checkedForCoalCust)
+        if (HaveCoalDust() && event.getState().is(BlockTags.COAL_ORES) && event.getEntity().getMainHandItem().is(TagAxe) && event.getEntity().level().getDifficulty().equals(Difficulty.PEACEFUL))
         {
-            coalDust = GetFirstItemMatchingTag(TagCoalDust);
-            checkedForCoalCust = true;
-        }
-        if (coalDust != null && event.getState().is(BlockTags.COAL_ORES) && event.getEntity().getMainHandItem().is(TagAxe) && event.getEntity().getLevel().getDifficulty().equals(Difficulty.PEACEFUL))
-        {
-            if (! event.getEntity().getLevel().isClientSide && event.getEntity().getLevel().random.nextInt(100) < 5)
-            {
-                if (!event.getEntity().getLevel().isClientSide())
-                {
-                    event.getEntity().getLevel().playSound((Player)null, event.getPos(), SoundEvents.BASALT_BREAK, SoundSource.BLOCKS, 1.0F, 1.0F);
+            if (event.getPosition().isPresent()) {
+                BlockPos pos = event.getPosition().get();
+                if (!event.getEntity().level().isClientSide && event.getEntity().level().random.nextInt(100) < 5) {
+                    event.getEntity().level().playSound((Player) null, pos, SoundEvents.BASALT_BREAK, SoundSource.BLOCKS, 1.0F, 1.0F);
+                    event.getEntity().level().setBlockAndUpdate(pos, GetBaseBlock(event.getState()).defaultBlockState());
+                    Block.popResource(event.getEntity().level(), pos, new ItemStack(coalDust));
+                    ItemStack stack = event.getEntity().getMainHandItem();
+                    int damage = Math.max(4, (stack.getMaxDamage() - stack.getDamageValue()) / 2);
+                    stack.hurtAndBreak(damage, event.getEntity(), (p) -> {
+                    });
                 }
-                event.getEntity().getLevel().setBlockAndUpdate(event.getPos(), GetBaseBlock(event.getState()).defaultBlockState());
-                Block.popResource(event.getEntity().getLevel(), event.getPos(), new ItemStack(coalDust));
-                ItemStack stack = event.getEntity().getMainHandItem();
-                int damage = Math.max(4, (stack.getMaxDamage() - stack.getDamageValue()) / 2);
-                stack.hurtAndBreak(damage, event.getEntity(), (p)->{});
             }
             return;
         }
@@ -57,7 +53,7 @@ public class PeacefulGameplaySupport
 
     private static Holder<Item> GetFirstItemMatchingTag(TagKey<Item> tag)
     {
-        for(Holder<Item> holder : BuiltInRegistries.ITEM.getTagOrEmpty(tag))
+        for (Holder<Item> holder : BuiltInRegistries.ITEM.getTagOrEmpty(tag))
         {
             return holder;
         }

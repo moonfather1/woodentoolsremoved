@@ -2,7 +2,7 @@
   "parent": "minecraft:recipes/root",
   "rewards": {
     "recipes": [
-      "woodentoolsremoved:hatchet"
+      "woodentoolsremoved:pickaxe"
     ]
   },
   "criteria": {
@@ -11,9 +11,7 @@
       "conditions": {
         "items": [
           {
-            "items": [
-              "minecraft:flint"
-            ]
+              "tag": "forge:flint"
           }
         ]
       }
@@ -21,7 +19,7 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "woodentoolsremoved:hatchet"
+        "recipe": "woodentoolsremoved:pickaxe"
       }
     }
   },

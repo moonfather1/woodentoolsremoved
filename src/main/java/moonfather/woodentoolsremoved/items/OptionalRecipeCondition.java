@@ -29,7 +29,7 @@ public class OptionalRecipeCondition implements ICondition
 	{
 		if (this.flagCode.equals("allow_pick"))
 		{
-			return (OptionsHolder.IsResolvedModeSimple() || false/*peac*/ && OptionsHolder.COMMON.HardModeEnabled.get())
+			return OptionsHolder.IsResolvedModeSimple()
 					&& ! ModList.get().isLoaded("tconstruct");
 		}
 		else if (this.flagCode.equals("allow_powder_bowl"))
