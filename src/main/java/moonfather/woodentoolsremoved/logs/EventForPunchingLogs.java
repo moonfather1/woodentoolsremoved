@@ -11,6 +11,7 @@ import net.minecraft.tags.BlockTags;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
+import net.minecraftforge.common.Tags;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModList;
@@ -87,6 +88,12 @@ public class EventForPunchingLogs
 			if (event.getPlayer().getArmorCoverPercentage() > 0f)
 			{
 				return; // later game, accidental left-click
+			}
+			if (! event.getPlayer().getMainHandItem().isEmpty() && event.getPlayer().getMainHandItem().getItem() instanceof TieredItem) // not very precise
+			{
+				event.setNewSpeed(event.getOriginalSpeed() / 8);
+				event.setCanceled(false);
+				return;
 			}
 			if (!event.getPlayer().getLevel().isClientSide() && ShouldGiveAdvancement(event.getPlayer()))
 			{

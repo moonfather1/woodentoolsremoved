@@ -30,17 +30,20 @@ public class PeacefulGameplaySupport
         }
         if (coalDust != null && event.getState().is(BlockTags.COAL_ORES) && event.getPlayer().getMainHandItem().is(TagAxe) && event.getPlayer().getLevel().getDifficulty().equals(Difficulty.PEACEFUL))
         {
-            if (! event.getEntity().getLevel().isClientSide && event.getEntity().getLevel().random.nextInt(100) < 5)
+            if (event.getEntity().getLevel().random.nextInt(100) < 4)
             {
-                if (!event.getEntity().getLevel().isClientSide())
+                if (event.getEntity().getLevel().isClientSide())
                 {
                     event.getEntity().getLevel().playSound((Player)null, event.getPos(), SoundEvents.BASALT_BREAK, SoundSource.BLOCKS, 1.0F, 1.0F);
                 }
-                event.getEntity().getLevel().setBlockAndUpdate(event.getPos(), GetBaseBlock(event.getState()).defaultBlockState());
-                Block.popResource(event.getEntity().getLevel(), event.getPos(), new ItemStack(coalDust));
-                ItemStack stack = event.getPlayer().getMainHandItem();
-                int damage = Math.max(4, (stack.getMaxDamage() - stack.getDamageValue()) / 2);
-                stack.hurtAndBreak(damage, event.getPlayer(), (p)->{});
+                if (! event.getEntity().getLevel().isClientSide)
+                {
+                    event.getEntity().getLevel().setBlockAndUpdate(event.getPos(), GetBaseBlock(event.getState()).defaultBlockState());
+                    Block.popResource(event.getEntity().getLevel(), event.getPos(), new ItemStack(coalDust));
+                    ItemStack stack = event.getPlayer().getMainHandItem();
+                    int damage = Math.max(4, (stack.getMaxDamage() - stack.getDamageValue()) / 2);
+                    stack.hurtAndBreak(damage, event.getPlayer(), (p)->{});
+                }
             }
             return;
         }
