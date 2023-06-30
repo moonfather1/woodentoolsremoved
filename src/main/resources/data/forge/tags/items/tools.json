@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
-    "woodentoolsremoved:flint_hatchet"
+    "woodentoolsremoved:flint_hatchet",
+	"woodentoolsremoved:flint_pick"
   ]
 }
