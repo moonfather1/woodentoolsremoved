@@ -172,6 +172,21 @@ public class BowlBlock extends Block
         }
     }
 
+    @Override
+    public boolean canSurvive(BlockState blockState, LevelReader level, BlockPos pos) {
+        if (pos.getY() <= level.getMinBuildHeight())
+        {
+            return false;
+        }
+        BlockPos belowPos = pos.below();
+        BlockState below = level.getBlockState(belowPos);
+        if (! below.isFaceSturdy(level, belowPos, Direction.UP, SupportType.CENTER))
+        {
+            return false;
+        }
+        return super.canSurvive(blockState, level, pos);
+    }
+
 
 
     public boolean dropFromExplosion(Explosion p_57427_)
