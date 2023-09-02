@@ -1,12 +1,11 @@
 package moonfather.woodentoolsremoved.items;
 
 import moonfather.woodentoolsremoved.RegistryManager;
-import net.minecraft.world.item.CreativeModeTabs;
-import net.minecraftforge.event.CreativeModeTabEvent;
 
 
 public class EventForCreativeTabs
 {
+	/*
 	public static void OnCreativeModeTab(CreativeModeTabEvent.BuildContents event)
 	{
 		if (event.getTab() == CreativeModeTabs.TOOLS_AND_UTILITIES)
@@ -24,4 +23,6 @@ public class EventForCreativeTabs
 			event.accept(RegistryManager.ItemBlackPowderBowl.get());
 		}
 	}
+
+	 */
 }

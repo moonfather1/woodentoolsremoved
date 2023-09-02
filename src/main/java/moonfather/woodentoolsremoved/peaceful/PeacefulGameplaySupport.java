@@ -1,7 +1,7 @@
 package moonfather.woodentoolsremoved.peaceful;
 
 import net.minecraft.core.Holder;
-import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -29,19 +29,21 @@ public class PeacefulGameplaySupport
         }
         if (coalDust != null && event.getState().is(BlockTags.COAL_ORES) && event.getEntity().getMainHandItem().is(TagAxe) && event.getEntity().getLevel().getDifficulty().equals(Difficulty.PEACEFUL))
         {
-            if (! event.getEntity().getLevel().isClientSide && event.getEntity().getLevel().random.nextInt(100) < 5)
+            if (event.getEntity().getLevel().random.nextInt(100) < 4)
             {
-                if (!event.getEntity().getLevel().isClientSide())
+                if (event.getEntity().getLevel().isClientSide())
                 {
                     event.getEntity().getLevel().playSound((Player)null, event.getPos(), SoundEvents.BASALT_BREAK, SoundSource.BLOCKS, 1.0F, 1.0F);
                 }
-                event.getEntity().getLevel().setBlockAndUpdate(event.getPos(), GetBaseBlock(event.getState()).defaultBlockState());
-                Block.popResource(event.getEntity().getLevel(), event.getPos(), new ItemStack(coalDust));
-                ItemStack stack = event.getEntity().getMainHandItem();
-                int damage = Math.max(4, (stack.getMaxDamage() - stack.getDamageValue()) / 2);
-                stack.hurtAndBreak(damage, event.getEntity(), (p)->{});
+                if (! event.getEntity().getLevel().isClientSide())
+                {
+                    event.getEntity().getLevel().setBlockAndUpdate(event.getPos(), GetBaseBlock(event.getState()).defaultBlockState());
+                    Block.popResource(event.getEntity().getLevel(), event.getPos(), new ItemStack(coalDust));
+                    ItemStack stack = event.getEntity().getMainHandItem();
+                    int damage = Math.max(4, (stack.getMaxDamage() - stack.getDamageValue()) / 2);
+                    stack.hurtAndBreak(damage, event.getEntity(), (p) -> {});
+                }
             }
-            return;
         }
     }
 
@@ -57,7 +59,7 @@ public class PeacefulGameplaySupport
 
     private static Holder<Item> GetFirstItemMatchingTag(TagKey<Item> tag)
     {
-        for(Holder<Item> holder : BuiltInRegistries.ITEM.getTagOrEmpty(tag))
+        for (Holder<Item> holder : Registry.ITEM.getTagOrEmpty(tag))
         {
             return holder;
         }

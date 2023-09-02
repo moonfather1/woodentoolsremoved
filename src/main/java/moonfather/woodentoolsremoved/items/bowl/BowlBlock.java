@@ -120,7 +120,7 @@ public class BowlBlock extends Block
     {
         level.setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());
         float force = 0.7F;
-        level.explode(null, pos.getX()+0.5f, pos.getY()+0.3f, pos.getZ()+0.5f, force, Level.ExplosionInteraction.NONE);
+        level.explode(null, pos.getX()+0.5f, pos.getY()+0.3f, pos.getZ()+0.5f, force, Explosion.BlockInteraction.NONE);
         BlockPos.MutableBlockPos pos2 = new BlockPos.MutableBlockPos(pos.getX(), pos.getY(), pos.getZ());
         this.TryDestroyStone(level, pos2.move( 0, -1, 0 ), 100);
         this.TryDestroyStone(level, pos2.move( 0, +2,  0), 100);
@@ -169,6 +169,23 @@ public class BowlBlock extends Block
                 level.destroyBlock(pos, true);
             }
         }
+    }
+
+
+
+    @Override
+    public boolean canSurvive(BlockState blockState, LevelReader level, BlockPos pos) {
+        if (pos.getY() <= level.getMinBuildHeight())
+        {
+            return false;
+        }
+        BlockPos belowPos = pos.below();
+        BlockState below = level.getBlockState(belowPos);
+        if (! below.isFaceSturdy(level, belowPos, Direction.UP, SupportType.CENTER))
+        {
+            return false;
+        }
+        return super.canSurvive(blockState, level, pos);
     }
 
 

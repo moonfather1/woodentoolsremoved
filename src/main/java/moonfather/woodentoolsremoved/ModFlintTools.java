@@ -18,11 +18,9 @@ public class ModFlintTools
     public ModFlintTools()
     {
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, OptionsHolder.COMMON_SPEC);
-        //ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, OptionsHolder.SERVER_SPEC);
         RegistryManager.Init();
         // Register the commonSetup method for modloading
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::commonSetup);
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(EventForCreativeTabs::OnCreativeModeTab);
     }
 
     private void commonSetup(final FMLCommonSetupEvent event)

@@ -89,6 +89,12 @@ public class EventForPunchingLogs
 			{
 				return; // later game, accidental left-click
 			}
+			if (! event.getEntity().getMainHandItem().isEmpty() && event.getEntity().getMainHandItem().getItem() instanceof TieredItem) // not very precise
+			{
+				event.setNewSpeed(event.getOriginalSpeed() / 8);
+				event.setCanceled(false); // porting... why did i add this block in 5d885b7d8cae7ffdea6620bd6b131b4342d0b850?
+				return;
+			}
 			if (!event.getEntity().getLevel().isClientSide() && ShouldGiveAdvancement(event.getEntity()))
 			{
 				AdvancementForPunchingLogs.Grant(event.getEntity());

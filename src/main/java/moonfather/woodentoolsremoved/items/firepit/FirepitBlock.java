@@ -18,6 +18,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.CampfireCookingRecipe;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.CampfireBlock;
 import net.minecraft.world.level.block.SoundType;
@@ -87,6 +88,23 @@ public class FirepitBlock extends CampfireBlock
                 level.destroyBlock(pos, true);
             }
         }
+    }
+
+
+
+    @Override
+    public boolean canSurvive(BlockState blockState, LevelReader level, BlockPos pos) {
+        if (pos.getY() <= level.getMinBuildHeight())
+        {
+            return false;
+        }
+        BlockPos belowPos = pos.below();
+        BlockState below = level.getBlockState(belowPos);
+        if (! below.isFaceSturdy(level, belowPos, Direction.UP, SupportType.CENTER))
+        {
+            return false;
+        }
+        return super.canSurvive(blockState, level, pos);
     }
 
 
