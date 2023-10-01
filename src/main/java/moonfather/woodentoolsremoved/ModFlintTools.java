@@ -31,4 +31,5 @@ public class ModFlintTools
         CraftingHelper.register(new OptionalRecipeCondition.Serializer(new ResourceLocation(Constants.MODID, "optional")));
         event.enqueueWork(ToolStatistics::ChangeDurabilityValues);
     }
+    //todo: broke advancements
 }

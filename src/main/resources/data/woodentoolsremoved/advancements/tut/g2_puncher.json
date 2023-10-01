@@ -16,22 +16,18 @@
     "hidden": true
   },
   "criteria": {
-    "command_block": {
-      "trigger": "minecraft:inventory_changed",
+    "impossible_bucket2": {
+      "trigger": "minecraft:filled_bucket",
       "conditions": {
-        "items": [
-          {
-            "items": [
-              "minecraft:command_block"
-            ]
-          }
-        ]
+        "item": {
+          "item": "minecraft:iron_shovel"
+        }
       }
     }
   },
   "requirements": [
     [
-      "command_block"
+      "impossible_bucket2"
     ]
   ]
 }

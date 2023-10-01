@@ -41,7 +41,7 @@ public class ThrownJavelinProjectile extends AbstractArrow
 
     public static float GetScale()
     {
-        return 0.33f;
+        return 0.50f;
     }
 
 
@@ -144,4 +144,13 @@ public class ThrownJavelinProjectile extends AbstractArrow
     public boolean shouldRender(double p_37588_, double p_37589_, double p_37590_) {
         return true;
     }
+
+    @Override
+    protected void tickDespawn() {
+        ++this.life;
+        if (this.life >= 1200*6) {
+            this.remove(RemovalReason.DISCARDED); // 6x the arrow life
+        }
+    }
+    private int life = 0;
 }

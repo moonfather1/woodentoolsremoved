@@ -50,6 +50,6 @@ public class RegistryManager
 
 	public static final RegistryObject<EntityType<ThrownJavelinProjectile>> ThrownJavelinProjectileET = ENTITIES.register("thrown_javelin_projectile", () -> EntityType.Builder.<ThrownJavelinProjectile>of(ThrownJavelinProjectile::new, MobCategory.MISC)
 			.setCustomClientFactory(ThrownJavelinProjectile::new)
-			.sized(ThrownJavelinProjectile.GetScale(), ThrownJavelinProjectile.GetScale())
+			.sized(ThrownJavelinProjectile.GetScale(), ThrownJavelinProjectile.GetScale() * 1.5f)
 			.build("thrown_javelin_projectile"));
 }
