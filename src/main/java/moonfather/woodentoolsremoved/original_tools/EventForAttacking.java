@@ -1,5 +1,6 @@
 package moonfather.woodentoolsremoved.original_tools;
 
+import moonfather.woodentoolsremoved.OptionsHolder;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TranslatableComponent;
@@ -23,12 +24,16 @@ public class EventForAttacking
             if (ds.getEntity() instanceof LivingEntity)
             {
                 ItemStack stack = ((LivingEntity)ds.getEntity()).getMainHandItem();
-                if (!stack.isEmpty() && !(stack.getItem() instanceof ShovelItem) && stack.getItem() instanceof TieredItem && ((TieredItem)stack.getItem()).getTier().equals(Tiers.WOOD))
+                if (! stack.isEmpty() && ! (stack.getItem() instanceof ShovelItem) && stack.getItem() instanceof TieredItem && ((TieredItem)stack.getItem()).getTier().equals(Tiers.WOOD))
                 {
-                    event.setAmount(1f);
                     if (event.getSource().msgId.equals("player"))
                     {
-                        ((Player)ds.getEntity()).displayClientMessage(woodenToolMessage, true);
+                        event.setAmount(1f);
+                        ((Player) ds.getEntity()).displayClientMessage(woodenToolMessage, true);
+                    }
+                    else
+                    {
+                        event.setAmount(event.getAmount() + OptionsHolder.COMMON.WoodenToolDamageInMobHands.get());
                     }
                 }
             }
