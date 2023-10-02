@@ -30,7 +30,7 @@ public class EventForStoneAdvancements
                 }
                 else
                 {
-                    sp.getAdvancements().award(GetAdvancement(sp, "g4_get_stone3"), "impossible_bucket2");
+                    sp.getAdvancements().award(GetAdvancement(sp, "g4_get_stone3"), "impossible_bucket");
                 }
             }
         }

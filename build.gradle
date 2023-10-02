@@ -16,7 +16,7 @@ plugins {
 apply plugin: 'net.minecraftforge.gradle'
 
 
-version = '1.04'
+version = '1.04b'
 group = 'moonfather.woodentoolsremoved' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = 'woodentoolsremoved'
 
