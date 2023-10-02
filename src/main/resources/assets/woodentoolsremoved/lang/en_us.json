@@ -36,9 +36,11 @@
 	"ego.advancement.puncher": "Trying everything",
 	"ego.advancement.puncher.desc": "It made no sense but you decided to punch the tree a few times, to send a message. \n\nOr you were misinformed and thought that would work?",
 	"ego.advancement.stone_in_hard_mode": "Obtaining stone (hard mode)",
-	"ego.advancement.stone_in_hard_mode.desc": "Time to blow things up. Obtain some black powder from a strange green creature. \n\nOnce you obtain cobblestone, your story starts for real; also, you're on your own.",
-	"ego.advancement.stone_in_easy_mode": "Obtaining stone (easy mode)",
+	"ego.advancement.stone_in_hard_mode.desc": "Time to blow things up. Obtain some black powder from a strange green creature. \n\nOnce you obtain cobblestone, your story starts for real. Now you're on your own.",
+	"ego.advancement.stone_in_easy_mode": "Obtaining stone (simple mode)",
 	"ego.advancement.stone_in_easy_mode.desc": "A flint tool should be able to break a few stone blocks. \n\nAfter that, you're on your own.",
 	"ego.advancement.stone_in_null_mode": "Adventure begins",
-	"ego.advancement.stone_in_null_mode.desc": "Gather some stone. \n\nYou're on your own now. Good luck!"
+	"ego.advancement.stone_in_null_mode.desc": "Gather some stone. \n\nYou're on your own now. Good luck!",
+
+	"entity.woodentoolsremoved.thrown_javelin_projectile": "Flint javelin"
 }

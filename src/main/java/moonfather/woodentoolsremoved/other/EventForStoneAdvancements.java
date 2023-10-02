@@ -2,6 +2,7 @@ package moonfather.woodentoolsremoved.other;
 
 import moonfather.woodentoolsremoved.OptionsHolder;
 import net.minecraft.advancements.Advancement;
+import net.minecraft.advancements.DisplayInfo;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.event.entity.player.AdvancementEvent;
@@ -22,15 +23,17 @@ public class EventForStoneAdvancements
                 ServerPlayer sp = (ServerPlayer) event.getEntity();
                 if (OptionsHolder.IsResolvedModeSimple() && ! ModList.get().isLoaded("tconstruct"))
                 {
-                    GetAdvancement(sp, "g4_get_stone2").getDisplay().hidden = false;
+                    DisplayInfo di = GetAdvancement(sp, "g4_get_stone2").getDisplay();
+                    di.hidden = false;
                 }
                 else if (OptionsHolder.IsResolvedModeHard() && (! ModList.get().isLoaded("tconstruct") || OptionsHolder.COMMON.ForceHardModeWithTC.get()))
                 {
-                    GetAdvancement(sp, "g4_get_stone1").getDisplay().hidden = false;
+                    DisplayInfo di = GetAdvancement(sp, "g4_get_stone1").getDisplay();
+                    di.hidden = false;
                 }
                 else
                 {
-                    sp.getAdvancements().award(GetAdvancement(sp, "g4_get_stone3"), "ride_a_boat_with_a_friend");
+                    sp.getAdvancements().award(GetAdvancement(sp, "g4_get_stone3"), "impossible_bucket");
                 }
             }
         }

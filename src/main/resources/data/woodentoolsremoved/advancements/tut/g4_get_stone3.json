@@ -2,8 +2,7 @@
   "parent": "woodentoolsremoved:tut/g2_hatchet",
   "display": {
     "icon": {
-      "item": "minecraft:spyglass",
-      "nbt": "{Damage:0}"
+      "item": "minecraft:book"
     },
     "title": {
       "translate": "ego.advancement.stone_in_null_mode"
@@ -17,29 +16,18 @@
     "hidden": true
   },
   "criteria": {
-    "ride_a_boat_with_a_friend": {
-      "trigger": "minecraft:started_riding",
+    "impossible_bucket": {
+      "trigger": "minecraft:filled_bucket",
       "conditions": {
-        "player": [
-          {
-            "condition": "minecraft:entity_properties",
-            "predicate": {
-              "vehicle": {
-                "type": "minecraft:boat",
-                "passenger": {
-                  "type": "minecraft:ender_dragon"
-                }
-              }
-            },
-            "entity": "this"
-          }
-        ]
+        "item": {
+          "item": "minecraft:iron_pickaxe"
+        }
       }
     }
   },
   "requirements": [
     [
-      "ride_a_boat_with_a_friend"
+      "impossible_bucket"
     ]
   ]
 }

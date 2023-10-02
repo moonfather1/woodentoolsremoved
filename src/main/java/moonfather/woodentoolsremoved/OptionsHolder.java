@@ -10,10 +10,11 @@ public class OptionsHolder
 	{
 		private static final boolean defaultSimpleModeEnabled = false;
 		private static final boolean defaultHardModeEnabled = true;
-		private static final int defaultStoneToolsDurabilityMultiplier = 66;
+		private static final int defaultStoneToolsDurabilityMultiplier = 30;
 		private static final int defaultStickDropChance = 4;
 		private static final boolean defaultGuaranteedFlintDrops = true;
 		private static final boolean defaultForceHardModeWithTC = false;
+		private static final int defaultWoodenToolDamageInMobHands = 2;
 
 		public final ConfigValue<Boolean> SimpleModeEnabled;
 		public final ConfigValue<Boolean> HardModeEnabled;
@@ -21,6 +22,7 @@ public class OptionsHolder
 		public final ConfigValue<Integer> StickDropChance;
 		public final ConfigValue<Boolean> GuaranteedFlintDrops;
 		public final ConfigValue<Boolean> ForceHardModeWithTC;
+		public final ConfigValue<Integer> WoodenToolDamageInMobHands;
 
 		public Common(ForgeConfigSpec.Builder builder)
 		{
@@ -37,6 +39,8 @@ public class OptionsHolder
 					.defineInRange("Additional stick drop chance", defaultStickDropChance, 0, 100);
 			this.GuaranteedFlintDrops = builder.comment("Because Minecraft's gravel logic is stupid (dig through it, find nothing, it's okay, try again until you find flint inside), this mod guarantees three flint drops in ten gravel blocks broken - but only the first ten. After the first set, this feature is off. You can turn this off if you have another mod that takes care of gravel (try \"Modest flint overhaul\" by the author of this mod) or if for some insane reason you like digging through the same gravel block over and over.")
 					.define("Guaranteed flint drops", defaultGuaranteedFlintDrops);
+			this.WoodenToolDamageInMobHands = builder.comment("This is how much extra damage a wooden sword or tool will deal in mob hands. Option is introduced because some mods add wooden tools to zombies. No effect on tools in player's hands. This is not a total value, it is a bonus added to mob damage plus minimal tool damage.")
+					 .defineInRange("Wooden tool damage in mob hands", defaultWoodenToolDamageInMobHands, 0, 10);
 			builder.pop();
 			builder.push("Interoperability");
 			this.ForceHardModeWithTC = builder.comment("Tinker's construct offers flint tools and easily circumvents this mod's HARD mode. By default, this mod backs off when TC is present and disables both the HARD mode and the SIMPLE mode. This option forces the mod not to disable the three recipes it disables when TC is present, but - that's it. This option does not trigger any changes to TC behavior. It is up to modpack maker or the player to resolve the incompatibility.")

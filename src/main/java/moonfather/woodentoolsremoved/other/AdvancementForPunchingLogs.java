@@ -12,7 +12,7 @@ public class AdvancementForPunchingLogs
         if (player instanceof ServerPlayer)
         {
             ServerPlayer sp = (ServerPlayer) player;
-            sp.getAdvancements().award(GetAdvancement(sp), "command_block");
+            sp.getAdvancements().award(GetAdvancement(sp), "impossible_bucket2");
         }
     }
 

@@ -15,7 +15,7 @@ public class HatchetItem extends AxeItem
 {
 	public HatchetItem()
 	{
-		super(Tiers.STONE, 4/*dmg*/, -2.5f/*attackspeed*/, HatchetItem.GetProperties());
+		super(Tiers.STONE, 3/*dmg*/, -2.8f/*attackspeed*/, HatchetItem.GetProperties());
 	}
 
 	private static Properties GetProperties()

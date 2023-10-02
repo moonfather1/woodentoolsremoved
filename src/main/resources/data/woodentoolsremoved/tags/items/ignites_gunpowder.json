@@ -1,0 +1,12 @@
+{
+  "replace": false,
+  "values": [
+    "minecraft:flint",
+    "woodentoolsremoved:flint_hatchet",
+    "woodentoolsremoved:flint_pick",
+    "minecraft:flint_and_steel",
+    "minecraft:fire_charge",
+    { "id": "notreepunching:fire_starter", "required": false },
+    "minecraft:torch"
+  ]
+}
