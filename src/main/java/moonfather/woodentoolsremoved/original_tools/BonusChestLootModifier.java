@@ -5,9 +5,12 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import moonfather.woodentoolsremoved.RegistryManager;
+import moonfather.woodentoolsremoved.items.tools.PickItem;
 import net.minecraft.tags.ItemTags;
+import net.minecraft.world.item.AxeItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.PickaxeItem;
 import net.minecraft.world.level.storage.loot.BuiltInLootTables;
 import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
@@ -32,11 +35,11 @@ public class BonusChestLootModifier extends LootModifier
 
         for (int i = 0; i < generatedLoot.size(); i++)
         {
-            if (generatedLoot.get(i).getItem() == Items.WOODEN_AXE)
+            if (generatedLoot.get(i).getItem() instanceof AxeItem)
             {
                 generatedLoot.set(i, new ItemStack(RegistryManager.ItemHatchet.get()));
             }
-            else if (generatedLoot.get(i).getItem() == Items.WOODEN_PICKAXE)
+            else if (generatedLoot.get(i).getItem() instanceof PickaxeItem)
             {
                 generatedLoot.set(i, new ItemStack(Items.FLINT, 3));
             }

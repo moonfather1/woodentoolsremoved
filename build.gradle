@@ -4,7 +4,7 @@ plugins {
     id 'net.minecraftforge.gradle' version '5.1.+'
 }
 
-version = '1.02'
+version = '1.04'
 group = 'moonfather.woodentoolsremoved' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = 'woodentoolsremoved--mc1.19.2-'
 

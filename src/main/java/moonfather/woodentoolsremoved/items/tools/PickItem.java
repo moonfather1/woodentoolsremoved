@@ -7,7 +7,7 @@ public class PickItem extends PickaxeItem
 {
 	public PickItem()
 	{
-		super(Tiers.STONE, 1/*dmg*/, -2.5f/*attackspeed*/, PickItem.GetProperties());
+		super(Tiers.STONE, 1/*dmg*/, -2.8f/*attackspeed*/, PickItem.GetProperties());
 	}
 
 	private static Properties GetProperties()

@@ -1,5 +1,6 @@
 package moonfather.woodentoolsremoved.items.bowl;
 
+import moonfather.woodentoolsremoved.Constants;
 import moonfather.woodentoolsremoved.RegistryManager;
 import moonfather.woodentoolsremoved.other.TetraSupport;
 import moonfather.woodentoolsremoved.items.tools.HatchetItem;
@@ -79,14 +80,9 @@ public class BowlBlock extends Block
 
 
 
-    private final TagKey<Item> flintTag = ItemTags.create(new ResourceLocation("forge:flint"));
     private boolean IsProperActivationItem(ItemStack stack)
     {
-        if (stack.getItem().equals(Items.FLINT) || stack.getItem() instanceof FlintAndSteelItem || stack.getItem() instanceof HatchetItem || stack.getItem() instanceof PickItem || stack.getItem().equals(Items.FIRE_CHARGE) || stack.getItem().equals(Items.TORCH))
-        {
-            return true;
-        }
-        if (stack.is(flintTag))
+        if (stack.is(Constants.Tags.IGNITES_GUNPOWDER) || stack.getItem() instanceof FlintAndSteelItem)
         {
             return true;
         }
@@ -212,7 +208,7 @@ public class BowlBlock extends Block
     private void UpdateUsedItem(ItemStack stack, Player player, InteractionHand hand)
     {
         if (!player.isCreative()) {
-            if (stack.is(Items.FLINT_AND_STEEL)) {
+            if (stack.isDamageableItem()) {
                 stack.hurtAndBreak(1, player, (p_57425_) -> {
                     p_57425_.broadcastBreakEvent(hand);
                 });

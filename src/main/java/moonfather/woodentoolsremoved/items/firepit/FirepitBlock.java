@@ -161,9 +161,8 @@ public class FirepitBlock extends CampfireBlock
                     {
                         campfireblockentity.placeFood(player, player.getAbilities().instabuild ? itemstack.copy() : itemstack, optional.get().getCookingTime() * 2);
                         player.awardStat(Stats.INTERACT_WITH_CAMPFIRE);
-                        return InteractionResult.SUCCESS;
                     }
-                    return InteractionResult.CONSUME;
+                    return InteractionResult.sidedSuccess(player.level.isClientSide());
                 }
                 return InteractionResult.PASS;
             }
