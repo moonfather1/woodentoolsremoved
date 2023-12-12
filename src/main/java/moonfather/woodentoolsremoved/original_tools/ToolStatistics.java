@@ -1,12 +1,12 @@
 package moonfather.woodentoolsremoved.original_tools;
 
 import moonfather.woodentoolsremoved.OptionsHolder;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.DiggerItem;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.SwordItem;
 import net.minecraft.world.item.Tiers;
-import net.minecraftforge.registries.ForgeRegistries;
 
 public class ToolStatistics
 {
@@ -36,7 +36,7 @@ public class ToolStatistics
         (item).getDefaultAttributeModifiers(EquipmentSlot.MAINHAND).forEach(
                 (a, am) ->
                 {
-                    if (ForgeRegistries.ATTRIBUTES.getKey(a).toString().equals("minecraft:generic.attack_damage"))
+                    if (BuiltInRegistries.ATTRIBUTE.getKey(a).toString().equals("minecraft:generic.attack_damage"))
                     {
                         am.amount = 0f;
                     }
@@ -50,7 +50,7 @@ public class ToolStatistics
         (item).getDefaultAttributeModifiers(EquipmentSlot.MAINHAND).forEach(
                 (a, am) ->
                 {
-                    if (ForgeRegistries.ATTRIBUTES.getKey(a).toString().equals("minecraft:generic.attack_damage"))
+                    if (BuiltInRegistries.ATTRIBUTE.getKey(a).toString().equals("minecraft:generic.attack_damage"))
                     {
                         am.amount = 0f;
                     }

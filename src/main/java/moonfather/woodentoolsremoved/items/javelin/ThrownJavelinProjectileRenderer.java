@@ -14,13 +14,13 @@ import net.minecraft.client.renderer.entity.*;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
 public class ThrownJavelinProjectileRenderer extends EntityRenderer<ThrownJavelinProjectile>
 {
-	public static final ResourceLocation TEXTURE_LOCATION = new ResourceLocation("woodentoolsremoved:textures/entities/javelin.png");
+	private static final ResourceLocation TEXTURE_LOCATION = new ResourceLocation("woodentoolsremoved:textures/entities/javelin.png");
 	private final JavelinModel model;
 
 	public ThrownJavelinProjectileRenderer(EntityRendererProvider.Context context) {

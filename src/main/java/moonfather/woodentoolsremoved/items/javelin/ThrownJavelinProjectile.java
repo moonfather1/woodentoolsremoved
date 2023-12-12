@@ -5,18 +5,18 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
-import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.network.PlayMessages;
+import net.neoforged.neoforge.network.PlayMessages;
 
 import javax.annotation.Nullable;
 
@@ -24,19 +24,20 @@ public class ThrownJavelinProjectile extends AbstractArrow
 {
     private ItemStack tridentItem = new ItemStack(RegistryManager.ItemJavelin.get());
     private boolean dealtDamage;
+    private static final ItemStack DEFAULT_ARROW_STACK = new ItemStack(RegistryManager.ItemJavelin.get());
 
 
     public ThrownJavelinProjectile(Level p_37569_, LivingEntity p_37570_, ItemStack p_37571_) {
-        super(RegistryManager.ThrownJavelinProjectileET.get(), p_37570_, p_37569_);
+        super(RegistryManager.ThrownJavelinProjectileET.get(), p_37570_, p_37569_, p_37571_);
         this.tridentItem = p_37571_.copy();
     }
 
     public ThrownJavelinProjectile(PlayMessages.SpawnEntity spawnEntity, Level level) {
-        super(RegistryManager.ThrownJavelinProjectileET.get(), level);
+        super(RegistryManager.ThrownJavelinProjectileET.get(), level, DEFAULT_ARROW_STACK);
     }
 
     public ThrownJavelinProjectile(EntityType<ThrownJavelinProjectile> thrownJavelinProjectileEntityType, Level level) {
-        super(thrownJavelinProjectileEntityType, level);
+        super(thrownJavelinProjectileEntityType, level, DEFAULT_ARROW_STACK);
     }
 
     public static float GetScale()

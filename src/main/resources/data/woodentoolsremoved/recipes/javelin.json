@@ -17,7 +17,7 @@
     "item": "woodentoolsremoved:javelin",
     "count": 1
   },
-  "conditions":
+  "neoforge:conditions":
   [
     {
       "type": "woodentoolsremoved:optional",

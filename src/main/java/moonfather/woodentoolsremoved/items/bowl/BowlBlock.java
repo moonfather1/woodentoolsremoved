@@ -215,8 +215,9 @@ public class BowlBlock extends Block
     }
 
 
+
     @Override
-    public ItemStack getCloneItemStack(BlockGetter world, BlockPos pos, BlockState state)
+    public ItemStack getCloneItemStack(LevelReader world, BlockPos pos, BlockState state)
     {
         return RegistryManager.ItemBlackPowderBowl.get().getDefaultInstance();
     }

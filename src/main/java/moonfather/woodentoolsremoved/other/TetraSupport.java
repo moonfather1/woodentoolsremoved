@@ -1,9 +1,9 @@
 package moonfather.woodentoolsremoved.other;
 
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.fml.ModList;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.neoforged.fml.ModList;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -62,11 +62,11 @@ public class TetraSupport
 
     public static boolean IsTetraFlintItem(ItemStack stack)
     {
-        if (!ModList.get().isLoaded("tetra"))
+        if (! ModList.get().isLoaded("tetra"))
         {
             return false;
         }
-        if (ForgeRegistries.ITEMS.getKey(stack.getItem()).toString().equals(DoubleToolId))
+        if (BuiltInRegistries.ITEM.getKey(stack.getItem()).toString().equals(DoubleToolId))
         {
             CompoundTag tag = stack.getTag();
             boolean gotFlint = tag.getString("double/basic_pickaxe_right_material").equals("basic_pickaxe/flint");

@@ -1,48 +1,48 @@
 package moonfather.woodentoolsremoved.other;
 
+import moonfather.woodentoolsremoved.Constants;
 import moonfather.woodentoolsremoved.OptionsHolder;
-import net.minecraft.advancements.Advancement;
-import net.minecraft.advancements.DisplayInfo;
+import net.minecraft.advancements.AdvancementHolder;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraftforge.event.entity.player.AdvancementEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.ModList;
-import net.minecraftforge.fml.common.Mod;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.ModList;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.neoforge.event.entity.player.AdvancementEvent;
 
 @Mod.EventBusSubscriber
 public class EventForStoneAdvancements
 {
     @SubscribeEvent
-    public static void OnAdvancement(AdvancementEvent event)
+    public static void OnAdvancement(AdvancementEvent.AdvancementEarnEvent event)
     {
-        if (event.getAdvancement().getId().toString().equals("woodentoolsremoved:tut/g2_hatchet"))
+        if (event.getAdvancement().id().toString().equals("woodentoolsremoved:tut/g2_hatchet"))
         {
             if (event.getEntity() instanceof ServerPlayer)
             {
                 ServerPlayer sp = (ServerPlayer) event.getEntity();
                 if (OptionsHolder.IsResolvedModeSimple() && ! ModList.get().isLoaded("tconstruct"))
                 {
-                    DisplayInfo di = GetAdvancement(sp, "g4_get_stone2").getDisplay();
-                    di.hidden = false;
+                    AdvancementHolder a = GetAdvancement(sp, Constants.Advancements.STONE2);
+                    a.value().display().ifPresent(displayInfo -> displayInfo.hidden = false);
                 }
                 else if (OptionsHolder.IsResolvedModeHard() && (! ModList.get().isLoaded("tconstruct") || OptionsHolder.COMMON.ForceHardModeWithTC.get()))
                 {
-                    DisplayInfo di = GetAdvancement(sp, "g4_get_stone1").getDisplay();
-                    di.hidden = false;
+                    AdvancementHolder a = GetAdvancement(sp, Constants.Advancements.STONE1);
+                    a.value().display().ifPresent(displayInfo -> displayInfo.hidden = false);
                 }
                 else
                 {
-                    sp.getAdvancements().award(GetAdvancement(sp, "g4_get_stone3"), "impossible_bucket");
+                    sp.getAdvancements().award(GetAdvancement(sp, Constants.Advancements.STONE3), "impossible_bucket");
                 }
             }
         }
     }
 
 
-    private static Advancement GetAdvancement(ServerPlayer sp, String name)
+    private static AdvancementHolder GetAdvancement(ServerPlayer sp, ResourceLocation id)
     {
-        return sp.getServer().getAdvancements().getAdvancement(new ResourceLocation("woodentoolsremoved:tut/" + name));
+        return sp.getServer().getAdvancements().get(id);
     }
 
 

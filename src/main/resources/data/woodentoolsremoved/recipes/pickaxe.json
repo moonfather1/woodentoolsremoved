@@ -17,7 +17,7 @@
     "item": "woodentoolsremoved:flint_pick",
     "count": 1
   },
-  "conditions":
+  "neoforge:conditions":
   [
     {
       "type": "woodentoolsremoved:optional",

@@ -1,7 +1,6 @@
 package moonfather.woodentoolsremoved;
 
-import net.minecraftforge.common.ForgeConfigSpec;
-import net.minecraftforge.common.ForgeConfigSpec.ConfigValue;
+import net.neoforged.neoforge.common.ModConfigSpec;
 import org.apache.commons.lang3.tuple.Pair;
 
 public class OptionsHolder
@@ -16,15 +15,15 @@ public class OptionsHolder
 		private static final boolean defaultForceHardModeWithTC = false;
 		private static final int defaultWoodenToolDamageInMobHands = 2;
 
-		public final ConfigValue<Boolean> SimpleModeEnabled;
-		public final ConfigValue<Boolean> HardModeEnabled;
-		public final ConfigValue<Integer> StoneToolsDurabilityMultiplier;
-		public final ConfigValue<Integer> StickDropChance;
-		public final ConfigValue<Boolean> GuaranteedFlintDrops;
-		public final ConfigValue<Boolean> ForceHardModeWithTC;
-		public final ConfigValue<Integer> WoodenToolDamageInMobHands;
+		public final ModConfigSpec.ConfigValue<Boolean> SimpleModeEnabled;
+		public final ModConfigSpec.ConfigValue<Boolean> HardModeEnabled;
+		public final ModConfigSpec.ConfigValue<Integer> StoneToolsDurabilityMultiplier;
+		public final ModConfigSpec.ConfigValue<Integer> StickDropChance;
+		public final ModConfigSpec.ConfigValue<Boolean> GuaranteedFlintDrops;
+		public final ModConfigSpec.ConfigValue<Boolean> ForceHardModeWithTC;
+		public final ModConfigSpec.ConfigValue<Integer> WoodenToolDamageInMobHands;
 
-		public Common(ForgeConfigSpec.Builder builder)
+		public Common(ModConfigSpec.Builder builder)
 		{
 			builder.push("Obtaining stone");
 			this.HardModeEnabled = builder.comment("This controls how players obtain cobblestone at the very start of the game. Three options: \n- Simple mode just provides flint pickaxe; get a few stone pieces and forget about your problems. \n- Hard mode is for realistic modpacks; you'll spend a short while and plenty of nerves to progress from wood tier to stone tier. \n- Option 3 is nothing. Neither of the two. If the modpack provides another way for starting player to get stone (from rocks on the ground or another mod's flint pickaxe), just disable both the hard mode and the simple mode.").worldRestart()
@@ -52,7 +51,7 @@ public class OptionsHolder
 	///////////////////////////////////////////////////
 
 	public static final Common COMMON;
-	public static final ForgeConfigSpec COMMON_SPEC;
+	public static final ModConfigSpec COMMON_SPEC;
 
 	public static boolean IsResolvedModeSimple()
 	{
@@ -66,7 +65,7 @@ public class OptionsHolder
 
 	static //constructor
 	{
-		Pair<Common, ForgeConfigSpec> commonSpecPair = new ForgeConfigSpec.Builder().configure(Common::new);
+		Pair<Common, ModConfigSpec> commonSpecPair = new ModConfigSpec.Builder().configure(Common::new);
 		COMMON = commonSpecPair.getLeft();
 		COMMON_SPEC = commonSpecPair.getRight();
 	}

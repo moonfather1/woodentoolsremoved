@@ -2,7 +2,7 @@ package moonfather.woodentoolsremoved.items;
 
 import moonfather.woodentoolsremoved.RegistryManager;
 import net.minecraft.world.item.CreativeModeTabs;
-import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
+import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 
 
 public class EventForCreativeTabs

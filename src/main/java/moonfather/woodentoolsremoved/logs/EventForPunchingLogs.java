@@ -4,19 +4,17 @@ import com.mojang.logging.LogUtils;
 import moonfather.woodentoolsremoved.other.AdvancementForPunchingLogs;
 import moonfather.woodentoolsremoved.other.TetraSupport;
 import moonfather.woodentoolsremoved.peaceful.PeacefulGameplaySupport;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 import net.minecraft.tags.BlockTags;
-import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
-import net.minecraftforge.common.Tags;
-import net.minecraftforge.event.entity.player.PlayerEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.ModList;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.ModList;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.neoforge.common.Tags;
+import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import org.slf4j.Logger;
 
 import java.util.HashMap;
@@ -70,7 +68,7 @@ public class EventForPunchingLogs
                 checkedForTetra = true;
             }
 
-            if (usingTetra && ForgeRegistries.ITEMS.getKey(event.getEntity().getMainHandItem().getItem()).toString().equals(TetraSupport.DoubleToolId))
+            if (usingTetra && BuiltInRegistries.ITEM.getKey(event.getEntity().getMainHandItem().getItem()).toString().equals(TetraSupport.DoubleToolId))
             {
 				if (TetraSupport.IsWoodenTetraTool(event.getEntity().getMainHandItem()))
 				{

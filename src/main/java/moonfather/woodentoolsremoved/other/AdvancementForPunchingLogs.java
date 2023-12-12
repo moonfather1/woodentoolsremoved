@@ -1,7 +1,6 @@
 package moonfather.woodentoolsremoved.other;
 
-import net.minecraft.advancements.Advancement;
-import net.minecraft.resources.ResourceLocation;
+import moonfather.woodentoolsremoved.Constants;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 
@@ -12,21 +11,7 @@ public class AdvancementForPunchingLogs
         if (player instanceof ServerPlayer)
         {
             ServerPlayer sp = (ServerPlayer) player;
-            sp.getAdvancements().award(GetAdvancement(sp), "impossible_bucket2");
+            sp.getAdvancements().award(sp.getServer().getAdvancements().get(Constants.Advancements.PUNCHER), "impossible_bucket2");
         }
-    }
-
-
-    private static Advancement cachedInstance = null;
-
-    private static Advancement GetAdvancement(ServerPlayer sp)
-    {
-        if (cachedInstance != null)
-        {
-            return cachedInstance;
-        }
-
-        cachedInstance = sp.getServer().getAdvancements().getAdvancement(new ResourceLocation("woodentoolsremoved:tut/g2_puncher"));
-        return cachedInstance;
     }
 }

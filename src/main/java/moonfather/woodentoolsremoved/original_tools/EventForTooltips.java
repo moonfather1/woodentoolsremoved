@@ -3,9 +3,9 @@ package moonfather.woodentoolsremoved.original_tools;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 import net.minecraft.world.item.Items;
-import net.minecraftforge.event.entity.player.ItemTooltipEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.neoforge.event.entity.player.ItemTooltipEvent;
 
 @Mod.EventBusSubscriber
 public class EventForTooltips
@@ -13,7 +13,7 @@ public class EventForTooltips
 	@SubscribeEvent
 	public static void OnItemTooltip(ItemTooltipEvent event)
 	{
-		if (!event.getItemStack().isEmpty() && (event.getItemStack().getItem().equals(Items.WOODEN_AXE) || event.getItemStack().getItem().equals(Items.WOODEN_PICKAXE) || event.getItemStack().getItem().equals(Items.WOODEN_SWORD)))
+		if (! event.getItemStack().isEmpty() && (event.getItemStack().getItem().equals(Items.WOODEN_AXE) || event.getItemStack().getItem().equals(Items.WOODEN_PICKAXE) || event.getItemStack().getItem().equals(Items.WOODEN_SWORD)))
 		{
 			event.getToolTip().add(woodenToolInfo1);
 			event.getToolTip().add(woodenToolInfo2);

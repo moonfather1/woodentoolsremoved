@@ -1,15 +1,12 @@
 package moonfather.woodentoolsremoved;
 
 import moonfather.woodentoolsremoved.items.EventForCreativeTabs;
-import moonfather.woodentoolsremoved.items.OptionalRecipeCondition;
 import moonfather.woodentoolsremoved.original_tools.ToolStatistics;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.common.crafting.CraftingHelper;
-import net.minecraftforge.fml.ModLoadingContext;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.config.ModConfig;
-import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.neoforged.fml.ModLoadingContext;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.config.ModConfig;
+import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.neoforged.fml.javafmlmod.FMLJavaModLoadingContext;
 
 @Mod(Constants.MODID)
 public class ModFlintTools
@@ -26,7 +23,6 @@ public class ModFlintTools
 
     private void commonSetup(final FMLCommonSetupEvent event)
     {
-        CraftingHelper.register(new OptionalRecipeCondition.Serializer(new ResourceLocation(Constants.MODID, "optional")));
         event.enqueueWork(ToolStatistics::ChangeDurabilityValues);
     }
 }

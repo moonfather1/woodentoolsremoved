@@ -1,12 +1,11 @@
 package moonfather.woodentoolsremoved.other;
 
 import com.google.common.base.Suppliers;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import moonfather.woodentoolsremoved.OptionsHolder;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.entity.Entity;
@@ -18,9 +17,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
-import net.minecraftforge.common.loot.IGlobalLootModifier;
-import net.minecraftforge.common.loot.LootModifier;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.neoforged.neoforge.common.loot.IGlobalLootModifier;
+import net.neoforged.neoforge.common.loot.LootModifier;
 
 import java.util.List;
 import java.util.Random;
@@ -29,13 +27,13 @@ import java.util.function.Supplier;
 public class SticksAndFlintLootModifier extends LootModifier
 {
     private Item flintItem = null;
-    private Random random = new Random();
+    private final Random random = new Random();
     public SticksAndFlintLootModifier(LootItemCondition[] conditionsIn, ResourceLocation item)
     {
         super(conditionsIn);
         this.itemToDrop = item;
-        this.flintItem = ForgeRegistries.ITEMS.getValue(item);
-        if (this.flintItem == null || this.flintItem.equals(Items.AIR))
+        this.flintItem = BuiltInRegistries.ITEM.get(item);
+        if (this.flintItem.equals(Items.AIR))
         {
             this.flintItem = Items.FLINT;
         }

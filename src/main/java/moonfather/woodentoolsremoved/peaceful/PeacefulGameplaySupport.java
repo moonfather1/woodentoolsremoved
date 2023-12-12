@@ -16,8 +16,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.event.entity.player.PlayerEvent;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 
 public class PeacefulGameplaySupport
 {
@@ -63,7 +62,7 @@ public class PeacefulGameplaySupport
 
     private static Block GetBaseBlock(BlockState stateOfOreBlock)
     {
-        if (ForgeRegistries.BLOCKS.getKey(stateOfOreBlock.getBlock()).toString().contains("slate"))
+        if (BuiltInRegistries.BLOCK.getKey(stateOfOreBlock.getBlock()).toString().contains("slate"))
         {
             return Blocks.DEEPSLATE;
         }

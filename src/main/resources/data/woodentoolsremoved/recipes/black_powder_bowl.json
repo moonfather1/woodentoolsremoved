@@ -17,7 +17,7 @@
     "count": 1
   },
   "group": "",
-  "conditions":
+  "neoforge:conditions":
   [
     {
       "type": "woodentoolsremoved:optional",

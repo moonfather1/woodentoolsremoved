@@ -12,10 +12,10 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.CampfireCookingRecipe;
+import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
@@ -107,7 +107,7 @@ public class FirepitBlock extends CampfireBlock
 
 
     @Override
-    public ItemStack getCloneItemStack(BlockGetter world, BlockPos pos, BlockState state)
+    public ItemStack getCloneItemStack(LevelReader world, BlockPos pos, BlockState state)
     {
         return RegistryManager.ItemFirepit.get().getDefaultInstance();
     }
@@ -149,14 +149,14 @@ public class FirepitBlock extends CampfireBlock
                 }
                 return InteractionResult.sidedSuccess(level.isClientSide());
             }
-            Optional<CampfireCookingRecipe> optional = campfireblockentity.getCookableRecipe(itemstack);
+            Optional<RecipeHolder<CampfireCookingRecipe>> optional = campfireblockentity.getCookableRecipe(itemstack);
             if (optional.isPresent())
             {
                 if (FirepitBlock.CanPlaceFood(campfireblockentity))
                 {
-                    if (!level.isClientSide)
+                    if (! level.isClientSide)
                     {
-                        campfireblockentity.placeFood(player, player.getAbilities().instabuild ? itemstack.copy() : itemstack, optional.get().getCookingTime() * 2);
+                        campfireblockentity.placeFood(player, player.getAbilities().instabuild ? itemstack.copy() : itemstack, optional.get().value().getCookingTime() * 2);
                         player.awardStat(Stats.INTERACT_WITH_CAMPFIRE);
                     }
                     return InteractionResult.sidedSuccess(player.level().isClientSide());

@@ -17,10 +17,10 @@
     "item": "pipez:wrench",
     "count": 1
   },
-  "conditions": [
+  "neoforge:conditions": [
     {
       "modid": "pipez",
-      "type": "forge:mod_loaded"
+      "type": "neoforge:mod_loaded"
     }
   ]
 }
