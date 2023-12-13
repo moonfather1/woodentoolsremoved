@@ -34,8 +34,8 @@ import javax.annotation.Nullable;
 
 public class BowlBlock extends Block
 {
-    public static final Component TooltipLine1 = Component.translatable("item.woodentoolsremoved.powder_bowl.tooltip1").withStyle(Style.EMPTY.withColor(0x808080));
-    public static final Component TooltipLine2 = Component.translatable("item.woodentoolsremoved.powder_bowl.tooltip2").withStyle(Style.EMPTY.withColor(0x808080));
+    public static final Component TooltipLine1 = Component.translatable("item.woodentoolsremoved.powder_bowl.tooltip1").withStyle(Style.EMPTY.withColor(Constants.COLOR_GRAY_TOOLTIPS));
+    public static final Component TooltipLine2 = Component.translatable("item.woodentoolsremoved.powder_bowl.tooltip2").withStyle(Style.EMPTY.withColor(Constants.COLOR_GRAY_TOOLTIPS));
 
     public BowlBlock()
     {

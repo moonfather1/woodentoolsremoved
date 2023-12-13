@@ -48,6 +48,10 @@ public class OptionalRecipeCondition implements ICondition
 		{
 			return OptionsHolder.IsResolvedModeSimple();
 		}
+		else if (this.flagCode.equals("allow_firestarter"))
+		{
+			return OptionsHolder.COMMON.EnableFirestarter.get();
+		}
 		else
 		{
 			return false;

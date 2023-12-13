@@ -4,6 +4,7 @@ import com.mojang.serialization.Codec;
 import moonfather.woodentoolsremoved.items.BlockItemEx;
 import moonfather.woodentoolsremoved.items.OptionalRecipeCondition;
 import moonfather.woodentoolsremoved.items.firepit.FirepitBlock;
+import moonfather.woodentoolsremoved.items.tools.FirestarterItem;
 import moonfather.woodentoolsremoved.items.tools.HatchetItem;
 import moonfather.woodentoolsremoved.items.javelin.JavelinItem;
 import moonfather.woodentoolsremoved.items.tools.PickItem;
@@ -46,6 +47,7 @@ public class RegistryManager
 	public static final Supplier<Item> ItemMiniPick = ITEMS.register("flint_pick", () -> new PickItem());
 	public static final Supplier<Item> ItemPainting1 = ITEMS.register("painting1", () -> new Item(new Item.Properties()));
 	public static final Supplier<Item> ItemJavelin = ITEMS.register("javelin", () -> new JavelinItem());
+	public static final Supplier<Item> ItemFirestarter = ITEMS.register("firestarter", () -> new FirestarterItem());
 
 	public static final Supplier<Block> BlockBlackPowderBowl = BLOCKS.register("powder_bowl_block", () -> new BowlBlock());
 	public static final Supplier<Item> ItemBlackPowderBowl = ITEMS.register("powder_bowl", () -> BlockItemEx.Create(BlockBlackPowderBowl.get(), BowlBlock.GetItemProperties()).AppendTooltipLine(BowlBlock.TooltipLine1).AppendTooltipLine(BowlBlock.TooltipLine2));

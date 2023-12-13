@@ -14,6 +14,8 @@ public class OptionsHolder
 		private static final boolean defaultGuaranteedFlintDrops = true;
 		private static final boolean defaultForceHardModeWithTC = false;
 		private static final int defaultWoodenToolDamageInMobHands = 2;
+		private static final boolean defaultEnableFirestarter = true;
+		private static final boolean defaultCampfiresStartUnlit = false;
 
 		public final ModConfigSpec.ConfigValue<Boolean> SimpleModeEnabled;
 		public final ModConfigSpec.ConfigValue<Boolean> HardModeEnabled;
@@ -22,6 +24,8 @@ public class OptionsHolder
 		public final ModConfigSpec.ConfigValue<Boolean> GuaranteedFlintDrops;
 		public final ModConfigSpec.ConfigValue<Boolean> ForceHardModeWithTC;
 		public final ModConfigSpec.ConfigValue<Integer> WoodenToolDamageInMobHands;
+		public final ModConfigSpec.ConfigValue<Boolean> EnableFirestarter;
+		public final ModConfigSpec.ConfigValue<Boolean> CampfiresStartUnlit;
 
 		public Common(ModConfigSpec.Builder builder)
 		{
@@ -44,6 +48,12 @@ public class OptionsHolder
 			builder.push("Interoperability");
 			this.ForceHardModeWithTC = builder.comment("Tinker's construct offers flint tools and easily circumvents this mod's HARD mode. By default, this mod backs off when TC is present and disables both the HARD mode and the SIMPLE mode. This option forces the mod not to disable the three recipes it disables when TC is present, but - that's it. This option does not trigger any changes to TC behavior. It is up to modpack maker or the player to resolve the incompatibility.")
 					.define("Force hard mode even with TC present", defaultForceHardModeWithTC);
+			builder.pop();
+			builder.push("Extra features and flavor tweaks");
+			this.EnableFirestarter = builder.comment("A crude firestarter tool. Setting this to true makes the tool craftable but also makes firepit require it. Otherwise firepit can be lit with shift-right-click.")
+											  .define("Enable flint-and-rock", defaultEnableFirestarter);
+			this.CampfiresStartUnlit = builder.comment("By default, mod doesn't change campfire behavior. Set this to true to have them placed unlit. This doesn't offer any challenge, only a minor bother for the sake of survival theme.")
+											.define("Campfires (all of them) start unlit", defaultCampfiresStartUnlit);
 			builder.pop();
 		}
 	}

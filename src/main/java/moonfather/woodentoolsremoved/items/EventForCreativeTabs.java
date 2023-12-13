@@ -13,6 +13,7 @@ public class EventForCreativeTabs
 		{
 			event.accept(RegistryManager.ItemHatchet.get());
 			event.accept(RegistryManager.ItemMiniPick.get());
+			event.accept(RegistryManager.ItemFirestarter.get());
 		}
 		if (event.getTabKey().equals(CreativeModeTabs.COMBAT))
 		{
