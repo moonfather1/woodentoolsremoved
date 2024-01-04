@@ -9,6 +9,12 @@ public class Constants
 { 
     public static final String MODID = "woodentoolsremoved";
 
+    public static final int COLOR_GRAY_TOOLTIPS = 0x808080;
+    public static final int COLOR_WARNING_TOOLTIPS = 0xd39015;
+    public static final int COLOR_DUD_TOOLTIPS = 0x9e7b4d;
+    public static final int COLOR_MESSAGE_GRAY = 0xC0C0C0;
+    public static final double GAMEPLAY_FIRESTARTER_RANGE = 4.5;
+	
     public static class Tags
     {
         public static final TagKey<Item> FLINT = ItemTags.create(new ResourceLocation("forge:flint"));

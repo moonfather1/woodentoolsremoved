@@ -1,5 +1,6 @@
 package moonfather.woodentoolsremoved.other;
 
+import moonfather.woodentoolsremoved.Constants;
 import moonfather.woodentoolsremoved.OptionsHolder;
 import net.minecraft.advancements.Advancement;
 import net.minecraft.advancements.DisplayInfo;

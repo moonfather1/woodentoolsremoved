@@ -1,10 +1,14 @@
 package moonfather.woodentoolsremoved.items.firepit;
 
+import moonfather.woodentoolsremoved.Constants;
+import moonfather.woodentoolsremoved.OptionsHolder;
 import moonfather.woodentoolsremoved.RegistryManager;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.Style;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
@@ -15,6 +19,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.crafting.CampfireCookingRecipe;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -41,6 +46,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 
 import javax.annotation.Nullable;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
 import java.util.function.ToIntFunction;
 
@@ -122,6 +128,21 @@ public class FirepitBlock extends CampfireBlock
         return SHAPE_BEAM;
     }
 
+
+
+    @Override
+    public void appendHoverText(ItemStack itemStack, @org.jetbrains.annotations.Nullable BlockGetter blockGetter, List<Component> lines, TooltipFlag tooltipFlag)
+    {
+        super.appendHoverText(itemStack, blockGetter, lines, tooltipFlag);
+        if (OptionsHolder.COMMON.EnableFirestarter.get())
+        {
+            lines.add(TooltipForFirepitLine1);
+            lines.add(TooltipForFirepitLine2);
+        }
+    }
+    private static final Component TooltipForFirepitLine1 = Component.translatable("item.woodentoolsremoved.firepit.tooltip1").withStyle(Style.EMPTY.withColor(Constants.COLOR_GRAY_TOOLTIPS));
+    private static final Component TooltipForFirepitLine2 = Component.translatable("item.woodentoolsremoved.firepit.tooltip2").withStyle(Style.EMPTY.withColor(Constants.COLOR_GRAY_TOOLTIPS));
+
     ///////////////////////////////////////////***********************
 
     public InteractionResult use(BlockState state, Level level, BlockPos blockPos, Player player, InteractionHand hand, BlockHitResult blockHitResult)
@@ -141,11 +162,17 @@ public class FirepitBlock extends CampfireBlock
                     dowse((Entity)null, level, blockPos, state);
                     level.setBlock(blockPos, state.setValue(LIT, Boolean.valueOf(false)), 3);
                 }
-                else
+                else if (! OptionsHolder.COMMON.EnableFirestarter.get())
                 {
+                    // can light with empty hand
                     campfireblockentity.dowse();
                     level.gameEvent(player, GameEvent.BLOCK_CHANGE, blockPos);
                     level.setBlock(blockPos, state.setValue(LIT, Boolean.valueOf(true)), 3);
+                }
+                else
+                {
+                    // need firestarter
+                    player.displayClientMessage(ERROR_NEED_TOOL, true);
                 }
                 return InteractionResult.sidedSuccess(level.isClientSide());
             }
@@ -167,6 +194,7 @@ public class FirepitBlock extends CampfireBlock
 
         return InteractionResult.PASS;
     }
+    private static final Component ERROR_NEED_TOOL = Component.translatable("item.woodentoolsremoved.firepit.error").withStyle(Style.EMPTY.withColor(Constants.COLOR_MESSAGE_GRAY));
 
     private static boolean CanPlaceFood(CampfireBlockEntity campfireblockentity)
     {
