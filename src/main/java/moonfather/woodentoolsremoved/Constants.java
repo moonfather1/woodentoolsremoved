@@ -14,4 +14,12 @@ public class Constants
         public static final TagKey<Item> FLINT = ItemTags.create(new ResourceLocation("forge:flint"));
         public static final TagKey<Item> IGNITES_GUNPOWDER = ItemTags.create(new ResourceLocation(MODID, "ignites_gunpowder"));
     }
+		
+    public static class Advancements
+    {
+        public static final ResourceLocation STONE1 = new ResourceLocation("woodentoolsremoved:tut/g4_get_stone1");
+        public static final ResourceLocation STONE2 = new ResourceLocation("woodentoolsremoved:tut/g4_get_stone2");
+        public static final ResourceLocation STONE3 = new ResourceLocation("woodentoolsremoved:tut/g4_get_stone3");
+        public static final ResourceLocation PUNCHER = new ResourceLocation("woodentoolsremoved:tut/g2_puncher");
+    }
 } 

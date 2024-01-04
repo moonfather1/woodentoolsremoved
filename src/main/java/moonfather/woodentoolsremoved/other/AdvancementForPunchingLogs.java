@@ -26,7 +26,7 @@ public class AdvancementForPunchingLogs
             return cachedInstance;
         }
 
-        cachedInstance = sp.getServer().getAdvancements().getAdvancement(new ResourceLocation("woodentoolsremoved:tut/g2_puncher"));
+        cachedInstance = sp.getServer().getAdvancements().getAdvancement(Constants.Advancements.PUNCHER);
         return cachedInstance;
     }
 }
