@@ -24,6 +24,7 @@ public class HatchetItem extends AxeItem
 		Item.Properties properties = new Properties();
 		properties.tab(CreativeModeTab.TAB_TOOLS);
 		properties.durability(12);
+		properties.tab(CreativeModeTab.TAB_TOOLS);
 		return properties;
 	}
 

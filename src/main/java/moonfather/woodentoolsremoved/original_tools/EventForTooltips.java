@@ -1,5 +1,6 @@
 package moonfather.woodentoolsremoved.original_tools;
 
+import moonfather.woodentoolsremoved.Constants;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TranslatableComponent;
@@ -20,7 +21,6 @@ public class EventForTooltips
 			event.getToolTip().add(woodenToolInfo2);
 		}
 	}
-
-	private static final Component woodenToolInfo1 = new TranslatableComponent("item.woodentoolsremoved.original.tooltip1").withStyle(Style.EMPTY.withColor(0x9e7b4d));
-	private static final Component woodenToolInfo2 = new TranslatableComponent("item.woodentoolsremoved.original.tooltip2").withStyle(Style.EMPTY.withColor(0x9e7b4d));
+	private static final Component woodenToolInfo1 = new TranslatableComponent("item.woodentoolsremoved.original.tooltip1").withStyle(Style.EMPTY.withColor(Constants.COLOR_DUD_TOOLTIPS));
+	private static final Component woodenToolInfo2 = new TranslatableComponent("item.woodentoolsremoved.original.tooltip2").withStyle(Style.EMPTY.withColor(Constants.COLOR_DUD_TOOLTIPS));
 }

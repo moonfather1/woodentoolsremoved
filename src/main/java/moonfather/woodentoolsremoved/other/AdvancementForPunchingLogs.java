@@ -1,5 +1,6 @@
 package moonfather.woodentoolsremoved.other;
 
+import moonfather.woodentoolsremoved.Constants;
 import net.minecraft.advancements.Advancement;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;

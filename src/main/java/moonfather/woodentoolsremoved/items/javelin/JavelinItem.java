@@ -2,6 +2,7 @@ package moonfather.woodentoolsremoved.items.javelin;
 
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
+import moonfather.woodentoolsremoved.Constants;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TranslatableComponent;
@@ -92,5 +93,5 @@ public class JavelinItem extends TridentItem
         }
     }
 
-    private static final Component line1 = new TranslatableComponent("item.woodentoolsremoved.javelin1dur.tooltip").withStyle(Style.EMPTY.withColor(0xd39015));
+    private static final Component line1 = new TranslatableComponent("item.woodentoolsremoved.javelin1dur.tooltip").withStyle(Style.EMPTY.withColor(Constants.COLOR_WARNING_TOOLTIPS));
 }

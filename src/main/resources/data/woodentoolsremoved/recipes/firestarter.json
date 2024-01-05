@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "equipment",
+  "ingredients": [
+    {
+      "tag": "forge:gravel"
+    },
+    {
+      "tag": "forge:flint"
+    }
+  ],
+  "result": {
+    "item": "woodentoolsremoved:firestarter"
+  },
+  "forge:conditions":
+  [
+    {
+      "type": "woodentoolsremoved:optional",
+      "flag_code": "allow_firestarter"
+    }
+  ]
+}
