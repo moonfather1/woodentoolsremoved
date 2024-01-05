@@ -20,7 +20,7 @@
       "trigger": "minecraft:filled_bucket",
       "conditions": {
         "item": {
-          "item": "minecraft:iron_pickaxe"
+          ["items": "minecraft:iron_pickaxe"]
         }
       }
     }

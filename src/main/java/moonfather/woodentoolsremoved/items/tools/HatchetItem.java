@@ -40,6 +40,6 @@ public class HatchetItem extends AxeItem
 		}
 	}
 
-	public static final Component TooltipForPeacefulLine1 = new TranslatableComponent("item.woodentoolsremoved.peaceful.tooltip1").withStyle(Style.EMPTY.withColor(0xd8a949));
-	public static final Component TooltipForPeacefulLine2 = new TranslatableComponent("item.woodentoolsremoved.peaceful.tooltip2").withStyle(Style.EMPTY.withColor(0xd8a949));
+	private static final Component TooltipForPeacefulLine1 = new TranslatableComponent("item.woodentoolsremoved.peaceful.tooltip1").withStyle(Style.EMPTY.withColor(0xd8a949));
+	private static final Component TooltipForPeacefulLine2 = new TranslatableComponent("item.woodentoolsremoved.peaceful.tooltip2").withStyle(Style.EMPTY.withColor(0xd8a949));
 }
