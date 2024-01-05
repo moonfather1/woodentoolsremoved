@@ -21,6 +21,14 @@
 	"item.woodentoolsremoved.powder_bowl.tooltip2": "Don't stand right next to it.",
 	"block.woodentoolsremoved.powder_bowl.error": "Make a spark using flint or a tool made of flint.",
 
+	"item.woodentoolsremoved.firestarter": "Flint and rock",
+	"item.woodentoolsremoved.firestarter.tooltip1": "Starts a small fire (preferably within firepit).",
+	"item.woodentoolsremoved.firestarter.tooltip2": "May need several seconds to start it.",
+	"item.woodentoolsremoved.firepit.tooltip1": "Allows you to grill a piece of food over fire.",
+	"item.woodentoolsremoved.firepit.tooltip2": "You need flint-and-rock to start the fire (you can douse it without tools).",
+	"item.woodentoolsremoved.firestarter.error": "Too far.",
+	"item.woodentoolsremoved.firepit.error": "You need a tool to start a fire.",
+
 	"item.woodentoolsremoved.original.tooltip1": "This is a model only.",
 	"item.woodentoolsremoved.original.tooltip2": "It's useless. Make a real tool from harder materials.",
 	"item.woodentoolsremoved.tetra.tooltip": "Wooden tool heads are useless. Try using flint or stone.",

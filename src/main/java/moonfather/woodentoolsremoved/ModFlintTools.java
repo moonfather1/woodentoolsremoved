@@ -1,6 +1,5 @@
 package moonfather.woodentoolsremoved;
 
-import moonfather.woodentoolsremoved.items.EventForCreativeTabs;
 import moonfather.woodentoolsremoved.items.OptionalRecipeCondition;
 import moonfather.woodentoolsremoved.original_tools.ToolStatistics;
 import net.minecraft.resources.ResourceLocation;

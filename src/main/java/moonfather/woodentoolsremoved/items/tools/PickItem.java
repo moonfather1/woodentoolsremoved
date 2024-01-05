@@ -1,5 +1,6 @@
 package moonfather.woodentoolsremoved.items.tools;
 
+import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.PickaxeItem;
 import net.minecraft.world.item.Tiers;
 
@@ -14,6 +15,7 @@ public class PickItem extends PickaxeItem
 	{
 		Properties properties = new Properties();
 		properties.durability(12);
+		properties.tab(CreativeModeTab.TAB_TOOLS);
 		return properties;
 	}
 }

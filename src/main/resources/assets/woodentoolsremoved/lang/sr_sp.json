@@ -21,6 +21,14 @@
 	"item.woodentoolsremoved.powder_bowl.tooltip2": "Одмакни се мало пре тога.",
 	"block.woodentoolsremoved.powder_bowl.error": "Направите варницу користећи кремен или алат од кремена.",
 
+	"item.woodentoolsremoved.firestarter": "Кремен и камен",
+	"item.woodentoolsremoved.firestarter.tooltip1": "Може запалити малу ватру (по могућству унутар ложишта).",
+	"item.woodentoolsremoved.firestarter.tooltip2": "Потребно је неколико секунди да је запали.",
+	"item.woodentoolsremoved.firepit.tooltip1": "Омогућава ти да печеш комад хране изнад ватре.",
+	"item.woodentoolsremoved.firepit.tooltip2": "Потребан ти је кремен-и-камен да би запалиш ватру (можеш је угасити без алата).",
+	"item.woodentoolsremoved.firestarter.error": "Предалеко.",
+	"item.woodentoolsremoved.firepit.error": "Потребан ти је алат који може да запали ватру.",
+
 	"item.woodentoolsremoved.original.tooltip1": "Ово је само модел.",
 	"item.woodentoolsremoved.original.tooltip2": "Бескорисно је. Направи прави алат од тврђих материјала.",
 	"item.woodentoolsremoved.tetra.tooltip": "Алатке са дрвеном главом су бескорисне. Покушајте да користите кремен или камен.",
