@@ -22,24 +22,24 @@ public class EventForStoneAdvancements
                 ServerPlayer sp = (ServerPlayer) event.getEntity();
                 if (OptionsHolder.IsResolvedModeSimple() && ! ModList.get().isLoaded("tconstruct"))
                 {
-                    GetAdvancement(sp, "g4_get_stone2").getDisplay().hidden = false;
+                    GetAdvancement(sp, Constants.Advancements.STONE2).getDisplay().hidden = false;
                 }
                 else if (OptionsHolder.IsResolvedModeHard() && (! ModList.get().isLoaded("tconstruct") || OptionsHolder.COMMON.ForceHardModeWithTC.get()))
                 {
-                    GetAdvancement(sp, "g4_get_stone1").getDisplay().hidden = false;
+                    GetAdvancement(sp, Constants.Advancements.STONE1).getDisplay().hidden = false;
                 }
                 else
                 {
-                    sp.getAdvancements().award(GetAdvancement(sp, "g4_get_stone3"), "impossible_bucket");
+                    sp.getAdvancements().award(GetAdvancement(sp, Constants.Advancements.STONE3), "impossible_bucket");
                 }
             }
         }
     }
 
 
-    private static Advancement GetAdvancement(ServerPlayer sp, String name)
+    private static Advancement GetAdvancement(ServerPlayer sp, ResourceLocation id)
     {
-        return sp.getServer().getAdvancements().getAdvancement(new ResourceLocation("woodentoolsremoved:tut/" + name));
+        return sp.getServer().getAdvancements().getAdvancement(id);
     }
 
 

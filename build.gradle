@@ -4,9 +4,9 @@ plugins {
     id 'net.minecraftforge.gradle' version '5.1.+'
 }
 
-version = '1.04'
+version = '1.05'
 group = 'moonfather.woodentoolsremoved' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
-archivesBaseName = 'woodentoolsremoved--mc1.19.2-'
+archivesBaseName = 'wooden_tools_are_dumb--mc1.19.2-'
 
 // Mojang ships Java 17 to end users in 1.18+, so your mod should target Java 17.
 java.toolchain.languageVersion = JavaLanguageVersion.of(17)
