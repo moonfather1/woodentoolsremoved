@@ -89,6 +89,14 @@ Just check the advancements. Or, just gather a few sticks and flint pieces and f
     ordering="AFTER"
     side="BOTH"
 
+[[dependencies.woodentoolsremoved]]
+    modId="silentgear"
+    mandatory=false
+    versionRange="[0,]"
+    ordering="AFTER"
+    side="BOTH"
+
+
 [modproperties.woodentoolsremoved]
     catalogueImageIcon="textures/items/hatchet.png"
     configuredBackground="minecraft:textures/block/granite.png"

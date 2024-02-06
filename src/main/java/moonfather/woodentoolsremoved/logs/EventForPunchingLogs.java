@@ -7,14 +7,17 @@ import moonfather.woodentoolsremoved.peaceful.PeacefulGameplaySupport;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.registries.ForgeRegistries;
 import org.slf4j.Logger;
 
 import java.util.HashMap;
@@ -50,10 +53,12 @@ public class EventForPunchingLogs
 	@SubscribeEvent
 	public static void OnBreakSpeed(PlayerEvent.BreakSpeed event)
 	{
-		if (!event.getPlayer().getMainHandItem().isEmpty())
+		if (! event.getPlayer().getMainHandItem().isEmpty())
 		{
-			if ( event.getPlayer().getMainHandItem().getItem() instanceof AxeItem && ((AxeItem)event.getPlayer().getMainHandItem().getItem()).getTier().equals(Tiers.WOOD)
-					|| event.getPlayer().getMainHandItem().getItem() instanceof PickaxeItem && ((PickaxeItem)event.getPlayer().getMainHandItem().getItem()).getTier().equals(Tiers.WOOD))
+			ResourceLocation toolId = ForgeRegistries.ITEMS.getKey(event.getPlayer().getMainHandItem().getItem());
+			if ( event.getPlayer().getMainHandItem().getItem() instanceof AxeItem && (((AxeItem)event.getPlayer().getMainHandItem().getItem()).getTier().equals(Tiers.WOOD) && (toolId == null || ! toolId.getNamespace().equals("silentgear")))
+					|| event.getPlayer().getMainHandItem().getItem() instanceof PickaxeItem && ! event.getPlayer().getMainHandItem().isCorrectToolForDrops(Blocks.IRON_ORE.defaultBlockState())
+			)
 			{
 				if (ShouldShowMessage(event.getPlayer()))
 				{
@@ -62,7 +67,7 @@ public class EventForPunchingLogs
 				event.setCanceled(true);
 				return;
 			}
-            if (!checkedForTetra)
+            if (! checkedForTetra)
             {
                 usingTetra = ModList.get().isLoaded("tetra");
                 checkedForTetra = true;
@@ -94,11 +99,11 @@ public class EventForPunchingLogs
 				event.setCanceled(false);
 				return;
 			}
-			if (!event.getPlayer().getLevel().isClientSide() && ShouldGiveAdvancement(event.getPlayer()))
+			if (! event.getPlayer().getLevel().isClientSide() && ShouldGiveAdvancement(event.getPlayer()))
 			{
 				AdvancementForPunchingLogs.Grant(event.getPlayer());
 			}
-			if (!event.getPlayer().getLevel().isClientSide() && ShouldShowMessage(event.getPlayer()))
+			if (! event.getPlayer().getLevel().isClientSide() && ShouldShowMessage(event.getPlayer()))
 			{
 				if (ShouldHurtPlayer(event.getPlayer()))
 				{
@@ -157,7 +162,7 @@ public class EventForPunchingLogs
 			return false;
 		}
 		boolean longTimeSinceLastPunch = player.level.getGameTime() - prevClientMessageTick.get(player.getUUID()) > 5*20;  // so we don't hurt instantly after every pause in punching
-		if (player.level.getGameTime() - last.longValue() > 7*20 && !longTimeSinceLastPunch)
+		if (player.level.getGameTime() - last.longValue() > 7*20 && ! longTimeSinceLastPunch)
 		{
 			lastHurtPlayerTick.put(player.getUUID(), player.level.getGameTime());
 			return true;
@@ -177,7 +182,7 @@ public class EventForPunchingLogs
 			return false;
 		}
 		Long lastHurt = lastHurtPlayerTick.get(player.getUUID());
-		if (player.level.getGameTime() - last > 3*20 /*time for msg*/ && (lastHurt == null/*never true*/ || lastHurt > player.level.getGameTime() /*never hurt*/ || player.level.getGameTime() - lastHurt > 7*20/*time to hurt*/))
+		if (player.level.getGameTime() - last > 3*20 /*time for msg*/ && (lastHurt != null && player.level.getGameTime() - lastHurt > 1.5*20/*recently hurt*/))
 		{
 			return true;
 		}
