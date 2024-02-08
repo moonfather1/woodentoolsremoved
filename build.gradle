@@ -161,8 +161,8 @@ dependencies {
     runtimeOnly fg.deobf("curse.maven:silent-gear-297039:4361861")
     runtimeOnly fg.deobf("curse.maven:silents-gems-220311:3780216")
 
-    runtimeOnly fg.deobf("curse.maven:treechop-421377:4422017")
-    runtimeOnly fg.deobf("curse.maven:multi-mine-227887:4710274")
+    //runtimeOnly fg.deobf("curse.maven:treechop-421377:4422017")
+    //runtimeOnly fg.deobf("curse.maven:multi-mine-227887:4710274")
 }
 
 // Example for how to get properties into the manifest for reading at runtime.
