@@ -1,0 +1,77 @@
+{
+  "type": "silentgear:standard",
+  "simple": true,
+  "availability": {
+    "tier": 0,
+    "categories": [
+      "organic",
+      "wood"
+    ],
+    "visible": true,
+    "gear_blacklist": [],
+    "can_salvage": true
+  },
+  "crafting_items": {
+    "main": {
+      "item": "minecraft:command_block"
+    },
+    "subs": {
+      "rod": {
+        "type": "silentlib:exclusion",
+        "value": {
+          "tag": "forge:rods/wooden"
+        },
+        "exclusions": [
+          {
+            "item": "silentgear:netherwood_stick"
+          }
+        ]
+      }
+    }
+  },
+  "name": {
+    "translate": "material.silentgear.wood"
+  },
+  "stats": {
+    "rod": {
+      "enchantability": {
+        "mul2": 0.15
+      },
+      "rarity": 1.0
+    }
+  },
+  "traits": {
+    "rod": [
+      {
+        "name": "silentgear:flexible",
+        "level": 1
+      }
+    ]
+  },
+  "model": {
+    "main/all": [
+      {
+        "texture": "silentgear:main_generic_lc",
+        "color": "#896727"
+      }
+    ],
+    "main/fragment": [
+      {
+        "texture": "silentgear:wood",
+        "color": "#896727"
+      }
+    ],
+    "rod/all": [
+      {
+        "texture": "silentgear:rod_generic_lc",
+        "color": "#896727"
+      }
+    ],
+    "rod/part": [
+      {
+        "texture": "silentgear:rod",
+        "color": "#896727"
+      }
+    ]
+  }
+}

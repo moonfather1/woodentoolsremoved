@@ -1,0 +1,28 @@
+{
+  "type": "silentgear:conversion",
+  "ingredients": [
+    {
+      "item": "minecraft:wooden_pickaxe"
+    }
+  ],
+  "result": {
+    "item": "silentgear:pickaxe",
+    "materials": {
+      "main": {
+        "material": "silentgear:wood"
+      },
+      "rod": {
+        "material": "silentgear:wood"
+      }
+    }
+  },
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "silentgear"
+    },
+    {
+      "type": "forge:false"
+    }
+  ]
+}
