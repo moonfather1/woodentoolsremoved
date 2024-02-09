@@ -4,12 +4,21 @@ import com.mojang.logging.LogUtils;
 import moonfather.woodentoolsremoved.other.AdvancementForPunchingLogs;
 import moonfather.woodentoolsremoved.other.TetraSupport;
 import moonfather.woodentoolsremoved.peaceful.PeacefulGameplaySupport;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
+import net.minecraft.world.level.ClipContext;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.HitResult;
+import net.minecraft.world.phys.Vec3;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModList;
 import net.neoforged.fml.common.Mod;
@@ -52,8 +61,9 @@ public class EventForPunchingLogs
 	{
 		if (! event.getEntity().getMainHandItem().isEmpty())
 		{
-			if ( event.getEntity().getMainHandItem().getItem() instanceof AxeItem && ((AxeItem)event.getEntity().getMainHandItem().getItem()).getTier().equals(Tiers.WOOD)
-					|| event.getEntity().getMainHandItem().getItem() instanceof PickaxeItem && ((PickaxeItem)event.getEntity().getMainHandItem().getItem()).getTier().equals(Tiers.WOOD))
+			ResourceLocation toolId = BuiltInRegistries.ITEM.getKey(event.getEntity().getMainHandItem().getItem());
+			if ( event.getEntity().getMainHandItem().getItem() instanceof AxeItem && (((AxeItem)event.getEntity().getMainHandItem().getItem()).getTier().equals(Tiers.WOOD) && (toolId == null || ! toolId.getNamespace().equals("silentgear")))
+					|| event.getEntity().getMainHandItem().getItem() instanceof PickaxeItem && ! event.getEntity().getMainHandItem().isCorrectToolForDrops(Blocks.IRON_ORE.defaultBlockState()))
 			{
 				if (ShouldShowMessage(event.getEntity()))
 				{
@@ -97,10 +107,18 @@ public class EventForPunchingLogs
 			}
 			if (! event.getEntity().level().isClientSide() && ShouldGiveAdvancement(event.getEntity()))
 			{
+				if (ModList.get().isLoaded("multimine") && (event.getPosition().isEmpty() || ShouldAbortMultiMine(event.getEntity(), event.getPosition().get())))
+				{
+					return; // this mod keeps asking about break speed after we stop hitting the block.
+				}
 				AdvancementForPunchingLogs.Grant(event.getEntity());
 			}
 			if (! event.getEntity().level().isClientSide() && ShouldShowMessage(event.getEntity()))
 			{
+				if (ModList.get().isLoaded("multimine") && (event.getPosition().isEmpty() || ShouldAbortMultiMine(event.getEntity(), event.getPosition().get())))
+				{
+					return; // this mod keeps asking about break speed after we stop hitting the block.
+				}
 				if (ShouldHurtPlayer(event.getEntity()))
 				{
 					event.getEntity().hurt(event.getEntity().damageSources().flyIntoWall(), 1);
@@ -158,7 +176,7 @@ public class EventForPunchingLogs
 			return false;
 		}
 		boolean longTimeSinceLastPunch = player.level().getGameTime() - prevClientMessageTick.get(player.getUUID()) > 5*20;  // so we don't hurt instantly after every pause in punching
-		if (player.level().getGameTime() - last.longValue() > 7*20 && !longTimeSinceLastPunch)
+		if (player.level().getGameTime() - last.longValue() > 7*20 && ! longTimeSinceLastPunch)
 		{
 			lastHurtPlayerTick.put(player.getUUID(), player.level().getGameTime());
 			return true;
@@ -178,7 +196,7 @@ public class EventForPunchingLogs
 			return false;
 		}
 		Long lastHurt = lastHurtPlayerTick.get(player.getUUID());
-		if (player.level().getGameTime() - last > 3*20 /*time for msg*/ && (lastHurt == null/*never true*/ || lastHurt > player.level().getGameTime() /*never hurt*/ || player.level().getGameTime() - lastHurt > 7*20/*time to hurt*/))
+		if (player.level().getGameTime() - last > 3*20 /*time for msg*/ && (lastHurt != null && player.level().getGameTime() - lastHurt > 1.5*20/*recently hurt*/))
 		{
 			return true;
 		}
@@ -186,5 +204,31 @@ public class EventForPunchingLogs
 		{
 			return false;
 		}
+	}
+
+	//-----------------------------------------------------------
+
+	private static BlockHitResult getPlayerPOVHitResult(Level level, Player player)
+	{
+		float f = player.getXRot();
+		float f1 = player.getYRot();
+		Vec3 vec3 = player.getEyePosition();
+		float f2 = Mth.cos(-f1 * ((float)Math.PI / 180F) - (float)Math.PI);
+		float f3 = Mth.sin(-f1 * ((float)Math.PI / 180F) - (float)Math.PI);
+		float f4 = -Mth.cos(-f * ((float)Math.PI / 180F));
+		float f5 = Mth.sin(-f * ((float)Math.PI / 180F));
+		float f6 = f3 * f4;
+		float f7 = f2 * f4;
+		double d0 = 6; // reach
+		Vec3 vec31 = vec3.add((double)f6 * d0, (double)f5 * d0, (double)f7 * d0);
+		return level.clip(new ClipContext(vec3, vec31, ClipContext.Block.OUTLINE, ClipContext.Fluid.NONE, player));
+	}
+
+	private static boolean ShouldAbortMultiMine(Player player, BlockPos clickedBlock)
+	{
+		BlockHitResult blockhitresult = getPlayerPOVHitResult(player.level(), player);
+		return blockhitresult.getType() == HitResult.Type.MISS ||
+				blockhitresult.getType() == HitResult.Type.BLOCK &&
+						(blockhitresult.distanceTo(player) > 5.7 || ! blockhitresult.getBlockPos().equals(clickedBlock));
 	}
 }

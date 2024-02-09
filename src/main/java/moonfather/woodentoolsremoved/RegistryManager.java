@@ -18,6 +18,7 @@ import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
+import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.neoforged.neoforge.common.conditions.ICondition;
 import net.neoforged.neoforge.common.loot.IGlobalLootModifier;
@@ -34,13 +35,13 @@ public class RegistryManager
 	private static final DeferredRegister<EntityType<?>> ENTITIES = DeferredRegister.create(BuiltInRegistries.ENTITY_TYPE, Constants.MODID);
 	private static final DeferredRegister<Codec<? extends ICondition>> CONDITIONS = DeferredRegister.create(NeoForgeRegistries.Keys.CONDITION_CODECS, Constants.MODID);
 
-	public static void Init()
+	public static void Init(IEventBus modBus)
 	{
-		RegistryManager.ITEMS.register(FMLJavaModLoadingContext.get().getModEventBus());
-		RegistryManager.BLOCKS.register(FMLJavaModLoadingContext.get().getModEventBus());
-		RegistryManager.LOOT_MODIFIERS.register(FMLJavaModLoadingContext.get().getModEventBus());
-		RegistryManager.ENTITIES.register(FMLJavaModLoadingContext.get().getModEventBus());
-		RegistryManager.CONDITIONS.register(FMLJavaModLoadingContext.get().getModEventBus());
+		RegistryManager.ITEMS.register(modBus);
+		RegistryManager.BLOCKS.register(modBus);
+		RegistryManager.LOOT_MODIFIERS.register(modBus);
+		RegistryManager.ENTITIES.register(modBus);
+		RegistryManager.CONDITIONS.register(modBus);
 	}
 
 	public static final Supplier<Item> ItemHatchet = ITEMS.register("flint_hatchet", () -> new HatchetItem());
@@ -58,7 +59,6 @@ public class RegistryManager
 	public static final Supplier<Codec<? extends IGlobalLootModifier>> StupidGLMSerializer2 = LOOT_MODIFIERS.register("loot_modifier_for_sticks_and_flint", SticksAndFlintLootModifier.CODEC);
 
 	public static final Supplier<EntityType<ThrownJavelinProjectile>> ThrownJavelinProjectileET = ENTITIES.register("thrown_javelin_projectile", () -> EntityType.Builder.<ThrownJavelinProjectile>of(ThrownJavelinProjectile::new, MobCategory.MISC)
-			.setCustomClientFactory(ThrownJavelinProjectile::new)
 			.sized(ThrownJavelinProjectile.GetScale(), ThrownJavelinProjectile.GetScale() * 1.5f)
 			.build("thrown_javelin_projectile"));
 

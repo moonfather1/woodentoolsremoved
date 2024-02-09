@@ -11,12 +11,10 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.Vec3;
-import net.neoforged.neoforge.network.PlayMessages;
 
 import javax.annotation.Nullable;
 
@@ -24,7 +22,7 @@ public class ThrownJavelinProjectile extends AbstractArrow
 {
     private ItemStack tridentItem = new ItemStack(RegistryManager.ItemJavelin.get());
     private boolean dealtDamage;
-    private static final ItemStack DEFAULT_ARROW_STACK = new ItemStack(RegistryManager.ItemJavelin.get());
+
 
 
     public ThrownJavelinProjectile(Level p_37569_, LivingEntity p_37570_, ItemStack p_37571_) {
@@ -32,13 +30,16 @@ public class ThrownJavelinProjectile extends AbstractArrow
         this.tridentItem = p_37571_.copy();
     }
 
-    public ThrownJavelinProjectile(PlayMessages.SpawnEntity spawnEntity, Level level) {
-        super(RegistryManager.ThrownJavelinProjectileET.get(), level, DEFAULT_ARROW_STACK);
+    public ThrownJavelinProjectile(EntityType<ThrownJavelinProjectile> thrownJavelinProjectileEntityType, Level level) {
+        super(thrownJavelinProjectileEntityType, level, getDefaultArrowStack());
     }
 
-    public ThrownJavelinProjectile(EntityType<ThrownJavelinProjectile> thrownJavelinProjectileEntityType, Level level) {
-        super(thrownJavelinProjectileEntityType, level, DEFAULT_ARROW_STACK);
+    private static ItemStack getDefaultArrowStack()
+    {
+        return new ItemStack(RegistryManager.ItemJavelin.get());
     }
+
+    ////////////////////////////////////
 
     public static float GetScale()
     {
@@ -54,16 +55,6 @@ public class ThrownJavelinProjectile extends AbstractArrow
     }
 
 
-
-
-    private boolean isAcceptibleReturnOwner() {
-        Entity entity = this.getOwner();
-        if (entity != null && entity.isAlive()) {
-            return !(entity instanceof ServerPlayer) || !entity.isSpectator();
-        } else {
-            return false;
-        }
-    }
 
     protected ItemStack getPickupItem() {
         return this.tridentItem.copy();

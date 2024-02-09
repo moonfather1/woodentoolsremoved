@@ -45,7 +45,7 @@ description='''${mod_description}'''
     # the modid of the dependency
     modId="neoforge" #mandatory
     # Does this dependency have to exist - if not, ordering below must be specified
-    mandatory=true #mandatory
+    type="required"
     # The version range of the dependency
     versionRange="[20.3,)" #mandatory
     # An ordering relationship for the dependency - BEFORE or AFTER required if the dependency is not mandatory
@@ -57,8 +57,43 @@ description='''${mod_description}'''
 # Here's another dependency
 [[dependencies.${mod_id}]]
     modId="minecraft"
-    mandatory=true
+    type="required"
     # This version range declares a minimum of the current minecraft version up to but not including the next major version
     versionRange="${minecraft_version_range}"
     ordering="NONE"
     side="BOTH"
+
+[[dependencies.woodentoolsremoved]]
+    modId="silentgear"
+    type="optional"
+    versionRange="[0,]"
+    ordering="AFTER"
+    side="BOTH"
+
+
+[[dependencies.woodentoolsremoved]]
+    modId="tconstruct"
+    type="optional"
+    versionRange="[0,]"
+    ordering="AFTER"
+    side="BOTH"
+
+[[dependencies.woodentoolsremoved]]
+    modId="pipez"
+    type="optional"
+    versionRange="[0,]"
+    ordering="AFTER"
+    side="BOTH"
+
+[[dependencies.woodentoolsremoved]]
+    modId="multimine"
+    type="discouraged"
+    reason="continuously triggers block-break events."
+    versionRange="[0,]"
+    ordering="AFTER"
+    side="BOTH"
+
+
+[modproperties.woodentoolsremoved]
+    catalogueImageIcon="textures/items/hatchet.png"
+    configuredBackground="minecraft:textures/block/granite.png"
