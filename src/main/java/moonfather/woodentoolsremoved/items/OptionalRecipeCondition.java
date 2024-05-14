@@ -1,6 +1,7 @@
 package moonfather.woodentoolsremoved.items;
 
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import moonfather.woodentoolsremoved.OptionsHolder;
 import net.neoforged.fml.ModList;
@@ -58,15 +59,18 @@ public class OptionalRecipeCondition implements ICondition
 		}
 	}
 
+
+
 	@Override
-	public Codec<? extends ICondition> codec()
+	public MapCodec<? extends ICondition> codec()
 	{
 		return CODEC;
 	}
 
-	public static Codec<OptionalRecipeCondition> CODEC = RecordCodecBuilder.create(
+	public static MapCodec<OptionalRecipeCondition> CODEC = RecordCodecBuilder.mapCodec(
 			builder -> builder
 					.group(
 							Codec.STRING.fieldOf("flag_code").forGetter(orc -> orc.flagCode))
-					.apply(builder, OptionalRecipeCondition::new));
+					.apply(builder, OptionalRecipeCondition::new)
+	);
 }

@@ -14,6 +14,7 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -130,9 +131,9 @@ public class FirepitBlock extends CampfireBlock
     }
 
     @Override
-    public void appendHoverText(ItemStack itemStack, @org.jetbrains.annotations.Nullable BlockGetter blockGetter, List<Component> lines, TooltipFlag tooltipFlag)
+    public void appendHoverText(ItemStack itemStack, Item.TooltipContext context, List<Component> lines, TooltipFlag tooltipFlag)
     {
-        super.appendHoverText(itemStack, blockGetter, lines, tooltipFlag);
+        super.appendHoverText(itemStack, context, lines, tooltipFlag);
         if (OptionsHolder.COMMON.EnableFirestarter.get())
         {
             lines.add(TooltipForFirepitLine1);
@@ -144,29 +145,28 @@ public class FirepitBlock extends CampfireBlock
 
     ///////////////////////////////////////////***********************
 
-    public InteractionResult use(BlockState state, Level level, BlockPos blockPos, Player player, InteractionHand hand, BlockHitResult blockHitResult)
+    @Override
+    protected InteractionResult useWithoutItem(BlockState blockState, Level level, BlockPos blockPos, Player player, BlockHitResult blockHitResult)
     {
-        BlockEntity blockentity = level.getBlockEntity(blockPos);
-        if (blockentity instanceof CampfireBlockEntity)
+        if (level.getBlockEntity(blockPos) instanceof CampfireBlockEntity campfireblockentity)
         {
-            CampfireBlockEntity campfireblockentity = (CampfireBlockEntity)blockentity;
-            ItemStack itemstack = player.getItemInHand(hand);
-            if (itemstack.isEmpty() && player.isCrouching())
+            if (player.isCrouching())
             {
-                if (state.getValue(CampfireBlock.LIT))
+                if (blockState.getValue(CampfireBlock.LIT))
                 {
-                    if (!level.isClientSide()) {
+                    if (! level.isClientSide())
+                    {
                         level.playSound((Player)null, blockPos, SoundEvents.GENERIC_EXTINGUISH_FIRE, SoundSource.BLOCKS, 1.0F, 1.0F);
                     }
-                    dowse((Entity)null, level, blockPos, state);
-                    level.setBlock(blockPos, state.setValue(LIT, Boolean.valueOf(false)), 3);
+                    dowse((Entity)null, level, blockPos, blockState);
+                    level.setBlock(blockPos, blockState.setValue(LIT, Boolean.valueOf(false)), 3);
                 }
                 else if (! OptionsHolder.COMMON.EnableFirestarter.get())
                 {
                     // can light with empty hand
                     campfireblockentity.dowse();
                     level.gameEvent(player, GameEvent.BLOCK_CHANGE, blockPos);
-                    level.setBlock(blockPos, state.setValue(LIT, Boolean.valueOf(true)), 3);
+                    level.setBlock(blockPos, blockState.setValue(LIT, Boolean.valueOf(true)), 3);
                 }
                 else
                 {
@@ -175,25 +175,35 @@ public class FirepitBlock extends CampfireBlock
                 }
                 return InteractionResult.sidedSuccess(level.isClientSide());
             }
-            Optional<RecipeHolder<CampfireCookingRecipe>> optional = campfireblockentity.getCookableRecipe(itemstack);
+        }
+        return InteractionResult.PASS;
+    }
+    private static final Component ERROR_NEED_TOOL = Component.translatable("item.woodentoolsremoved.firepit.error").withColor(Constants.COLOR_MESSAGE_GRAY);
+
+
+
+    @Override
+    protected ItemInteractionResult useItemOn(ItemStack itemStack, BlockState blockState, Level level, BlockPos blockPos, Player player, InteractionHand hand, BlockHitResult blockHitResult)
+    {
+        if (level.getBlockEntity(blockPos) instanceof CampfireBlockEntity campfireblockentity)
+        {
+            Optional<RecipeHolder<CampfireCookingRecipe>> optional = campfireblockentity.getCookableRecipe(itemStack);
             if (optional.isPresent())
             {
                 if (FirepitBlock.CanPlaceFood(campfireblockentity))
                 {
                     if (! level.isClientSide)
                     {
-                        campfireblockentity.placeFood(player, player.getAbilities().instabuild ? itemstack.copy() : itemstack, optional.get().value().getCookingTime() * 2);
+                        campfireblockentity.placeFood(player, player.getAbilities().instabuild ? itemStack.copy() : itemStack, optional.get().value().getCookingTime() * 2);
                         player.awardStat(Stats.INTERACT_WITH_CAMPFIRE);
                     }
-                    return InteractionResult.sidedSuccess(player.level().isClientSide());
+                    return ItemInteractionResult.sidedSuccess(player.level().isClientSide());
                 }
-                return InteractionResult.PASS;
+                return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
             }
         }
-
-        return InteractionResult.PASS;
+        return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
     }
-    private static final Component ERROR_NEED_TOOL = Component.translatable("item.woodentoolsremoved.firepit.error").withColor(Constants.COLOR_MESSAGE_GRAY);
 
 
 

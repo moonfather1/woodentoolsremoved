@@ -7,17 +7,17 @@
   ],
   "key": {
     "g": {
-      "tag": "forge:gravel"
+      "tag": "c:gravels"
     },
     "s": {
-      "tag": "forge:rods/wooden" 
+      "tag": "c:rods/wooden"
     }
   },
   "result": {
-    "item": "woodentoolsremoved:firepit",
+    "id": "woodentoolsremoved:firepit",
     "count": 1
   },
-  "group": "",
+  "category": "misc",
   "neoforge:conditions":
   [
     {

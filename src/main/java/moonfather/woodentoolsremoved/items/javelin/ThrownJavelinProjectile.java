@@ -31,10 +31,11 @@ public class ThrownJavelinProjectile extends AbstractArrow
     }
 
     public ThrownJavelinProjectile(EntityType<ThrownJavelinProjectile> thrownJavelinProjectileEntityType, Level level) {
-        super(thrownJavelinProjectileEntityType, level, getDefaultArrowStack());
+        super(thrownJavelinProjectileEntityType, level, new ItemStack(RegistryManager.ItemJavelin.get()));
     }
 
-    private static ItemStack getDefaultArrowStack()
+    @Override
+    protected ItemStack getDefaultPickupItem()
     {
         return new ItemStack(RegistryManager.ItemJavelin.get());
     }
@@ -113,18 +114,17 @@ public class ThrownJavelinProjectile extends AbstractArrow
 
     }
 
-    public void readAdditionalSaveData(CompoundTag p_37578_) {
-        super.readAdditionalSaveData(p_37578_);
-        if (p_37578_.contains("Trident", 10)) {
-            this.tridentItem = ItemStack.of(p_37578_.getCompound("Trident"));
+    public void readAdditionalSaveData(CompoundTag tag) {
+        super.readAdditionalSaveData(tag);
+        if (tag.contains("Trident", 10)) {
+            this.tridentItem = ItemStack.parse(this.registryAccess(), tag.getCompound("Trident")).orElse(this.getDefaultPickupItem());
         }
-
-        this.dealtDamage = p_37578_.getBoolean("DealtDamage");
+        this.dealtDamage = tag.getBoolean("DealtDamage");
     }
 
     public void addAdditionalSaveData(CompoundTag p_37582_) {
         super.addAdditionalSaveData(p_37582_);
-        p_37582_.put("Trident", this.tridentItem.save(new CompoundTag()));
+        p_37582_.put("Trident", this.tridentItem.save(this.registryAccess(), new CompoundTag()));
         p_37582_.putBoolean("DealtDamage", this.dealtDamage);
     }
 

@@ -19,7 +19,7 @@
       "rod": {
         "type": "silentlib:exclusion",
         "value": {
-          "tag": "forge:rods/wooden"
+          "tag": "c:rods/wooden"
         },
         "exclusions": [
           {

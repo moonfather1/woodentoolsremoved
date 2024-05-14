@@ -16,7 +16,7 @@ public class Constants
 
     public static class Tags
     {
-        public static final TagKey<Item> FLINT = ItemTags.create(new ResourceLocation("forge:flint"));
+        public static final TagKey<Item> FLINT = ItemTags.create(new ResourceLocation("c:flint"));
         public static final TagKey<Item> IGNITES_GUNPOWDER = ItemTags.create(new ResourceLocation(MODID, "ignites_gunpowder"));
     }
 

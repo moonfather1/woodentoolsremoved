@@ -2,8 +2,7 @@
   "parent": "woodentoolsremoved:tut/g2_hatchet",
   "display": {
     "icon": {
-      "item": "minecraft:gunpowder",
-      "nbt": "{Damage:0}"
+      "id": "minecraft:gunpowder"
     },
     "title": {
       "translate": "ego.advancement.stone_in_hard_mode"
@@ -22,9 +21,7 @@
       "conditions": {
         "items": [
           {
-            "items": [
-              "woodentoolsremoved:powder_bowl"
-            ]
+            "items": "woodentoolsremoved:powder_bowl"
           }
         ]
       }

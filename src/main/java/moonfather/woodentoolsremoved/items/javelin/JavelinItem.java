@@ -9,6 +9,7 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
 import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
@@ -16,6 +17,7 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.item.*;
+import net.minecraft.world.item.component.ItemAttributeModifiers;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
 
@@ -29,8 +31,8 @@ public class JavelinItem extends TridentItem
     {
         super(JavelinItem.GetProperties());
         ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
-        builder.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(BASE_ATTACK_DAMAGE_UUID, "Tool modifier", 5.0D, AttributeModifier.Operation.ADDITION));
-        builder.put(Attributes.ATTACK_SPEED, new AttributeModifier(BASE_ATTACK_SPEED_UUID, "Tool modifier", (double)-3.0F, AttributeModifier.Operation.ADDITION));
+        builder.put(Attributes.ATTACK_DAMAGE.value(), new AttributeModifier(BASE_ATTACK_DAMAGE_UUID, "Tool modifier", 5.0D, AttributeModifier.Operation.ADD_VALUE));
+        builder.put(Attributes.ATTACK_SPEED.value(), new AttributeModifier(BASE_ATTACK_SPEED_UUID, "Tool modifier", (double)-3.0F, AttributeModifier.Operation.ADD_VALUE));
         this.defaultModifiers = builder.build();
     }
 
@@ -38,12 +40,25 @@ public class JavelinItem extends TridentItem
     {
         Item.Properties properties = new Properties();
         properties.durability(6);
+
+        ItemAttributeModifiers attributeModifiers =  ItemAttributeModifiers.builder()
+                                   .add(
+                                             Attributes.ATTACK_DAMAGE,
+                                             new AttributeModifier(BASE_ATTACK_DAMAGE_UUID, "Tool modifier", 5.0, AttributeModifier.Operation.ADD_VALUE),
+                                             EquipmentSlotGroup.MAINHAND
+                                   )
+                                   .add(
+                                             Attributes.ATTACK_SPEED,
+                                             new AttributeModifier(BASE_ATTACK_SPEED_UUID, "Tool modifier", -3.0F, AttributeModifier.Operation.ADD_VALUE),
+                                             EquipmentSlotGroup.MAINHAND
+                                   )
+                                   .build();
+
+        properties.attributes(attributeModifiers);
         return properties;
     }
 
-    public Multimap<Attribute, AttributeModifier> getDefaultAttributeModifiers(EquipmentSlot slot) {
-        return slot == EquipmentSlot.MAINHAND ? this.defaultModifiers : super.getDefaultAttributeModifiers(slot);
-    }
+
 
     public int getEnchantmentValue() {
         return 0;
@@ -56,10 +71,8 @@ public class JavelinItem extends TridentItem
             Player player = (Player)p_43396_;
             int i = this.getUseDuration(p_43394_) - p_43397_;
             if (i >= 10) {
-                if (!p_43395_.isClientSide) {
-                    p_43394_.hurtAndBreak(1, player, (p_43388_) -> {
-                        p_43388_.broadcastBreakEvent(p_43396_.getUsedItemHand());
-                    });
+                if ( !p_43395_.isClientSide) {
+                    p_43394_.hurtAndBreak(1, player, EquipmentSlot.MAINHAND);
 
                     ThrownJavelinProjectile throwntrident = new ThrownJavelinProjectile(p_43395_, player, p_43394_);
                     throwntrident.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0F, 2.5F + (float)0 * 0.5F, 1.0F);
@@ -69,7 +82,7 @@ public class JavelinItem extends TridentItem
 
                     p_43395_.addFreshEntity(throwntrident);
                     p_43395_.playSound((Player)null, throwntrident, SoundEvents.TRIDENT_THROW, SoundSource.PLAYERS, 1.0F, 1.0F);
-                    if (!player.getAbilities().instabuild) {
+                    if (! player.getAbilities().instabuild) {
                         player.getInventory().removeItem(p_43394_);
                     }
                 }
@@ -82,9 +95,9 @@ public class JavelinItem extends TridentItem
     ///////////// info ///////////////////////
 
     @Override
-    public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> lines, TooltipFlag flags)
+    public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> lines, TooltipFlag flags)
     {
-        super.appendHoverText(stack, level, lines, flags);
+        super.appendHoverText(stack, context, lines, flags);
         if (stack.getDamageValue() == stack.getMaxDamage() - 1)
         {
             lines.add(line1);

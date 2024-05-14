@@ -4,10 +4,10 @@ import moonfather.woodentoolsremoved.OptionsHolder;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.level.block.CampfireBlock;
 import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.level.BlockEvent;
 
-@Mod.EventBusSubscriber
+@EventBusSubscriber
 public class EventForCampfires
 {
     @SubscribeEvent

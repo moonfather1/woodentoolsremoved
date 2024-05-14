@@ -10,6 +10,7 @@ import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.Difficulty;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -32,8 +33,7 @@ public class PeacefulGameplaySupport
                     Block.popResource(event.getEntity().level(), pos, new ItemStack(coalDust));
                     ItemStack stack = event.getEntity().getMainHandItem();
                     int damage = Math.max(4, (stack.getMaxDamage() - stack.getDamageValue()) / 2);
-                    stack.hurtAndBreak(damage, event.getEntity(), (p) -> {
-                    });
+                    stack.hurtAndBreak(damage, event.getEntity(), EquipmentSlot.MAINHAND);
                 }
             }
             return;
@@ -74,6 +74,6 @@ public class PeacefulGameplaySupport
 
     private static boolean checkedForCoalCust = false; private static Holder<Item> coalDust = null;
 
-    private static final TagKey<Item> TagCoalDust = ItemTags.create(new ResourceLocation("forge:dusts/coal"));
-    private static final TagKey<Item> TagAxe = ItemTags.create(new ResourceLocation("forge:tools/axes"));
+    private static final TagKey<Item> TagCoalDust = ItemTags.create(new ResourceLocation("c:dusts/coal"));
+    private static final TagKey<Item> TagAxe = ItemTags.create(new ResourceLocation("c:tools/axes"));
 }

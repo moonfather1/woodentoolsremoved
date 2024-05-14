@@ -3,14 +3,14 @@
   "category": "equipment",
   "ingredients": [
     {
-      "tag": "forge:gravel"
+      "tag": "c:gravels"
     },
     {
-      "tag": "forge:flint"
+      "tag": "c:flint"
     }
   ],
   "result": {
-    "item": "woodentoolsremoved:firestarter"
+    "id": "woodentoolsremoved:firestarter"
   },
   "neoforge:conditions":
   [

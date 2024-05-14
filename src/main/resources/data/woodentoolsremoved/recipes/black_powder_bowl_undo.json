@@ -9,10 +9,10 @@
     }
   },
   "result": {
-    "item": "minecraft:gunpowder",
+    "id": "minecraft:gunpowder",
     "count": 1
   },
-  "group": "",
+  "category": "misc",
   "neoforge:conditions":
   [
     {

@@ -2,6 +2,7 @@ package moonfather.woodentoolsremoved.original_tools;
 
 import com.google.common.base.Suppliers;
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import moonfather.woodentoolsremoved.RegistryManager;
@@ -56,11 +57,11 @@ public class BonusChestLootModifier extends LootModifier
 
 
     @Override
-    public Codec<? extends IGlobalLootModifier> codec() {
+    public MapCodec<? extends IGlobalLootModifier> codec() {
         return CODEC.get();
     }
 
-    public static final Supplier<Codec<BonusChestLootModifier>> CODEC = Suppliers.memoize(() ->
-            RecordCodecBuilder.create(inst -> codecStart(inst)
+    public static final Supplier<MapCodec<BonusChestLootModifier>> CODEC = Suppliers.memoize(() ->
+            RecordCodecBuilder.mapCodec(inst -> codecStart(inst)
                     .apply(inst, BonusChestLootModifier::new)));
 }

@@ -3,8 +3,6 @@ package moonfather.woodentoolsremoved.items.bowl;
 import moonfather.woodentoolsremoved.Constants;
 import moonfather.woodentoolsremoved.RegistryManager;
 import moonfather.woodentoolsremoved.other.TetraSupport;
-import moonfather.woodentoolsremoved.items.tools.HatchetItem;
-import moonfather.woodentoolsremoved.items.tools.PickItem;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
@@ -17,7 +15,9 @@ import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.Projectile;
@@ -57,22 +57,20 @@ public class BowlBlock extends Block
     }
 
 
-
     @Override
-    public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult bhr)
+    protected ItemInteractionResult useItemOn(ItemStack itemStack, BlockState blockState, Level level, BlockPos blockPos, Player player, InteractionHand hand, BlockHitResult blockHitResult)
     {
-        ItemStack stack = player.getItemInHand(hand);
-        if (this.IsProperActivationItem(stack))
+        if (this.IsProperActivationItem(itemStack))
         {
-            if (!level.isClientSide)
+            if (! level.isClientSide)
             {
-                this.UpdateUsedItem(stack, player, hand);
+                this.UpdateUsedItem(itemStack, player, hand);
                 // ekusproshion
-                this.Boom(level, pos);
+                this.Boom(level, blockPos);
             }
-            return InteractionResult.sidedSuccess(level.isClientSide());
+            return ItemInteractionResult.sidedSuccess(level.isClientSide());
         }
-        return super.use(state, level, pos, player, hand, bhr);
+        return super.useItemOn(itemStack, blockState, level, blockPos, player, hand, blockHitResult);
     }
 
 
@@ -202,12 +200,14 @@ public class BowlBlock extends Block
 
     private void UpdateUsedItem(ItemStack stack, Player player, InteractionHand hand)
     {
-        if (!player.isCreative()) {
-            if (stack.isDamageableItem()) {
-                stack.hurtAndBreak(1, player, (p_57425_) -> {
-                    p_57425_.broadcastBreakEvent(hand);
-                });
-            } else if (stack.is(Items.FIRE_CHARGE)) {
+        if (! player.hasInfiniteMaterials())
+        {
+            if (stack.isDamageableItem())
+            {
+                stack.hurtAndBreak(1, player, hand.equals(InteractionHand.MAIN_HAND) ? EquipmentSlot.MAINHAND : EquipmentSlot.OFFHAND);
+            }
+            else if (stack.is(Items.FIRE_CHARGE))
+            {
                 stack.shrink(1);
             }
             player.awardStat(Stats.ITEM_USED.get(stack.getItem()));

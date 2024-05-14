@@ -1,13 +1,14 @@
 package moonfather.woodentoolsremoved.items.tools;
 
-
+import moonfather.woodentoolsremoved.items.FlintToolTier;
+import moonfather.woodentoolsremoved.other.ClientLevelAccessor;
 import moonfather.woodentoolsremoved.peaceful.PeacefulGameplaySupport;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
-import net.minecraft.world.Difficulty;
 import net.minecraft.world.item.*;
-import net.minecraft.world.level.Level;
-import org.jetbrains.annotations.Nullable;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 
 import java.util.List;
 
@@ -15,23 +16,25 @@ public class HatchetItem extends AxeItem
 {
 	public HatchetItem()
 	{
-		super(Tiers.STONE, 3/*dmg*/, -2.8f/*attackspeed*/, HatchetItem.GetProperties());
+		super(FlintToolTier.getInstance(), HatchetItem.GetProperties());
 	}
 
 	private static Properties GetProperties()
 	{
 		Item.Properties properties = new Properties();
-		properties.durability(12);
+		// properties.durability(12); comes from tier now
+		properties.attributes(DiggerItem.createAttributes(FlintToolTier.getInstance(), 2.0F, -3.0F));
 		return properties;
 	}
 
 
 
 	@Override
-	public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> lines, TooltipFlag flags)
+	@OnlyIn(Dist.CLIENT)
+	public void appendHoverText(ItemStack stack, TooltipContext tooltipContext, List<Component> lines, TooltipFlag flag)
 	{
-		super.appendHoverText(stack, level, lines, flags);
-		if (level != null && level.getDifficulty().equals(Difficulty.PEACEFUL) && PeacefulGameplaySupport.HaveCoalDust())
+		super.appendHoverText(stack, tooltipContext, lines, flag);
+		if (ClientLevelAccessor.isPeaceful() && PeacefulGameplaySupport.HaveCoalDust())
 		{
 			lines.add(TooltipForPeacefulLine1);
 			lines.add(TooltipForPeacefulLine2);

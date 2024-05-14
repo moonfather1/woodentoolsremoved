@@ -2,7 +2,7 @@
   "parent": "woodentoolsremoved:tut/g2_hatchet",
   "display": {
     "icon": {
-      "item": "minecraft:book"
+      "id": "minecraft:book"
     },
     "title": {
       "translate": "ego.advancement.stone_in_null_mode"
@@ -19,9 +19,12 @@
     "impossible_bucket": {
       "trigger": "minecraft:filled_bucket",
       "conditions": {
-        "item": {
-          "items": ["minecraft:iron_pickaxe"]
+        "items":
+        [
+        {
+          "items": "minecraft:iron_pickaxe"
         }
+        ]
       }
     }
   },

@@ -2,9 +2,11 @@ package moonfather.woodentoolsremoved.other;
 
 import com.google.common.base.Suppliers;
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import moonfather.woodentoolsremoved.OptionsHolder;
+import moonfather.woodentoolsremoved.original_tools.BonusChestLootModifier;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
@@ -70,14 +72,15 @@ public class SticksAndFlintLootModifier extends LootModifier
     ///////////////////////////////////////////////////////////
 
     @Override
-    public Codec<? extends IGlobalLootModifier> codec() {
+    public MapCodec<? extends IGlobalLootModifier> codec()
+    {
         return CODEC.get();
     }
 
     private final ResourceLocation itemToDrop;
 
-    public static final Supplier<Codec<SticksAndFlintLootModifier>> CODEC = Suppliers.memoize(() ->
-            RecordCodecBuilder.create(inst -> codecStart(inst)
+    public static final Supplier<MapCodec<SticksAndFlintLootModifier>> CODEC = Suppliers.memoize(() ->
+            RecordCodecBuilder.mapCodec(inst -> codecStart(inst)
                     .and(ResourceLocation.CODEC.fieldOf("what_drops_from_gravel").forGetter((m) -> m.itemToDrop))
                     .apply(inst, SticksAndFlintLootModifier::new)));
 }

@@ -10,13 +10,14 @@
       "tag": "woodentoolsremoved:flint_for_tools"
     },
     "s": {
-      "tag": "forge:rods/wooden" 
+      "tag": "c:rods/wooden"
     }
   },
   "result": {
-    "item": "woodentoolsremoved:javelin",
+    "id": "woodentoolsremoved:javelin",
     "count": 1
   },
+  "category": "equipment",
   "neoforge:conditions":
   [
     {

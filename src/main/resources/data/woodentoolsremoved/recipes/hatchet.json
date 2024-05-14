@@ -9,11 +9,12 @@
       "tag": "woodentoolsremoved:flint_for_tools"
     },
     "s": {
-      "tag": "forge:rods/wooden" 
+      "tag": "c:rods/wooden"
     }
   },
+  "category": "equipment",
   "result": {
-    "item": "woodentoolsremoved:flint_hatchet",
+    "id": "woodentoolsremoved:flint_hatchet",
     "count": 1
   }
 }

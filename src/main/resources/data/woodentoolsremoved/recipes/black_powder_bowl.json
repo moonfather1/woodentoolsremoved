@@ -13,10 +13,10 @@
     }
   },
   "result": {
-    "item": "woodentoolsremoved:powder_bowl",
+    "id": "woodentoolsremoved:powder_bowl",
     "count": 1
   },
-  "group": "",
+  "category": "misc",
   "neoforge:conditions":
   [
     {

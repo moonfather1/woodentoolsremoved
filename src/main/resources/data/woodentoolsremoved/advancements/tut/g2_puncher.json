@@ -2,7 +2,7 @@
   "parent": "woodentoolsremoved:tut/g1_root",
   "display": {
     "icon": {
-      "item": "woodentoolsremoved:painting1"
+      "id": "woodentoolsremoved:painting1"
     },
     "title": {
       "translate": "ego.advancement.puncher"
@@ -19,9 +19,12 @@
     "impossible_bucket2": {
       "trigger": "minecraft:filled_bucket",
       "conditions": {
-        "item": {
-          "items": ["minecraft:iron_shovel"]
+        "items":
+        [
+        {
+          "items": "minecraft:iron_shovel"
         }
+        ]
       }
     }
   },

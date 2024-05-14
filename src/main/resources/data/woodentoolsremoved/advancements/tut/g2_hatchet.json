@@ -2,8 +2,7 @@
   "parent": "woodentoolsremoved:tut/g1_root",
   "display": {
     "icon": {
-      "item": "woodentoolsremoved:flint_hatchet",
-      "nbt": "{Damage:0}"
+      "id": "woodentoolsremoved:flint_hatchet"
     },
     "title": {
       "translate": "ego.advancement.craft_hatchet"
@@ -22,9 +21,7 @@
       "conditions": {
         "items": [
           {
-            "items": [
-              "woodentoolsremoved:flint_hatchet"
-            ]
+            "items": "woodentoolsremoved:flint_hatchet"
           }
         ]
       }

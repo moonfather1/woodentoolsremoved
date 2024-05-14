@@ -46,16 +46,10 @@ public class FirestarterItem extends FlintAndSteelItem
         return UseAnim.BRUSH;
     }
 
-    @Override
-    public int getEntityLifespan(ItemStack itemStack, Level level)
-    {
-        return super.getEntityLifespan(itemStack, level);
-    }
-
     private HitResult calculateHitResult(Player player)
     {
         return ProjectileUtil.getHitResultOnViewVector(
-                player, entity -> !entity.isSpectator() && entity.isPickable(), Player.getPickRange(player.isCreative()) * 1.0D      // reduced range moved to useOn
+                player, entity -> !entity.isSpectator() && entity.isPickable(), player.blockInteractionRange()      // reduced range moved to useOn
         );
     }
 
@@ -132,9 +126,9 @@ public class FirestarterItem extends FlintAndSteelItem
     /////////////////////
 
     @Override
-    public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> lines, TooltipFlag flags)
+    public void appendHoverText(ItemStack stack, TooltipContext tooltipContext, List<Component> lines, TooltipFlag flag)
     {
-        super.appendHoverText(stack, level, lines, flags);
+        super.appendHoverText(stack, tooltipContext, lines, flag);
         lines.add(TooltipForFirestarterLine1);
         lines.add(TooltipForFirestarterLine2);
     }

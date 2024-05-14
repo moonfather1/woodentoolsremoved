@@ -1,61 +1,66 @@
 package moonfather.woodentoolsremoved.original_tools;
 
+import moonfather.woodentoolsremoved.Constants;
 import moonfather.woodentoolsremoved.OptionsHolder;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.DiggerItem;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.SwordItem;
 import net.minecraft.world.item.Tiers;
+import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.event.ItemAttributeModifierEvent;
+import net.neoforged.neoforge.event.ModifyDefaultComponentsEvent;
+import net.neoforged.neoforge.event.entity.player.ItemTooltipEvent;
+
+import java.util.UUID;
 
 public class ToolStatistics
 {
-    public static void ChangeDurabilityValues()
+    public static void OnDefaultComponentCreation(ModifyDefaultComponentsEvent event)
     {
-        Items.WOODEN_AXE.maxDamage = 6;
-        Items.WOODEN_PICKAXE.maxDamage = 6;
-        Items.WOODEN_SWORD.maxDamage = 6;
-        Items.WOODEN_SHOVEL.maxDamage = 18;
-        Items.WOODEN_HOE.maxDamage = 18;
+        event.modify(Items.WOODEN_AXE, builder -> builder.set(DataComponents.MAX_DAMAGE, 6));
+        event.modify(Items.WOODEN_PICKAXE, builder -> builder.set(DataComponents.MAX_DAMAGE, 6));
+        event.modify(Items.WOODEN_SWORD, builder -> builder.set(DataComponents.MAX_DAMAGE, 6));
+        event.modify(Items.WOODEN_SHOVEL, builder -> builder.set(DataComponents.MAX_DAMAGE, 18));
+        event.modify(Items.WOODEN_HOE, builder -> builder.set(DataComponents.MAX_DAMAGE, 6));
 
         float newStoneDurabilityFloat = (OptionsHolder.COMMON.StoneToolsDurabilityMultiplier.get() / 100f) * Tiers.STONE.getUses();
         int newStoneDurability = (int)Math.max(newStoneDurabilityFloat, 1f);
-        Items.STONE_AXE.maxDamage = newStoneDurability;
-        Items.STONE_PICKAXE.maxDamage = newStoneDurability;
-        Items.STONE_SWORD.maxDamage = newStoneDurability;
-        Items.STONE_SHOVEL.maxDamage = newStoneDurability;
-        Items.STONE_HOE.maxDamage = newStoneDurability;
-
-        ToolStatistics.BluntItemAttackModifier((DiggerItem)Items.WOODEN_AXE);
-        ToolStatistics.BluntItemAttackModifier((DiggerItem)Items.WOODEN_PICKAXE);
-        ToolStatistics.BluntItemAttackModifier((SwordItem)Items.WOODEN_SWORD);
+        event.modify(Items.STONE_AXE, builder -> builder.set(DataComponents.MAX_DAMAGE, newStoneDurability));
+        event.modify(Items.STONE_PICKAXE, builder -> builder.set(DataComponents.MAX_DAMAGE, newStoneDurability));
+        event.modify(Items.STONE_SWORD, builder -> builder.set(DataComponents.MAX_DAMAGE, newStoneDurability));
+        event.modify(Items.STONE_SHOVEL, builder -> builder.set(DataComponents.MAX_DAMAGE, newStoneDurability));
+        event.modify(Items.STONE_HOE, builder -> builder.set(DataComponents.MAX_DAMAGE, newStoneDurability));
     }
 
-    private static void BluntItemAttackModifier(DiggerItem item)
+
+
+    public static void OnItemAttributeQuery(ItemAttributeModifierEvent event)
     {
-        (item).getDefaultAttributeModifiers(EquipmentSlot.MAINHAND).forEach(
-                (a, am) ->
+        if ((event.getItemStack().is(Items.WOODEN_AXE) || event.getItemStack().is(Items.WOODEN_PICKAXE) || event.getItemStack().is(Items.WOODEN_SWORD)) && event.getSlotType().equals(EquipmentSlot.MAINHAND))
+        {
+            if (event.getModifiers().containsKey(Attributes.ATTACK_DAMAGE))
+            {
+                boolean hasMinus = false;
+                for (AttributeModifier m: event.getModifiers().get(Attributes.ATTACK_DAMAGE))
                 {
-                    if (BuiltInRegistries.ATTRIBUTE.getKey(a).toString().equals("minecraft:generic.attack_damage"))
+                    if (m.id().equals(mini_plus_id))
                     {
-                        am.amount = 0f;
+                        hasMinus = true;
+                        break;
                     }
-                    //LOGGER.info("~!~!~  " + item + "attribute: " + a.getRegistryName() + " modifier: " + am.getName() + " value  " + am.getAmount() + " (" + am.getOperation() + ")");
-                    // ~!~!~  attribute: minecraft:generic.attack_damage modifier: Tool modifier value  6.0 (ADDITION)
-                } );
+                }
+                if (hasMinus) { return; }
+                event.getModifiers().get(Attributes.ATTACK_DAMAGE).removeIf(m -> m.operation().equals(AttributeModifier.Operation.ADD_VALUE));
+                event.getModifiers().get(Attributes.ATTACK_DAMAGE).add(mini_plus);
+            }
+        }
     }
 
-    private static void BluntItemAttackModifier(SwordItem item)
-    {
-        (item).getDefaultAttributeModifiers(EquipmentSlot.MAINHAND).forEach(
-                (a, am) ->
-                {
-                    if (BuiltInRegistries.ATTRIBUTE.getKey(a).toString().equals("minecraft:generic.attack_damage"))
-                    {
-                        am.amount = 0f;
-                    }
-                    //LOGGER.info("~!~!~  " + item + "attribute: " + a.getRegistryName() + " modifier: " + am.getName() + " value  " + am.getAmount() + " (" + am.getOperation() + ")");
-                    // ~!~!~  attribute: minecraft:generic.attack_damage modifier: Tool modifier value  6.0 (ADDITION)
-                } );
-    }
+    private static final UUID mini_plus_id = UUID.fromString("5c04dc33-a6ef-41b8-9e61-ccc0945c27ee");
+    private static final AttributeModifier mini_plus = new AttributeModifier(mini_plus_id, "wtr_plus_0d5", 0.5d, AttributeModifier.Operation.ADD_VALUE);
 }

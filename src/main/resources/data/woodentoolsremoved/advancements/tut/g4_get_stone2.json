@@ -2,8 +2,7 @@
   "parent": "woodentoolsremoved:tut/g2_hatchet",
   "display": {
     "icon": {
-      "item": "woodentoolsremoved:flint_pick",
-      "nbt": "{Damage:0}"
+      "id": "woodentoolsremoved:flint_pick"
     },
     "title": {
       "translate": "ego.advancement.stone_in_easy_mode"
@@ -22,9 +21,7 @@
       "conditions": {
         "items": [
           {
-            "items": [
-              "woodentoolsremoved:flint_pick"
-            ]
+            "items": "woodentoolsremoved:flint_pick"
           }
         ]
       }
