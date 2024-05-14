@@ -57,7 +57,7 @@ public class RegistryManager
 	public static final Supplier<Item> ItemFirepit = ITEMS.register("firepit", () -> new BlockItem(BlockFirepit.get(), FirepitBlock.GetItemProperties()));
 
 	public static final Supplier<MapCodec<? extends IGlobalLootModifier>> StupidGLMSerializer1 = LOOT_MODIFIERS.register("loot_modifier_for_bonus_chest", BonusChestLootModifier.CODEC);
-	//public static final Supplier<MapCodec<? extends IGlobalLootModifier>> StupidGLMSerializer2 = LOOT_MODIFIERS.register("loot_modifier_for_sticks_and_flint", SticksAndFlintLootModifier.CODEC);
+	public static final Supplier<MapCodec<? extends IGlobalLootModifier>> StupidGLMSerializer2 = LOOT_MODIFIERS.register("loot_modifier_for_sticks_and_flint", SticksAndFlintLootModifier.CODEC);
 
 	public static final Supplier<EntityType<ThrownJavelinProjectile>> ThrownJavelinProjectileET = ENTITIES.register("thrown_javelin_projectile", () -> EntityType.Builder.<ThrownJavelinProjectile>of(ThrownJavelinProjectile::new, MobCategory.MISC)
 			.sized(ThrownJavelinProjectile.GetScale(), ThrownJavelinProjectile.GetScale() * 1.5f)
