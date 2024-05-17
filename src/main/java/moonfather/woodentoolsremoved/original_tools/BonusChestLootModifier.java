@@ -27,7 +27,7 @@ public class BonusChestLootModifier extends LootModifier
     @Override
     public ObjectArrayList<ItemStack> doApply(ObjectArrayList<ItemStack> generatedLoot, LootContext context)
     {
-        if (!context.getQueriedLootTableId().equals(BuiltInLootTables.SPAWN_BONUS_CHEST))
+        if (! context.getQueriedLootTableId().equals(BuiltInLootTables.SPAWN_BONUS_CHEST.location()))
         {
             return generatedLoot;
         }

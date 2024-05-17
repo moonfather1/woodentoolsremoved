@@ -44,7 +44,7 @@ public class SticksAndFlintLootModifier extends LootModifier
     @Override
     public ObjectArrayList<ItemStack> doApply(ObjectArrayList<ItemStack> generatedLoot, LootContext context)
     {
-        if (context.getQueriedLootTableId().equals(Blocks.GRAVEL.getLootTable()))
+        if (context.getQueriedLootTableId().equals(Blocks.GRAVEL.getLootTable().location()))
         {
             Entity player = context.getParamOrNull(LootContextParams.THIS_ENTITY);
             if (SticksAndFlintSupport.ShouldDropFlintForPlayer(player))
