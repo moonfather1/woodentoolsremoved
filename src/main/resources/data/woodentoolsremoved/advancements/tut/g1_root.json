@@ -16,14 +16,14 @@
     "background": "minecraft:textures/block/podzol_top.png"
   },
   "criteria": {
-    "seeds": {
-      "trigger": "minecraft:inventory_changed",
-      "conditions": {}
+    "unlock_right_away": {
+      "conditions": {},
+      "trigger": "minecraft:tick"
     }
   },
   "requirements": [
     [
-      "seeds"
+      "unlock_right_away"
     ]
   ]
 }
