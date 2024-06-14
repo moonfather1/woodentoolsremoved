@@ -15,12 +15,10 @@ import moonfather.woodentoolsremoved.items.javelin.ThrownJavelinProjectile;
 import moonfather.woodentoolsremoved.original_tools.BonusChestLootModifier;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.neoforged.bus.api.IEventBus;
-import net.neoforged.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.neoforged.neoforge.common.conditions.ICondition;
 import net.neoforged.neoforge.common.loot.IGlobalLootModifier;
 import net.neoforged.neoforge.registries.DeferredRegister;
@@ -59,7 +57,7 @@ public class RegistryManager
 	public static final Supplier<MapCodec<? extends IGlobalLootModifier>> StupidGLMSerializer1 = LOOT_MODIFIERS.register("loot_modifier_for_bonus_chest", BonusChestLootModifier.CODEC);
 	public static final Supplier<MapCodec<? extends IGlobalLootModifier>> StupidGLMSerializer2 = LOOT_MODIFIERS.register("loot_modifier_for_sticks_and_flint", SticksAndFlintLootModifier.CODEC);
 
-	public static final Supplier<EntityType<ThrownJavelinProjectile>> ThrownJavelinProjectileET = ENTITIES.register("thrown_javelin_projectile", () -> EntityType.Builder.<ThrownJavelinProjectile>of(ThrownJavelinProjectile::new, MobCategory.MISC)
+	public static final Supplier<EntityType<ThrownJavelinProjectile>> ThrownJavelinProjectileET = ENTITIES.register("thrown_javelin_projectile", () -> EntityType.Builder.<ThrownJavelinProjectile>of(ThrownJavelinProjectile::new, net.minecraft.world.entity.MobCategory.MISC)
 			.sized(ThrownJavelinProjectile.GetScale(), ThrownJavelinProjectile.GetScale() * 1.5f)
 			.build("thrown_javelin_projectile"));
 

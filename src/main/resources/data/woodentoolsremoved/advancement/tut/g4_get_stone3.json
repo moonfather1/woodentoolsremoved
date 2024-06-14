@@ -19,12 +19,9 @@
     "impossible_bucket": {
       "trigger": "minecraft:filled_bucket",
       "conditions": {
-        "items":
-        [
-        {
+        "item": {
           "items": "minecraft:iron_pickaxe"
         }
-        ]
       }
     }
   },

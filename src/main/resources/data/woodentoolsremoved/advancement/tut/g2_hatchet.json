@@ -19,11 +19,9 @@
     "flint_hatchet": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
-        "items": [
-          {
+        "item": {
             "items": "woodentoolsremoved:flint_hatchet"
-          }
-        ]
+        }
       }
     }
   },

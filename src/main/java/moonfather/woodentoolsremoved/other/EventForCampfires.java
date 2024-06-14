@@ -15,7 +15,7 @@ public class EventForCampfires
     {
         if (event.getState().is(BlockTags.CAMPFIRES))
         {
-            if (! event.getBlockSnapshot().getReplacedBlock().is(BlockTags.CAMPFIRES)) // new
+            if (! event.getBlockSnapshot().getState().is(BlockTags.CAMPFIRES)) // new
             {
                 if (OptionsHolder.COMMON.CampfiresStartUnlit.get())
                 {

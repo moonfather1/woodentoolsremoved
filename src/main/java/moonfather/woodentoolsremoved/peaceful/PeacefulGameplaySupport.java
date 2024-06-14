@@ -74,6 +74,6 @@ public class PeacefulGameplaySupport
 
     private static boolean checkedForCoalCust = false; private static Holder<Item> coalDust = null;
 
-    private static final TagKey<Item> TagCoalDust = ItemTags.create(new ResourceLocation("c:dusts/coal"));
-    private static final TagKey<Item> TagAxe = ItemTags.create(new ResourceLocation("c:tools/axes"));
+    private static final TagKey<Item> TagCoalDust = ItemTags.create(ResourceLocation.fromNamespaceAndPath("c", "dusts/coal"));
+    private static final TagKey<Item> TagAxe = ItemTags.create(ResourceLocation.fromNamespaceAndPath("c", "tools/axes"));
 }

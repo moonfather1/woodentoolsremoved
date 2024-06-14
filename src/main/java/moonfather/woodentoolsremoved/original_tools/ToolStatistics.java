@@ -4,6 +4,7 @@ import moonfather.woodentoolsremoved.Constants;
 import moonfather.woodentoolsremoved.OptionsHolder;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -61,6 +62,6 @@ public class ToolStatistics
         }
     }
 
-    private static final UUID mini_plus_id = UUID.fromString("5c04dc33-a6ef-41b8-9e61-ccc0945c27ee");
-    private static final AttributeModifier mini_plus = new AttributeModifier(mini_plus_id, "wtr_plus_0d5", 0.5d, AttributeModifier.Operation.ADD_VALUE);
+    private static final ResourceLocation mini_plus_id = ResourceLocation.fromNamespaceAndPath(Constants.MODID, "mini_plus_id");
+    private static final AttributeModifier mini_plus = new AttributeModifier(mini_plus_id, 0.5d, AttributeModifier.Operation.ADD_VALUE);
 }

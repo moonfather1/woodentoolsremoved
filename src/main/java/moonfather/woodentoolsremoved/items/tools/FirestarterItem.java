@@ -35,7 +35,7 @@ public class FirestarterItem extends FlintAndSteelItem
 
 
     @Override
-    public int getUseDuration(ItemStack itemStack)
+    public int getUseDuration(ItemStack itemStack, LivingEntity p_344979_)
     {
         return 2*20 + ((itemStack.getDamageValue() * 7) % 5 ) * 20;  // 2-6 sec
     }

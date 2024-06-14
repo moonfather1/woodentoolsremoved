@@ -89,7 +89,6 @@ public class BowlBlock extends Block
     }
 
 
-
     @Override
     public int getFireSpreadSpeed(BlockState state, BlockGetter level, BlockPos pos, Direction direction)
     {
@@ -122,7 +121,7 @@ public class BowlBlock extends Block
     }
 
 
-    private final TagKey<Block> cobblestoneTag = BlockTags.create(new ResourceLocation("forge:cobblestone"));
+    private final TagKey<Block> cobblestoneTag = BlockTags.create(ResourceLocation.fromNamespaceAndPath("c","cobblestone"));
 
     private void TryDestroyStone(Level level, BlockPos pos, int chancePercentage)
     {

@@ -20,7 +20,7 @@ import net.neoforged.api.distmarker.OnlyIn;
 @OnlyIn(Dist.CLIENT)
 public class ThrownJavelinProjectileRenderer extends EntityRenderer<ThrownJavelinProjectile>
 {
-	private static final ResourceLocation TEXTURE_LOCATION = new ResourceLocation("woodentoolsremoved:textures/entities/javelin.png");
+	private static final ResourceLocation TEXTURE_LOCATION = ResourceLocation.fromNamespaceAndPath(Constants.MODID, "textures/entities/javelin.png");
 	private final JavelinModel model;
 
 	public ThrownJavelinProjectileRenderer(EntityRendererProvider.Context context) {
@@ -33,7 +33,7 @@ public class ThrownJavelinProjectileRenderer extends EntityRenderer<ThrownJaveli
 		p_116114_.mulPose(Axis.YP.rotationDegrees(Mth.lerp(p_116113_, p_116111_.yRotO, p_116111_.getYRot()) - 90.0F));
 		p_116114_.mulPose(Axis.ZP.rotationDegrees(Mth.lerp(p_116113_, p_116111_.xRotO, p_116111_.getXRot()) + 90.0F));
 		VertexConsumer vertexconsumer = ItemRenderer.getFoilBufferDirect(p_116115_, this.model.renderType(this.getTextureLocation(p_116111_)), false, false/*foil*/);
-		this.model.renderToBuffer(p_116114_, vertexconsumer, p_116116_, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
+		this.model.renderToBuffer(p_116114_, vertexconsumer, p_116116_, OverlayTexture.NO_OVERLAY);
 		p_116114_.popPose();
 		super.render(p_116111_, p_116112_, p_116113_, p_116114_, p_116115_, p_116116_);
 	}
@@ -46,7 +46,7 @@ public class ThrownJavelinProjectileRenderer extends EntityRenderer<ThrownJaveli
 
 	public class JavelinModel extends EntityModel<ThrownJavelinProjectile> {
 		// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
-		public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(Constants.MODID, "javelin"), "main");
+		public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(Constants.MODID, "javelin"), "main");
 		private final ModelPart bb_main;
 
 		public JavelinModel(ModelPart root) {
@@ -74,8 +74,9 @@ public class ThrownJavelinProjectileRenderer extends EntityRenderer<ThrownJaveli
 		}
 
 		@Override
-		public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
-			bb_main.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+		public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, int p_350308_)
+		{
+			bb_main.render(poseStack, vertexConsumer, packedLight, packedOverlay);
 		}
 	}
 }

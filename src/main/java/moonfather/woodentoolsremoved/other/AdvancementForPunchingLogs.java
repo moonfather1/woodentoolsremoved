@@ -8,9 +8,8 @@ public class AdvancementForPunchingLogs
 {
     public static void Grant(Player player)
     {
-        if (player instanceof ServerPlayer)
+        if (player instanceof ServerPlayer sp)
         {
-            ServerPlayer sp = (ServerPlayer) player;
             sp.getAdvancements().award(sp.getServer().getAdvancements().get(Constants.Advancements.PUNCHER), "impossible_bucket2");
         }
     }

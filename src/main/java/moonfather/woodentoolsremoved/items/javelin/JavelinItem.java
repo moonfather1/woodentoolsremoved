@@ -31,8 +31,8 @@ public class JavelinItem extends TridentItem
     {
         super(JavelinItem.GetProperties());
         ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
-        builder.put(Attributes.ATTACK_DAMAGE.value(), new AttributeModifier(BASE_ATTACK_DAMAGE_UUID, "Tool modifier", 5.0D, AttributeModifier.Operation.ADD_VALUE));
-        builder.put(Attributes.ATTACK_SPEED.value(), new AttributeModifier(BASE_ATTACK_SPEED_UUID, "Tool modifier", (double)-3.0F, AttributeModifier.Operation.ADD_VALUE));
+        builder.put(Attributes.ATTACK_DAMAGE.value(), new AttributeModifier(BASE_ATTACK_DAMAGE_ID,5.0D, AttributeModifier.Operation.ADD_VALUE));
+        builder.put(Attributes.ATTACK_SPEED.value(), new AttributeModifier(BASE_ATTACK_SPEED_ID, -3.0D, AttributeModifier.Operation.ADD_VALUE));
         this.defaultModifiers = builder.build();
     }
 
@@ -44,12 +44,12 @@ public class JavelinItem extends TridentItem
         ItemAttributeModifiers attributeModifiers =  ItemAttributeModifiers.builder()
                                    .add(
                                              Attributes.ATTACK_DAMAGE,
-                                             new AttributeModifier(BASE_ATTACK_DAMAGE_UUID, "Tool modifier", 5.0, AttributeModifier.Operation.ADD_VALUE),
+                                             new AttributeModifier(BASE_ATTACK_DAMAGE_ID, 5.0D, AttributeModifier.Operation.ADD_VALUE),
                                              EquipmentSlotGroup.MAINHAND
                                    )
                                    .add(
                                              Attributes.ATTACK_SPEED,
-                                             new AttributeModifier(BASE_ATTACK_SPEED_UUID, "Tool modifier", -3.0F, AttributeModifier.Operation.ADD_VALUE),
+                                             new AttributeModifier(BASE_ATTACK_SPEED_ID, -3.0D, AttributeModifier.Operation.ADD_VALUE),
                                              EquipmentSlotGroup.MAINHAND
                                    )
                                    .build();
@@ -69,7 +69,7 @@ public class JavelinItem extends TridentItem
     public void releaseUsing(ItemStack p_43394_, Level p_43395_, LivingEntity p_43396_, int p_43397_) {
         if (p_43396_ instanceof Player) {
             Player player = (Player)p_43396_;
-            int i = this.getUseDuration(p_43394_) - p_43397_;
+            int i = this.getUseDuration(p_43394_, p_43396_) - p_43397_;
             if (i >= 10) {
                 if ( !p_43395_.isClientSide) {
                     p_43394_.hurtAndBreak(1, player, EquipmentSlot.MAINHAND);
@@ -81,7 +81,7 @@ public class JavelinItem extends TridentItem
                     }
 
                     p_43395_.addFreshEntity(throwntrident);
-                    p_43395_.playSound((Player)null, throwntrident, SoundEvents.TRIDENT_THROW, SoundSource.PLAYERS, 1.0F, 1.0F);
+                    p_43395_.playSound((Player)null, throwntrident, SoundEvents.TRIDENT_THROW.value(), SoundSource.PLAYERS, 1.0F, 1.0F);
                     if (! player.getAbilities().instabuild) {
                         player.getInventory().removeItem(p_43394_);
                     }
