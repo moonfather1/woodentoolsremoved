@@ -9,13 +9,13 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.neoforge.event.entity.living.LivingHurtEvent;
+import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
 
 @EventBusSubscriber
 public class EventForAttacking
 {
     @SubscribeEvent
-    public static void OnLivingHurt(LivingHurtEvent event)
+    public static void OnLivingHurt(LivingDamageEvent.Pre event)
     {
         if (event.getSource().getMsgId().equals("mob") || event.getSource().getMsgId().equals("player"))
         {
@@ -27,17 +27,26 @@ public class EventForAttacking
                 {
                     if (event.getSource().getMsgId().equals("player"))
                     {
-                        event.setAmount(1f);
+                        event.setNewDamage(1f);
                         ((Player)source.getEntity()).displayClientMessage(woodenToolMessage, true);
                     }
                     else
                     {
-                        event.setAmount(event.getAmount() + OptionsHolder.COMMON.WoodenToolDamageInMobHands.get());
+                        event.setNewDamage(event.getOriginalDamage() + OptionsHolder.COMMON.WoodenToolDamageInMobHands.get());
                     }
                 }
             }
         }
     }
+
+//    @SubscribeEvent
+//    public static void OnLivingHurt2(LivingDamageEvent.Post event)
+//    {
+//        if (event.getSource().getMsgId().equals("mob") || event.getSource().getMsgId().equals("player"))
+//        {
+//            System.out.println("~~~OnLivingHurt2:" + event.getSource().getEntity() + " dealt " + event.getNewDamage() + " dmg (orig==" + event.getOriginalDamage() + ")");
+//        }
+//    }
 
 
     private static final Component woodenToolMessage = Component.translatable("message.woodentoolsremoved.sword_message_1").withStyle(Style.EMPTY.withColor(0x9e7b4d));

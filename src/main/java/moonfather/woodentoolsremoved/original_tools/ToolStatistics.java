@@ -3,21 +3,15 @@ package moonfather.woodentoolsremoved.original_tools;
 import moonfather.woodentoolsremoved.Constants;
 import moonfather.woodentoolsremoved.OptionsHolder;
 import net.minecraft.core.component.DataComponents;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.item.DiggerItem;
+import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.SwordItem;
 import net.minecraft.world.item.Tiers;
-import net.neoforged.neoforge.common.NeoForge;
+import net.minecraft.world.item.component.ItemAttributeModifiers;
 import net.neoforged.neoforge.event.ItemAttributeModifierEvent;
 import net.neoforged.neoforge.event.ModifyDefaultComponentsEvent;
-import net.neoforged.neoforge.event.entity.player.ItemTooltipEvent;
-
-import java.util.UUID;
 
 public class ToolStatistics
 {
@@ -42,22 +36,24 @@ public class ToolStatistics
 
     public static void OnItemAttributeQuery(ItemAttributeModifierEvent event)
     {
-        if ((event.getItemStack().is(Items.WOODEN_AXE) || event.getItemStack().is(Items.WOODEN_PICKAXE) || event.getItemStack().is(Items.WOODEN_SWORD)) && event.getSlotType().equals(EquipmentSlot.MAINHAND))
+        if ((event.getItemStack().is(Items.WOODEN_AXE) || event.getItemStack().is(Items.WOODEN_PICKAXE) || event.getItemStack().is(Items.WOODEN_SWORD)))
         {
-            if (event.getModifiers().containsKey(Attributes.ATTACK_DAMAGE))
+            boolean hasMinus = false;
+            for (ItemAttributeModifiers.Entry modifier : event.getModifiers())
             {
-                boolean hasMinus = false;
-                for (AttributeModifier m: event.getModifiers().get(Attributes.ATTACK_DAMAGE))
+                if (modifier.attribute().equals(Attributes.ATTACK_DAMAGE))
                 {
-                    if (m.id().equals(mini_plus_id))
+                    if (modifier.modifier().id().equals(mini_plus_id))
                     {
                         hasMinus = true;
                         break;
                     }
                 }
-                if (hasMinus) { return; }
-                event.getModifiers().get(Attributes.ATTACK_DAMAGE).removeIf(m -> m.operation().equals(AttributeModifier.Operation.ADD_VALUE));
-                event.getModifiers().get(Attributes.ATTACK_DAMAGE).add(mini_plus);
+            }
+            if (! hasMinus)
+            {
+                event.removeIf(m -> m.attribute().equals(Attributes.ATTACK_DAMAGE) && m.modifier().operation().equals(AttributeModifier.Operation.ADD_VALUE));
+                event.addModifier(Attributes.ATTACK_DAMAGE, mini_plus, EquipmentSlotGroup.MAINHAND);
             }
         }
     }
