@@ -20,7 +20,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 @OnlyIn(Dist.CLIENT)
 public class ThrownJavelinProjectileRenderer extends EntityRenderer<ThrownJavelinProjectile>
 {
-	private static final ResourceLocation TEXTURE_LOCATION = new ResourceLocation("woodentoolsremoved:textures/entities/javelin.png");
+	private static final ResourceLocation TEXTURE_LOCATION = new ResourceLocation("woodentoolsremoved:textures/entity/javelin.png");
 	private final JavelinModel model;
 
 	public ThrownJavelinProjectileRenderer(EntityRendererProvider.Context context) {

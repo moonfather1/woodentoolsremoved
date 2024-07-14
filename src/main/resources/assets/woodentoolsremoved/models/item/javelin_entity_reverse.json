@@ -1,0 +1,31 @@
+{
+    "credit": "Made with Blockbench",
+    "parent": "woodentoolsremoved:item/javelin_entity",
+    "display": {
+        "thirdperson_righthand": {
+            "rotation": [176, 96, 0],
+            "translation": [12, 0.5, 9.25],
+            "scale": [1.6, 1.6, 1.6]
+        },
+        "thirdperson_lefthand": {
+            "rotation": [176, 102, 0],
+            "translation": [13, 0.5, -1.75],
+            "scale": [1.6, 1.6, 1.6]
+        },
+        "firstperson_righthand": {
+            "rotation": [-62, 95, 29],
+            "translation": [21, -6, -10],
+            "scale": [1.7, 1.7, 1.7]
+        },
+        "firstperson_lefthand": {
+            "rotation": [-5, 80, -12],
+            "translation": [17, 0.5, 4.5],
+            "scale": [1.6, 1.6, 1.6]
+        },
+        "head": {
+            "rotation": [-65, 104, 0],
+            "translation": [22, -27, -15],
+            "scale": [1.6, 1.6, 1.6]
+        }
+    }
+}
