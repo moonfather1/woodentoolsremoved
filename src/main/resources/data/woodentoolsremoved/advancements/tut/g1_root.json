@@ -17,7 +17,7 @@
   },
   "criteria": {
     "seeds": {
-      "trigger": "minecraft:inventory_changed",
+      "trigger": "minecraft:tick",
       "conditions": {}
     }
   },

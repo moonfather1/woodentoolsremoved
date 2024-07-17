@@ -11,7 +11,7 @@ public class OptionsHolder
 		private static final boolean defaultSimpleModeEnabled = false;
 		private static final boolean defaultHardModeEnabled = true;
 		private static final int defaultStoneToolsDurabilityMultiplier = 30;
-		private static final int defaultStickDropChance = 4;
+		private static final int defaultStickDropChance = 5;
 		private static final boolean defaultGuaranteedFlintDrops = true;
 		private static final boolean defaultForceHardModeWithTC = false;
 		private static final int defaultWoodenToolDamageInMobHands = 2;

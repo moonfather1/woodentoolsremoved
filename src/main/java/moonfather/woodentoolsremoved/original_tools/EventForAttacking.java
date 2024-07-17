@@ -24,7 +24,7 @@ public class EventForAttacking
             if (ds.getEntity() instanceof LivingEntity)
             {
                 ItemStack stack = ((LivingEntity)ds.getEntity()).getMainHandItem();
-                if (! stack.isEmpty() && ! (stack.getItem() instanceof ShovelItem) && stack.getItem() instanceof TieredItem && ((TieredItem)stack.getItem()).getTier().equals(Tiers.WOOD))
+                if (! stack.isEmpty() && ! (stack.getDescriptionId().startsWith("item.silentgear")) && ! (stack.getItem() instanceof ShovelItem) && stack.getItem() instanceof TieredItem && ((TieredItem)stack.getItem()).getTier().equals(Tiers.WOOD))
                 {
                     if (event.getSource().msgId.equals("player"))
                     {

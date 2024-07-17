@@ -66,7 +66,7 @@ public class EventForPunchingLogs
 		{
 			ResourceLocation toolId = ForgeRegistries.ITEMS.getKey(event.getPlayer().getMainHandItem().getItem());
 			if ( event.getPlayer().getMainHandItem().getItem() instanceof AxeItem && (((AxeItem)event.getPlayer().getMainHandItem().getItem()).getTier().equals(Tiers.WOOD) && (toolId == null || ! toolId.getNamespace().equals("silentgear")))
-					|| event.getPlayer().getMainHandItem().getItem() instanceof PickaxeItem && ! event.getPlayer().getMainHandItem().isCorrectToolForDrops(Blocks.IRON_ORE.defaultBlockState())
+					|| event.getPlayer().getMainHandItem().getItem() instanceof PickaxeItem pick && ! event.getPlayer().getMainHandItem().isCorrectToolForDrops(Blocks.IRON_ORE.defaultBlockState()) && ! pick.getTier().equals(Tiers.GOLD)
 			)
 			{
 				if (ShouldShowMessage(event.getPlayer()))
