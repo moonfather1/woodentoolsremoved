@@ -67,6 +67,7 @@ public class EventForPunchingLogs
 			ResourceLocation toolId = ForgeRegistries.ITEMS.getKey(event.getPlayer().getMainHandItem().getItem());
 			if ( event.getPlayer().getMainHandItem().getItem() instanceof AxeItem && (((AxeItem)event.getPlayer().getMainHandItem().getItem()).getTier().equals(Tiers.WOOD) && (toolId == null || ! toolId.getNamespace().equals("silentgear")))
 					|| event.getPlayer().getMainHandItem().getItem() instanceof PickaxeItem pick && ! event.getPlayer().getMainHandItem().isCorrectToolForDrops(Blocks.IRON_ORE.defaultBlockState()) && ! pick.getTier().equals(Tiers.GOLD)
+					|| toolId.toString().equals("tconstruct:pickaxe") && event.getPlayer().getMainHandItem().getTag().getCompound("tic_stats").getString("tconstruct:harvest_tier").equals("minecraft:wood")
 			)
 			{
 				if (ShouldShowMessage(event.getPlayer()))

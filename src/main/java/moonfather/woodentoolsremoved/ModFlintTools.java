@@ -3,6 +3,7 @@ package moonfather.woodentoolsremoved;
 import com.mojang.logging.LogUtils;
 import moonfather.woodentoolsremoved.items.OptionalRecipeCondition;
 import moonfather.woodentoolsremoved.original_tools.ToolStatistics;
+import moonfather.woodentoolsremoved.other.dynamic_datapack.EventForDatapack;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.common.crafting.CraftingHelper;
 import net.minecraftforge.fml.ModLoadingContext;
@@ -24,6 +25,7 @@ public class ModFlintTools
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, OptionsHolder.COMMON_SPEC);
         RegistryManager.Init();
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
+        FMLJavaModLoadingContext.get().getModEventBus().addListener(EventForDatapack::addServerPack);
     }
 
     private void setup(final FMLCommonSetupEvent event)

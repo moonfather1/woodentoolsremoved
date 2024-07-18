@@ -3,10 +3,10 @@
     "tconstruct:extra": {},
     "tconstruct:handle": null,
     "tconstruct:head": {
-      "durability": 60,
-      "miningSpeed": 4.0,
+      "durability": 85,
+      "miningSpeed": 3.0,
       "harvestTier": "minecraft:stone",
-      "attack": 1.0
+      "attack": 1.25
     }
   }
 }

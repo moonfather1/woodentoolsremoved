@@ -29,23 +29,20 @@ public class OptionalRecipeCondition implements ICondition
 	{
 		if (this.flagCode.equals("allow_pick"))
 		{
-			return (OptionsHolder.IsResolvedModeSimple() || false/*peac*/ && OptionsHolder.COMMON.HardModeEnabled.get())
-					&& ! ModList.get().isLoaded("tconstruct");
+			return OptionsHolder.IsResolvedModeSimple()
+					&& ! ModList.get().isLoaded("tconstruct") && ! ModList.get().isLoaded("silentgear");
 		}
 		else if (this.flagCode.equals("allow_powder_bowl"))
 		{
-			return OptionsHolder.IsResolvedModeHard()
-					&& (! ModList.get().isLoaded("tconstruct") || OptionsHolder.COMMON.ForceHardModeWithTC.get());
+			return OptionsHolder.IsResolvedModeHard();
 		}
 		else if (this.flagCode.equals("allow_javelin"))
 		{
-			return OptionsHolder.IsResolvedModeHard()
-					&& (! ModList.get().isLoaded("tconstruct") || OptionsHolder.COMMON.ForceHardModeWithTC.get());
+			return OptionsHolder.IsResolvedModeHard();
 		}
 		else if (this.flagCode.equals("allow_firepit"))
 		{
-			return OptionsHolder.IsResolvedModeHard()
-					&& (! ModList.get().isLoaded("tconstruct") || OptionsHolder.COMMON.ForceHardModeWithTC.get());
+			return true;
 		}
 		else if (this.flagCode.equals("hard_mode"))
 		{
