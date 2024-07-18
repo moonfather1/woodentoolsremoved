@@ -1,0 +1,21 @@
+{
+  "loader": "forge:separate-perspective",
+
+  "base": {
+    "parent": "woodentoolsremoved:item/javelin_normal"
+  },
+
+  "gui_light": "front",
+
+  "perspectives": {
+    "thirdperson_righthand": {
+      "parent": "woodentoolsremoved:item/javelin_entity_reverse"
+    },
+    "thirdperson_lefthand": {
+      "parent": "woodentoolsremoved:item/javelin_entity_reverse"
+    },
+    "head": {
+      "parent": "woodentoolsremoved:item/javelin_entity_reverse"
+    }
+  }
+}
