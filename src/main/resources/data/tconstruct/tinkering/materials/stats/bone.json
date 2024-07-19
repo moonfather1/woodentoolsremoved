@@ -12,7 +12,7 @@
       "attackDamage": 1.0
     },
     "tconstruct:head": {
-      "durability": 50,
+      "durability": 40,
       "miningSpeed": 2.5,
       "harvestTier": "minecraft:stone",
       "attack": 1.25

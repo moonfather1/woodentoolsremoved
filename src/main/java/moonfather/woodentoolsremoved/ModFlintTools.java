@@ -1,8 +1,10 @@
 package moonfather.woodentoolsremoved;
 
+import com.electronwill.nightconfig.core.file.FileConfig;
 import moonfather.woodentoolsremoved.items.EventForCreativeTabs;
 import moonfather.woodentoolsremoved.items.OptionalRecipeCondition;
 import moonfather.woodentoolsremoved.original_tools.ToolStatistics;
+import moonfather.woodentoolsremoved.other.dynamic_datapack.EventForDatapack;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.common.crafting.CraftingHelper;
 import net.minecraftforge.fml.ModLoadingContext;
@@ -10,6 +12,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.fml.loading.moddiscovery.NightConfigWrapper;
 
 @Mod(Constants.MODID)
 public class ModFlintTools
@@ -22,6 +25,7 @@ public class ModFlintTools
         // Register the commonSetup method for modloading
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::commonSetup);
         FMLJavaModLoadingContext.get().getModEventBus().addListener(EventForCreativeTabs::OnCreativeModeTab);
+        FMLJavaModLoadingContext.get().getModEventBus().addListener(EventForDatapack::addServerPack);
     }
 
     private void commonSetup(final FMLCommonSetupEvent event)

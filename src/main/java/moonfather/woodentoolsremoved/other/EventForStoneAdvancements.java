@@ -22,12 +22,12 @@ public class EventForStoneAdvancements
             if (event.getEntity() instanceof ServerPlayer)
             {
                 ServerPlayer sp = (ServerPlayer) event.getEntity();
-                if (OptionsHolder.IsResolvedModeSimple() && ! ModList.get().isLoaded("tconstruct"))
+                if (OptionsHolder.IsResolvedModeSimple() && ! ModList.get().isLoaded("tconstruct") && ! ModList.get().isLoaded("silentgear"))
                 {
                     DisplayInfo di = GetAdvancement(sp, Constants.Advancements.STONE2).getDisplay();
                     di.hidden = false;
                 }
-                else if (OptionsHolder.IsResolvedModeHard() && (! ModList.get().isLoaded("tconstruct") || OptionsHolder.COMMON.ForceHardModeWithTC.get()))
+                else if (OptionsHolder.IsResolvedModeHard())
                 {
                     DisplayInfo di = GetAdvancement(sp, Constants.Advancements.STONE1).getDisplay();
                     di.hidden = false;

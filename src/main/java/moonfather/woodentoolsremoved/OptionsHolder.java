@@ -13,7 +13,6 @@ public class OptionsHolder
 		private static final int defaultStoneToolsDurabilityMultiplier = 30;
 		private static final int defaultStickDropChance = 6;
 		private static final boolean defaultGuaranteedFlintDrops = true;
-		private static final boolean defaultForceHardModeWithTC = false;
 		private static final int defaultWoodenToolDamageInMobHands = 2;
 		private static final boolean defaultEnableFirestarter = true;
 		private static final boolean defaultCampfiresStartUnlit = false;
@@ -23,7 +22,6 @@ public class OptionsHolder
 		public final ConfigValue<Integer> StoneToolsDurabilityMultiplier;
 		public final ConfigValue<Integer> StickDropChance;
 		public final ConfigValue<Boolean> GuaranteedFlintDrops;
-		public final ConfigValue<Boolean> ForceHardModeWithTC;
 		public final ConfigValue<Integer> WoodenToolDamageInMobHands;
 		public final ConfigValue<Boolean> EnableFirestarter;
 		public final ConfigValue<Boolean> CampfiresStartUnlit;
@@ -45,10 +43,6 @@ public class OptionsHolder
 					.define("Guaranteed flint drops", defaultGuaranteedFlintDrops);
 			this.WoodenToolDamageInMobHands = builder.comment("This is how much extra damage a wooden sword or tool will deal in mob hands. Option is introduced because some mods add wooden tools to zombies. No effect on tools in player's hands. This is not a total value, it is a bonus added to mob damage plus minimal tool damage.")
 					 .defineInRange("Wooden tool damage in mob hands", defaultWoodenToolDamageInMobHands, 0, 10);
-			builder.pop();
-			builder.push("Interoperability");
-			this.ForceHardModeWithTC = builder.comment("Tinker's construct offers flint tools and easily circumvents this mod's HARD mode. By default, this mod backs off when TC is present and disables both the HARD mode and the SIMPLE mode. This option forces the mod not to disable the three recipes it disables when TC is present, but - that's it. This option does not trigger any changes to TC behavior. It is up to modpack maker or the player to resolve the incompatibility.")
-					.define("Force hard mode even with TC present", defaultForceHardModeWithTC);
 			builder.pop();
 			builder.push("Extra features and flavor tweaks");
 			this.EnableFirestarter = builder.comment("A crude firestarter tool. Setting this to true makes the tool craftable but also makes firepit require it. Otherwise firepit can be lit with shift-right-click.")
