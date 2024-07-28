@@ -20,7 +20,7 @@ import net.neoforged.api.distmarker.OnlyIn;
 @OnlyIn(Dist.CLIENT)
 public class ThrownJavelinProjectileRenderer extends EntityRenderer<ThrownJavelinProjectile>
 {
-	private static final ResourceLocation TEXTURE_LOCATION = ResourceLocation.fromNamespaceAndPath(Constants.MODID, "textures/entities/javelin.png");
+	private static final ResourceLocation TEXTURE_LOCATION = ResourceLocation.fromNamespaceAndPath(Constants.MODID, "textures/entity/javelin.png");
 	private final JavelinModel model;
 
 	public ThrownJavelinProjectileRenderer(EntityRendererProvider.Context context) {
