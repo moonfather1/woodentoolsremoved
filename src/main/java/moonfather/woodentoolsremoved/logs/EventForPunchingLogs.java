@@ -5,6 +5,7 @@ import moonfather.woodentoolsremoved.other.AdvancementForPunchingLogs;
 import moonfather.woodentoolsremoved.other.TetraSupport;
 import moonfather.woodentoolsremoved.peaceful.PeacefulGameplaySupport;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
@@ -24,6 +25,7 @@ import net.neoforged.fml.ModList;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
+import net.minecraft.world.item.Tiers;
 import org.slf4j.Logger;
 
 import java.util.HashMap;
@@ -62,8 +64,12 @@ public class EventForPunchingLogs
 		if (! event.getEntity().getMainHandItem().isEmpty())
 		{
 			ResourceLocation toolId = BuiltInRegistries.ITEM.getKey(event.getEntity().getMainHandItem().getItem());
+			//if ( event.getEntity().getMainHandItem().getItem() instanceof AxeItem && (((AxeItem)event.getEntity().getMainHandItem().getItem()).getTier().equals(Tiers.WOOD) && (toolId == null || ! toolId.getNamespace().equals("silentgear")))
+			//		|| event.getEntity().getMainHandItem().getItem() instanceof PickaxeItem && ! event.getEntity().getMainHandItem().isCorrectToolForDrops(Blocks.STONE.defaultBlockState()))
 			if ( event.getEntity().getMainHandItem().getItem() instanceof AxeItem && (((AxeItem)event.getEntity().getMainHandItem().getItem()).getTier().equals(Tiers.WOOD) && (toolId == null || ! toolId.getNamespace().equals("silentgear")))
-					|| event.getEntity().getMainHandItem().getItem() instanceof PickaxeItem && ! event.getEntity().getMainHandItem().isCorrectToolForDrops(Blocks.STONE.defaultBlockState()))
+					|| event.getEntity().getMainHandItem().getItem() instanceof PickaxeItem pick && ! event.getEntity().getMainHandItem().isCorrectToolForDrops(Blocks.IRON_ORE.defaultBlockState()) && ! pick.getTier().equals(Tiers.GOLD)
+					|| toolId.toString().equals("tconstruct:pickaxe") && event.getEntity().getMainHandItem().get(DataComponents.CUSTOM_DATA).getUnsafe().getCompound("tic_stats").getString("tconstruct:harvest_tier").equals("minecraft:wood")
+			)
 			{
 				if (ShouldShowMessage(event.getEntity()))
 				{
