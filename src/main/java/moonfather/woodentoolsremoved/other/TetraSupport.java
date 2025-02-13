@@ -15,60 +15,62 @@ public class TetraSupport
 
     public static boolean IsWoodenTetraTool(ItemStack tool)
     {
-        CompoundTag tag = tool.getTag(); // assumes we checked that it is indeed a tetra tool
-        Boolean cached = toolsCached.get(tag.hashCode());
+        if (tool.isEmpty()) { return false; }
+        int key = tool.hashCode();
+        Boolean cached = toolsCached.get(key);
         if (cached != null)
         {
             return cached;
         }
 
+        CompoundTag tag = tool.getOrCreateTag();
         boolean gotWood = false;
         String mat = tag.getString("double/basic_pickaxe_right_material");
         gotWood = mat.equals("basic_pickaxe/oak");
         gotWood = gotWood || mat.equals("basic_pickaxe/birch") || mat.equals("basic_pickaxe/dark_oak") || mat.equals("basic_pickaxe/acacia") || mat.equals("basic_pickaxe/spruce") || mat.equals("basic_pickaxe/jungle"); // it can't really be anything other than oak
-        if (!gotWood)
+        if (! gotWood)
         {
             mat = tag.getString("double/basic_pickaxe_left_material");
             gotWood = mat.equals("basic_pickaxe/oak");
             gotWood = gotWood || mat.equals("basic_pickaxe/birch") || mat.equals("basic_pickaxe/dark_oak") || mat.equals("basic_pickaxe/acacia") || mat.equals("basic_pickaxe/spruce") || mat.equals("basic_pickaxe/jungle"); // it can't really be anything other than oak
         }
-        if (!gotWood)
+        if (! gotWood)
         {
             mat = tag.getString("double/basic_axe_left_material");
             gotWood = mat.equals("basic_axe/oak");
             gotWood = gotWood || mat.equals("basic_axe/birch") || mat.equals("basic_axe/dark_oak") || mat.equals("basic_axe/acacia") || mat.equals("basic_axe/spruce") || mat.equals("basic_axe/jungle"); // it can't really be anything other than oak
         }
-        if (!gotWood)
+        if (! gotWood)
         {
             mat = tag.getString("double/basic_axe_right_material");
             gotWood = mat.equals("basic_axe/oak");
             gotWood = gotWood || mat.equals("basic_axe/birch") || mat.equals("basic_axe/dark_oak") || mat.equals("basic_axe/acacia") || mat.equals("basic_axe/spruce") || mat.equals("basic_axe/jungle"); // it can't really be anything other than oak
         }
-        if (!gotWood)
+        if (! gotWood)
         {
             mat = tag.getString("double/adze_left_material");
             gotWood = mat.equals("adze/oak");
             gotWood = gotWood || mat.equals("adze/birch") || mat.equals("adze/dark_oak") || mat.equals("adze/acacia") || mat.equals("adze/spruce") || mat.equals("adze/jungle"); // it can't really be anything other than oak
         }
-        if (!gotWood)
+        if (! gotWood)
         {
             mat = tag.getString("double/adze_right_material");
             gotWood = mat.equals("adze/oak");
             gotWood = gotWood || mat.equals("adze/birch") || mat.equals("adze/dark_oak") || mat.equals("adze/acacia") || mat.equals("adze/spruce") || mat.equals("adze/jungle"); // it can't really be anything other than oak
         }
-        toolsCached.put(tag.hashCode(), gotWood);
+        toolsCached.put(key, gotWood);
         return gotWood;
     }
 
     public static boolean IsTetraFlintItem(ItemStack stack)
     {
-        if (!ModList.get().isLoaded("tetra"))
+        if (! ModList.get().isLoaded("tetra"))
         {
             return false;
         }
         if (ForgeRegistries.ITEMS.getKey(stack.getItem()).toString().equals(DoubleToolId))
         {
-            CompoundTag tag = stack.getTag();
+            CompoundTag tag = stack.getOrCreateTag();
             boolean gotFlint = tag.getString("double/basic_pickaxe_right_material").equals("basic_pickaxe/flint");
             gotFlint = gotFlint || tag.getString("double/basic_pickaxe_left_material").equals("basic_pickaxe/flint");
             gotFlint = gotFlint || tag.getString("double/basic_axe_left_material").equals("basic_axe/flint");

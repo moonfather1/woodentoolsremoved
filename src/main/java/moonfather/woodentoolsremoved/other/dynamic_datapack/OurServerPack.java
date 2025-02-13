@@ -49,28 +49,33 @@ public class OurServerPack implements PackResources
     private static final String tc_bone = """
 {
   "stats": {
-    "tconstruct:skull": {
-      "durability": 100,
-      "armor": 0
+    "tconstruct:binding": {},
+    "tconstruct:grip": {
+      "accuracy": 0.05,
+      "durability": -0.25,
+      "melee_damage": 1.25
     },
-    "tconstruct:extra": {},
     "tconstruct:handle": {
-      "durability": 0.75,
-      "miningSpeed": 1.0,
-      "attackSpeed": 1.1,
-      "attackDamage": 1.0
+      "durability": -0.25,
+      "melee_damage": 0.0,
+      "melee_speed": 0.1,
+      "mining_speed": 0.0
     },
     "tconstruct:head": {
-      "durability": 60,
-      "miningSpeed": 2.5,
-      "harvestTier": "minecraft:wood",
-      "attack": 1.25
+      "durability": 52,
+      "melee_attack": 1.25,
+      "mining_speed": 2.5,
+      "mining_tier": "minecraft:wood"
     },
-    "tconstruct:limb": null,
-    "tconstruct:grip": {
-      "durability": 0.75,
+    "tconstruct:limb": {
       "accuracy": 0.05,
-      "meleeAttack": 1.25
+      "draw_speed": 0.05,
+      "durability": 100,
+      "velocity": -0.05
+    },
+    "tconstruct:skull": {
+      "armor": 0,
+      "durability": 100
     }
   }
 }    """;
@@ -80,10 +85,10 @@ public class OurServerPack implements PackResources
     "tconstruct:extra": {},
     "tconstruct:handle": null,
     "tconstruct:head": {
-      "durability": 85,
-      "miningSpeed": 3.0,
-      "harvestTier": "minecraft:wood",
-      "attack": 1.25
+      "durability": 82,
+      "melee_attack": 1.25,
+      "mining_speed": 3.5,
+      "mining_tier": "minecraft:wood"
     }
   }
 }    """;

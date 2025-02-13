@@ -1,6 +1,7 @@
 package moonfather.woodentoolsremoved.logs;
 
 import com.mojang.logging.LogUtils;
+import moonfather.woodentoolsremoved.OptionsHolder;
 import moonfather.woodentoolsremoved.other.AdvancementForPunchingLogs;
 import moonfather.woodentoolsremoved.other.TetraSupport;
 import moonfather.woodentoolsremoved.peaceful.PeacefulGameplaySupport;
@@ -21,6 +22,7 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.Tags;
+import net.minecraftforge.common.ToolActions;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModList;
@@ -55,6 +57,7 @@ public class EventForPunchingLogs
 			};
 
     private static boolean usingTetra = false, checkedForTetra = false;
+    private static boolean usingMultimine = false, checkedForMultimine = false;
 
 
 
@@ -63,11 +66,9 @@ public class EventForPunchingLogs
 	{
 		if ( ! event.getEntity().getMainHandItem().isEmpty())
 		{
-			ResourceLocation toolId = ForgeRegistries.ITEMS.getKey(event.getEntity().getMainHandItem().getItem());
-			if ( event.getEntity().getMainHandItem().getItem() instanceof AxeItem && (((AxeItem)event.getEntity().getMainHandItem().getItem()).getTier().equals(Tiers.WOOD) && (toolId == null || ! toolId.getNamespace().equals("silentgear")))
-					|| event.getEntity().getMainHandItem().getItem() instanceof PickaxeItem pick && ! event.getEntity().getMainHandItem().isCorrectToolForDrops(Blocks.IRON_ORE.defaultBlockState()) && ! pick.getTier().equals(Tiers.GOLD)
-					|| toolId.toString().equals("tconstruct:pickaxe") && event.getEntity().getMainHandItem().getTag().getCompound("tic_stats").getString("tconstruct:harvest_tier").equals("minecraft:wood")
-			)
+			if (ToolResolver.isWoodenAxe(event.getEntity().getMainHandItem())
+				|| ToolResolver.isWoodenPickaxe(event.getEntity().getMainHandItem())
+				|| OptionsHolder.IsResolvedModeHard() && ToolResolver.isFlintPickaxe(event.getEntity().getMainHandItem()))
 			{
 				if (ShouldShowMessage(event.getEntity()))
 				{
@@ -82,17 +83,21 @@ public class EventForPunchingLogs
                 checkedForTetra = true;
             }
 
-            if (usingTetra && ForgeRegistries.ITEMS.getKey(event.getEntity().getMainHandItem().getItem()).toString().equals(TetraSupport.DoubleToolId))
+            if (usingTetra && TetraSupport.IsWoodenTetraTool(event.getEntity().getMainHandItem()))
             {
-				if (TetraSupport.IsWoodenTetraTool(event.getEntity().getMainHandItem()))
+				if (ShouldShowMessage(event.getEntity()))
 				{
-					if (ShouldShowMessage(event.getEntity())) {
-						event.getEntity().displayClientMessage(tetraWoodenToolMessage, true);
-					}
-					event.setCanceled(true);
-					return;
+					event.getEntity().displayClientMessage(tetraWoodenToolMessage, true);
 				}
+				event.setCanceled(true);
+				return;
             }
+		}
+
+		if (! checkedForMultimine)
+		{
+			usingMultimine = ModList.get().isLoaded("multimine");
+			checkedForMultimine = true;
 		}
 
 		if (event.getState().is(BlockTags.LOGS) && ! event.getEntity().getMainHandItem().isCorrectToolForDrops(event.getState()))
@@ -111,7 +116,7 @@ public class EventForPunchingLogs
 			}
 			if (! event.getEntity().level().isClientSide() && ShouldGiveAdvancement(event.getEntity()))
 			{
-				if (ModList.get().isLoaded("multimine") && (event.getPosition().isEmpty() || ShouldAbortMultiMine(event.getEntity(), event.getPosition().get())))
+				if (usingMultimine && (event.getPosition().isEmpty() || ShouldAbortMultiMine(event.getEntity(), event.getPosition().get())))
 				{
 					return; // this mod keeps asking about break speed after we stop hitting the block.
 				}
@@ -119,7 +124,7 @@ public class EventForPunchingLogs
 			}
 			if (! event.getEntity().level().isClientSide() && ShouldShowMessage(event.getEntity()))
 			{
-				if (ModList.get().isLoaded("multimine") && (event.getPosition().isEmpty() || ShouldAbortMultiMine(event.getEntity(), event.getPosition().get())))
+				if (usingMultimine && (event.getPosition().isEmpty() || ShouldAbortMultiMine(event.getEntity(), event.getPosition().get())))
 				{
 					return; // this mod keeps asking about break speed after we stop hitting the block.
 				}
@@ -139,8 +144,6 @@ public class EventForPunchingLogs
 
 		PeacefulGameplaySupport.CheckForHittingCoalOre(event);
 	}
-
-
 
 
 

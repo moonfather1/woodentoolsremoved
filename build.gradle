@@ -163,10 +163,22 @@ repositories {
 dependencies {
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
 
-	runtimeOnly fg.deobf("curse.maven:silent-lib-242998:4585754")
-	//runtimeOnly fg.deobf("curse.maven:silent-gear-297039:5471778") // latest
-    runtimeOnly fg.deobf("curse.maven:silent-gear-297039:4735730")
-    runtimeOnly fg.deobf("curse.maven:jei-238222:5419575")
+	//runtimeOnly fg.deobf("curse.maven:silent-lib-242998:4585754")
+    //runtimeOnly fg.deobf("curse.maven:silent-gear-297039:4735730")
+
+    //runtimeOnly fg.deobf("curse.maven:jei-238222:5419575")
+    runtimeOnly fg.deobf("curse.maven:jei-238222:5793297") // newer for tc
+	
+	//runtimeOnly fg.deobf("curse.maven:tinkers-construct-74072:6111032")
+	//runtimeOnly fg.deobf("curse.maven:mantle-74924:6105891")
+
+    runtimeOnly fg.deobf("curse.maven:modular-item-api-904056:6090353")
+    runtimeOnly fg.deobf("curse.maven:truly-modular-arsenal-929832:5998589")
+    runtimeOnly fg.deobf("curse.maven:caelus-308989:5281700")
+    runtimeOnly fg.deobf("curse.maven:architectury-api-419699:5084452")
+
+    //runtimeOnly fg.deobf("curse.maven:mutil-351914:4824501")
+    //runtimeOnly fg.deobf("curse.maven:tetra-289712:5957838") //7.3 pola1       14.3 pola 6
 }
 
 // This block of code expands all declared replace properties in the specified resource targets.

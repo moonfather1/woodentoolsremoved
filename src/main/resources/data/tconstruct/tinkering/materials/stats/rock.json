@@ -4,9 +4,9 @@
     "tconstruct:handle": null,
     "tconstruct:head": {
       "durability": 60,
-      "miningSpeed": 4.0,
-      "harvestTier": "minecraft:stone",
-      "attack": 1.0
+      "melee_attack": 1.0,
+      "mining_speed": 4.0,
+      "harvestTier": "minecraft:stone"
     }
   }
 }
