@@ -15,7 +15,8 @@ public class TetraSupport
 
     public static boolean IsWoodenTetraTool(ItemStack tool)
     {
-        CompoundTag tag = tool.getTag(); // assumes we checked that it is indeed a tetra tool
+        CompoundTag tag = tool.getTag();
+        if (tag == null || tag.isEmpty()) return false;
         Boolean cached = toolsCached.get(tag.hashCode());
         if (cached != null)
         {
@@ -69,6 +70,7 @@ public class TetraSupport
         if (ForgeRegistries.ITEMS.getKey(stack.getItem()).toString().equals(DoubleToolId))
         {
             CompoundTag tag = stack.getTag();
+            if (tag == null || tag.isEmpty()) return false;
             boolean gotFlint = tag.getString("double/basic_pickaxe_right_material").equals("basic_pickaxe/flint");
             gotFlint = gotFlint || tag.getString("double/basic_pickaxe_left_material").equals("basic_pickaxe/flint");
             gotFlint = gotFlint || tag.getString("double/basic_axe_left_material").equals("basic_axe/flint");

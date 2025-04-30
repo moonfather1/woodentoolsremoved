@@ -1,29 +1,27 @@
 package moonfather.woodentoolsremoved.logs;
 
 import com.mojang.logging.LogUtils;
+import moonfather.woodentoolsremoved.OptionsHolder;
 import moonfather.woodentoolsremoved.other.AdvancementForPunchingLogs;
 import moonfather.woodentoolsremoved.other.TetraSupport;
 import moonfather.woodentoolsremoved.peaceful.PeacefulGameplaySupport;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.*;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.common.Tags;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.registries.ForgeRegistries;
 import org.slf4j.Logger;
 
 import java.util.HashMap;
@@ -53,18 +51,19 @@ public class EventForPunchingLogs
 			};
 
     private static boolean usingTetra = false, checkedForTetra = false;
+    private static boolean usingMultimine = false, checkedForMultimine = false;
 
 
 
 	@SubscribeEvent
 	public static void OnBreakSpeed(PlayerEvent.BreakSpeed event)
 	{
-		if (! event.getEntity().getMainHandItem().isEmpty())
+		if ( ! event.getEntity().getMainHandItem().isEmpty())
 		{
-			ResourceLocation toolId = ForgeRegistries.ITEMS.getKey(event.getEntity().getMainHandItem().getItem());
-			if ( event.getEntity().getMainHandItem().getItem() instanceof AxeItem && (((AxeItem) event.getEntity().getMainHandItem().getItem()).getTier().equals(Tiers.WOOD) && (toolId == null || ! toolId.getNamespace().equals("silentgear")))
-					|| event.getEntity().getMainHandItem().getItem() instanceof PickaxeItem && ! event.getEntity().getMainHandItem().isCorrectToolForDrops(Blocks.IRON_ORE.defaultBlockState())
-			)			{
+			if (ToolResolver.isWoodenAxe(event.getEntity().getMainHandItem())
+				|| ToolResolver.isWoodenPickaxe(event.getEntity().getMainHandItem())
+				|| OptionsHolder.IsResolvedModeHard() && ToolResolver.isFlintPickaxe(event.getEntity().getMainHandItem()))
+			{
 				if (ShouldShowMessage(event.getEntity()))
 				{
 					event.getEntity().displayClientMessage(woodenToolMessage, true);
@@ -78,17 +77,21 @@ public class EventForPunchingLogs
                 checkedForTetra = true;
             }
 
-            if (usingTetra && ForgeRegistries.ITEMS.getKey(event.getEntity().getMainHandItem().getItem()).toString().equals(TetraSupport.DoubleToolId))
+            if (usingTetra && TetraSupport.IsWoodenTetraTool(event.getEntity().getMainHandItem()))
             {
-				if (TetraSupport.IsWoodenTetraTool(event.getEntity().getMainHandItem()))
+				if (ShouldShowMessage(event.getEntity()))
 				{
-					if (ShouldShowMessage(event.getEntity())) {
-						event.getEntity().displayClientMessage(tetraWoodenToolMessage, true);
-					}
-					event.setCanceled(true);
-					return;
+					event.getEntity().displayClientMessage(tetraWoodenToolMessage, true);
 				}
+				event.setCanceled(true);
+				return;
             }
+		}
+
+		if (! checkedForMultimine)
+		{
+			usingMultimine = ModList.get().isLoaded("multimine");
+			checkedForMultimine = true;
 		}
 
 		if (event.getState().is(BlockTags.LOGS) && ! event.getEntity().getMainHandItem().isCorrectToolForDrops(event.getState()))
@@ -99,51 +102,41 @@ public class EventForPunchingLogs
 			{
 				return; // later game, accidental left-click
 			}
-			if (! event.getEntity().getMainHandItem().isEmpty() && event.getEntity().getMainHandItem().getItem() instanceof TieredItem) // not very precise
+			if (! event.getEntity().getMainHandItem().isEmpty() && event.getEntity().getMainHandItem().is(Tags.Items.TOOLS))
 			{
 				event.setNewSpeed(event.getOriginalSpeed() / 8);
-				event.setCanceled(false); // porting... why did i add this block in 5d885b7d8cae7ffdea6620bd6b131b4342d0b850?
+				event.setCanceled(false);
 				return;
 			}
-			if (! event.getEntity().getLevel().isClientSide() && ShouldGiveAdvancement(event.getEntity()))
+			if (! event.getEntity().level.isClientSide() && ShouldGiveAdvancement(event.getEntity()))
 			{
-				if (ModList.get().isLoaded("multimine") && (event.getPosition().isEmpty() || ShouldAbortMultiMine(event.getEntity(), event.getPosition().get())))
+				if (usingMultimine && (event.getPosition().isEmpty() || ShouldAbortMultiMine(event.getEntity(), event.getPosition().get())))
 				{
 					return; // this mod keeps asking about break speed after we stop hitting the block.
 				}
 				AdvancementForPunchingLogs.Grant(event.getEntity());
 			}
-			if (! event.getEntity().getLevel().isClientSide() && ShouldShowMessage(event.getEntity()))
+			if (! event.getEntity().level.isClientSide() && ShouldShowMessage(event.getEntity()))
 			{
-				if (ModList.get().isLoaded("multimine") && (event.getPosition().isEmpty() || ShouldAbortMultiMine(event.getEntity(), event.getPosition().get())))
+				if (usingMultimine && (event.getPosition().isEmpty() || ShouldAbortMultiMine(event.getEntity(), event.getPosition().get())))
 				{
 					return; // this mod keeps asking about break speed after we stop hitting the block.
 				}
 				if (ShouldHurtPlayer(event.getEntity()))
 				{
-					event.getEntity().hurt(DamageSource.GENERIC, 1);
-					int m = event.getEntity().getLevel().getRandom().nextInt(handHurtsMessages.length);
+					event.getEntity().hurt(DamageSource.FLY_INTO_WALL, 1);
+					int m = event.getEntity().level.getRandom().nextInt(handHurtsMessages.length);
 					event.getEntity().displayClientMessage(handHurtsMessages[m], true);
 				}
 				else
 				{
-					int m = event.getEntity().getLevel().getRandom().nextInt(handNoEffectMessages.length);
+					int m = event.getEntity().level.getRandom().nextInt(handNoEffectMessages.length);
 					event.getEntity().displayClientMessage(handNoEffectMessages[m], true);
 				}
 			}
 		}
 
 		PeacefulGameplaySupport.CheckForHittingCoalOre(event);
-	}
-
-
-
-	private static boolean ShouldAbortMultiMine(Player player, BlockPos clickedBlock)
-	{
-		BlockHitResult blockhitresult = getPlayerPOVHitResult(player.getLevel(), player);
-		return blockhitresult.getType() == HitResult.Type.MISS ||
-				blockhitresult.getType() == HitResult.Type.BLOCK &&
-						(blockhitresult.distanceTo(player) > 5.7 || ! blockhitresult.getBlockPos().equals(clickedBlock));
 	}
 
 
@@ -184,7 +177,7 @@ public class EventForPunchingLogs
 			return false;
 		}
 		boolean longTimeSinceLastPunch = player.level.getGameTime() - prevClientMessageTick.get(player.getUUID()) > 5*20;  // so we don't hurt instantly after every pause in punching
-		if (player.level.getGameTime() - last.longValue() > 7*20 && ! longTimeSinceLastPunch)
+		if (player.level.getGameTime() - last.longValue() > 7*20 && !longTimeSinceLastPunch)
 		{
 			lastHurtPlayerTick.put(player.getUUID(), player.level.getGameTime());
 			return true;
@@ -215,6 +208,14 @@ public class EventForPunchingLogs
 	}
 
 	//-----------------------------------------------------------
+
+	private static boolean ShouldAbortMultiMine(Player player, BlockPos clickedBlock)
+	{
+		BlockHitResult blockhitresult = getPlayerPOVHitResult(player.level, player);
+		return blockhitresult.getType() == HitResult.Type.MISS ||
+				blockhitresult.getType() == HitResult.Type.BLOCK &&
+						(blockhitresult.distanceTo(player) > 5.7 || ! blockhitresult.getBlockPos().equals(clickedBlock));
+	}
 
 	private static BlockHitResult getPlayerPOVHitResult(Level level, Player player)
 	{
