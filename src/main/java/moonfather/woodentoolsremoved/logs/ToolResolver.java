@@ -67,6 +67,10 @@ public class ToolResolver
             return result;
         }
         boolean result = stack.getItem() instanceof PickaxeItem pick && ! stack.isCorrectToolForDrops(Blocks.IRON_ORE.defaultBlockState()) && ! pick.getTier().equals(Tiers.GOLD);
+        if (id != null && id.getPath().contains("copper_pickaxe"))
+        {
+            result = false; // this is for iguana tweaks. we'll let it break stone. it still can't break iron ore.
+        }
         toolsCached.put(key, result);
         return result;
     }

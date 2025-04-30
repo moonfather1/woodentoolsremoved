@@ -3,6 +3,7 @@ plugins {
     id 'idea'
     id 'maven-publish'
     id 'net.minecraftforge.gradle' version '[6.0,6.2)'
+    id 'org.spongepowered.mixin' version '0.7.+'
 }
 
 version = mod_version
@@ -172,13 +173,18 @@ dependencies {
 	//runtimeOnly fg.deobf("curse.maven:tinkers-construct-74072:6111032")
 	//runtimeOnly fg.deobf("curse.maven:mantle-74924:6105891")
 
-    runtimeOnly fg.deobf("curse.maven:modular-item-api-904056:6090353")
-    runtimeOnly fg.deobf("curse.maven:truly-modular-arsenal-929832:5998589")
-    runtimeOnly fg.deobf("curse.maven:caelus-308989:5281700")
-    runtimeOnly fg.deobf("curse.maven:architectury-api-419699:5084452")
+    //runtimeOnly fg.deobf("curse.maven:modular-item-api-904056:6090353")
+    //runtimeOnly fg.deobf("curse.maven:truly-modular-arsenal-929832:5998589")
+    //runtimeOnly fg.deobf("curse.maven:caelus-308989:5281700")
+    //runtimeOnly fg.deobf("curse.maven:architectury-api-419699:5084452")
 
     //runtimeOnly fg.deobf("curse.maven:mutil-351914:4824501")
-    //runtimeOnly fg.deobf("curse.maven:tetra-289712:5957838") //7.3 pola1       14.3 pola 6
+    //runtimeOnly fg.deobf("curse.maven:tetra-289712:5957838")
+
+    //runtimeOnly fg.deobf("curse.maven:iguanatweaks-reborn-285690:6464242")
+    //runtimeOnly fg.deobf("curse.maven:insanelib-465109:6362613")
+    //runtimeOnly fg.deobf("curse.maven:max-health-fix-492246:5378283")
+    //runtimeOnly fg.deobf("curse.maven:iguanatweaks-expanded-926157:6424951")
 }
 
 // This block of code expands all declared replace properties in the specified resource targets.

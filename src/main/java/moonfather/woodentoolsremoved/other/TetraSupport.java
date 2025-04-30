@@ -16,6 +16,8 @@ public class TetraSupport
     public static boolean IsWoodenTetraTool(ItemStack tool)
     {
         if (tool.isEmpty()) { return false; }
+        CompoundTag tag = tool.getTag();
+        if (tag == null) { return false; } // do not call getOrCreate
         int key = tool.hashCode();
         Boolean cached = toolsCached.get(key);
         if (cached != null)
@@ -23,7 +25,6 @@ public class TetraSupport
             return cached;
         }
 
-        CompoundTag tag = tool.getOrCreateTag();
         boolean gotWood = false;
         String mat = tag.getString("double/basic_pickaxe_right_material");
         gotWood = mat.equals("basic_pickaxe/oak");
@@ -70,7 +71,7 @@ public class TetraSupport
         }
         if (ForgeRegistries.ITEMS.getKey(stack.getItem()).toString().equals(DoubleToolId))
         {
-            CompoundTag tag = stack.getOrCreateTag();
+            CompoundTag tag = stack.getOrCreateTag(); // it's ok to call getOrCreateTag if it is an actual tool. just don't call it on random items.
             boolean gotFlint = tag.getString("double/basic_pickaxe_right_material").equals("basic_pickaxe/flint");
             gotFlint = gotFlint || tag.getString("double/basic_pickaxe_left_material").equals("basic_pickaxe/flint");
             gotFlint = gotFlint || tag.getString("double/basic_axe_left_material").equals("basic_axe/flint");
