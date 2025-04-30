@@ -14,7 +14,7 @@ loaderVersion="[40,)" #mandatory This is typically bumped every Minecraft versio
 license="MIT"
 
 # A URL to refer people to when problems occur with this mod
-issueTrackerURL="https://discord.gg/rGwUsy5wdh" #optional
+issueTrackerURL="https://discord.gg/2VayYKktvx" #optional
 
 # A list of mods - how many allowed here is determined by the individual mod loader
 [[mods]] #mandatory

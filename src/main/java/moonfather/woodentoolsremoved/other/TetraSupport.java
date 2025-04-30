@@ -1,8 +1,10 @@
 package moonfather.woodentoolsremoved.other;
 
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.fml.ModList;
+import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -10,11 +12,13 @@ import java.util.Map;
 public class TetraSupport
 {
     public static final String DoubleToolId = "tetra:modular_double";
+    public static final ResourceLocation DoubleToolRL = new ResourceLocation(DoubleToolId);
     private static final Map<Integer, Boolean> toolsCached = new HashMap<>();
 
     public static boolean IsWoodenTetraTool(ItemStack tool)
     {
-        CompoundTag tag = tool.getTag(); // assumes we checked that it is indeed a tetra tool
+        CompoundTag tag = tool.getTag();
+        if (tag == null || tag.isEmpty()) return false;
         Boolean cached = toolsCached.get(tag.hashCode());
         if (cached != null)
         {
@@ -65,9 +69,10 @@ public class TetraSupport
         {
             return false;
         }
-        if (stack.getItem().getRegistryName().toString().equals(DoubleToolId))
+        if (ForgeRegistries.ITEMS.getKey(stack.getItem()).equals(DoubleToolRL))
         {
             CompoundTag tag = stack.getTag();
+            if (tag == null || tag.isEmpty()) return false;
             boolean gotFlint = tag.getString("double/basic_pickaxe_right_material").equals("basic_pickaxe/flint");
             gotFlint = gotFlint || tag.getString("double/basic_pickaxe_left_material").equals("basic_pickaxe/flint");
             gotFlint = gotFlint || tag.getString("double/basic_axe_left_material").equals("basic_axe/flint");
