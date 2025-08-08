@@ -1,0 +1,52 @@
+{
+  "name": "The first steps",
+  "icon": "minecraft:leather_boots",
+  "category": "lexicon:start",
+  "sortnum": 1,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "$(li)The first thing you need to do, when you spawn into a new world is to look around. Without tools you can only obtain soft soil and plants, but do not panic. $(br)$(br)You will survive (probably).$(br)$(br)You will tame this world."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(li)For now, things that you could gather are $(thing)wild crops$(), $(thing)berries$(), etc... Grab a few but don't spend too much time. $(br)$(br)We have work to do before the night. Look for a nice spot for a first base; you will need a quick shelter for a night or two, you can relocate later."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Your main task is making the first tool: $(br)$(li)You are looking for a $(thing)Gravel patch$() - they are usually found in shallow water or on cliff sides. Head over there and punch gravel until $(item)Flint$() drops. $(br)Flint isn't very useful later but on the first day, you'll need 4-6 flint pieces. $(br)$(li)Next, we need $(item)Sticks$() - find a tree and break some leaves. You can not break logs yet."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "woodentoolsremoved:hatchet",
+      "text": "$(li)Once you have a few sticks, use one $(item)Flint piece$() and two $(item)Stick$()s in your mini crafting grid to create a $(item)Flint hatchet$(). $(br)You can now cut logs, so give that hatchet a try."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(li)Now that you can break logs, gather a few and then open your inventory to turn the $(item)Logs$() into $(item)Planks$(). $(br)$(li)Then use 4 $(item)Planks$() in your mini crafting grid to create a $(l:useables/crafting_table)$(item)Crafting Table$(). $(br)$(li)Wooden tools are useless, but some things can be made, like bowls, boats, etc."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "minecraft:oak_planks",
+      "recipe2": "minecraft:crafting_table"
+    },
+    {
+      "type": "patchouli:text",
+      "text": " $(li)Do not waste wood making a $(item)Wooden Pickaxe$(), you can't break stone with wood. Of course not. $(br)$(br)Start preparing for the night. Make a firepit and a safe enclosure. If you gathered some seeds, make a wooden hoe and plant them."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "woodentoolsremoved:firepit",
+      "recipe2": "minecraft:wooden_hoe"
+    },
+    {
+      "type": "patchouli:text",
+      "text": " $(li)For your first night, you need $(item)Javelins$(). Make at least four, they are not very resilient. $(br)$(br)To test one out, try throwing it at a fish in water. That way you can test your firepit too. $(br)$(br)$(li)If you really lack flint, a wooden shovel can be a makeshift weapon. Also you need it to make a dirt shelter."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "woodentoolsremoved:javelin",
+      "recipe2": "minecraft:wooden_shovel"
+    }
+  ]
+}
