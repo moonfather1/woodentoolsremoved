@@ -1,6 +1,7 @@
 package moonfather.woodentoolsremoved.original_tools;
 
 import moonfather.woodentoolsremoved.Constants;
+import moonfather.woodentoolsremoved.logs.ToolResolver;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 import net.minecraft.world.item.Items;
@@ -14,7 +15,10 @@ public class EventForTooltips
 	@SubscribeEvent
 	public static void OnItemTooltip(ItemTooltipEvent event)
 	{
-		if (!event.getItemStack().isEmpty() && (event.getItemStack().getItem().equals(Items.WOODEN_AXE) || event.getItemStack().getItem().equals(Items.WOODEN_PICKAXE) || event.getItemStack().getItem().equals(Items.WOODEN_SWORD)))
+		if (! event.getItemStack().isEmpty()
+				&& (ToolResolver.isWoodenAxe(event.getItemStack())
+					|| ToolResolver.isWoodenPickaxe(event.getItemStack())
+					|| event.getItemStack().getItem().equals(Items.WOODEN_SWORD)))
 		{
 			event.getToolTip().add(woodenToolInfo1);
 			event.getToolTip().add(woodenToolInfo2);

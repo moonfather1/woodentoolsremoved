@@ -1,11 +1,11 @@
 package moonfather.woodentoolsremoved.original_tools;
 
 import moonfather.woodentoolsremoved.OptionsHolder;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.item.DiggerItem;
-import net.minecraft.world.item.Items;
-import net.minecraft.world.item.SwordItem;
-import net.minecraft.world.item.Tiers;
+import net.minecraft.world.item.*;
+import net.minecraftforge.fml.ModList;
 import net.minecraftforge.registries.ForgeRegistries;
 
 public class ToolStatistics
@@ -29,6 +29,12 @@ public class ToolStatistics
         ToolStatistics.BluntItemAttackModifier((DiggerItem)Items.WOODEN_AXE);
         ToolStatistics.BluntItemAttackModifier((DiggerItem)Items.WOODEN_PICKAXE);
         ToolStatistics.BluntItemAttackModifier((SwordItem)Items.WOODEN_SWORD);
+
+        //if (ModList.get().isLoaded("spartanweaponry"))
+        //{
+        //    Item i = ForgeRegistries.ITEMS.getValue(ResourceLocation.fromNamespaceAndPath("spartanweaponry", "wooden_katana"));
+        //    if (i instanceof SwordItem sword) { ToolStatistics.BluntItemAttackModifier(sword); }
+        //}  doesn't work, don't care to make it work  (tooltip only)
     }
 
     private static void BluntItemAttackModifier(DiggerItem item)

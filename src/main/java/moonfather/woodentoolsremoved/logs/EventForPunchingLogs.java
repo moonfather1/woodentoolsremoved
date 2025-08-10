@@ -11,6 +11,7 @@ import net.minecraft.network.chat.Style;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.Mth;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.player.Player;
@@ -64,7 +65,11 @@ public class EventForPunchingLogs
 	@SubscribeEvent
 	public static void OnBreakSpeed(PlayerEvent.BreakSpeed event)
 	{
-		if ( ! event.getEntity().getMainHandItem().isEmpty())
+		if (event.getEntity().level().isClientSide() && ! (event.getEntity().swinging && event.getEntity().swingingArm.equals(InteractionHand.MAIN_HAND)))
+		{
+			return; // Jade is asking for getDestroyProgress which calls this.
+		}
+		if (! event.getEntity().getMainHandItem().isEmpty())
 		{
 			if (ToolResolver.isWoodenAxe(event.getEntity().getMainHandItem())
 				|| ToolResolver.isWoodenPickaxe(event.getEntity().getMainHandItem())
@@ -100,11 +105,11 @@ public class EventForPunchingLogs
 			checkedForMultimine = true;
 		}
 
-		if (event.getState().is(BlockTags.LOGS) && ! event.getEntity().getMainHandItem().isCorrectToolForDrops(event.getState()))
+		if (event.getState().is(BlockTags.LOGS) && ! (event.getEntity().getMainHandItem().isCorrectToolForDrops(event.getState()) || event.getEntity().getMainHandItem().canPerformAction(ToolActions.AXE_DIG)))
 		{
 			// event.getPlayer().level.isClientSide()     alternates
 			event.setCanceled(true);
-			if (event.getEntity().getArmorCoverPercentage() > 0f)
+			if (event.getEntity().getArmorCoverPercentage() >= 0.5f)
 			{
 				return; // later game, accidental left-click
 			}

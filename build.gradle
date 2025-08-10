@@ -185,6 +185,20 @@ dependencies {
     //runtimeOnly fg.deobf("curse.maven:insanelib-465109:6362613")
     //runtimeOnly fg.deobf("curse.maven:max-health-fix-492246:5378283")
     //runtimeOnly fg.deobf("curse.maven:iguanatweaks-expanded-926157:6424951")
+	
+	//runtimeOnly fg.deobf("curse.maven:simply-swords-659887:5639538")
+	//runtimeOnly fg.deobf("curse.maven:architectury-api-419699:5137938")
+	//runtimeOnly fg.deobf("curse.maven:fzzy-config-1005914:6769263")
+	//runtimeOnly fg.deobf("curse.maven:kotlin-for-forge-351264:5402061")
+	//runtimeOnly fg.deobf("curse.maven:cloth-config-348521:4973441")
+	
+	runtimeOnly fg.deobf("curse.maven:patchouli-306770:4892162")
+	runtimeOnly fg.deobf("curse.maven:lexicon-615275:5561987")
+	
+	runtimeOnly fg.deobf("curse.maven:spartan-weaponry-278141:5597663")
+
+	runtimeOnly fg.deobf("curse.maven:powerful-dummy-1276893:6825983")
+    runtimeOnly fg.deobf("curse.maven:jade-324717:6106101")
 }
 
 // This block of code expands all declared replace properties in the specified resource targets.
