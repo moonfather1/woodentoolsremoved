@@ -1,10 +1,7 @@
 package moonfather.woodentoolsremoved.logs;
 
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.AxeItem;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.PickaxeItem;
-import net.minecraft.world.item.Tiers;
+import net.minecraft.world.item.*;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.common.ToolActions;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -18,7 +15,11 @@ public class ToolResolver
 
     public static boolean isWoodenAxe(ItemStack stack)
     {
-        if (! (stack.getItem() instanceof AxeItem))
+        if (! (stack.getItem() instanceof TieredItem tieredItem))
+        {
+            return false;
+        }
+        if (! stack.canPerformAction(ToolActions.AXE_DIG) && ! (stack.getItem() instanceof AxeItem))
         {
             return false;
         }
@@ -35,7 +36,7 @@ public class ToolResolver
             toolsCached.put(key, result);
             return result;
         }
-        boolean result = ((AxeItem) stack.getItem()).getTier().equals(Tiers.WOOD);
+        boolean result = tieredItem.getTier().equals(Tiers.WOOD) || tieredItem.getTier().getRepairIngredient().test(Items.OAK_PLANKS.getDefaultInstance());
         toolsCached.put(key, result);
         return result;
     }

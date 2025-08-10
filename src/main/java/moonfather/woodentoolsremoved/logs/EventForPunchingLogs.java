@@ -10,6 +10,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.Mth;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.ClipContext;
@@ -18,6 +19,7 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.Tags;
+import net.minecraftforge.common.ToolActions;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModList;
@@ -58,7 +60,11 @@ public class EventForPunchingLogs
 	@SubscribeEvent
 	public static void OnBreakSpeed(PlayerEvent.BreakSpeed event)
 	{
-		if ( ! event.getEntity().getMainHandItem().isEmpty())
+		if (event.getEntity().level.isClientSide() && ! (event.getEntity().swinging && event.getEntity().swingingArm.equals(InteractionHand.MAIN_HAND)))
+		{
+			return; // Jade is asking for getDestroyProgress which calls this.
+		}
+		if (! event.getEntity().getMainHandItem().isEmpty())
 		{
 			if (ToolResolver.isWoodenAxe(event.getEntity().getMainHandItem())
 				|| ToolResolver.isWoodenPickaxe(event.getEntity().getMainHandItem())
@@ -94,11 +100,11 @@ public class EventForPunchingLogs
 			checkedForMultimine = true;
 		}
 
-		if (event.getState().is(BlockTags.LOGS) && ! event.getEntity().getMainHandItem().isCorrectToolForDrops(event.getState()))
+		if (event.getState().is(BlockTags.LOGS) && ! (event.getEntity().getMainHandItem().isCorrectToolForDrops(event.getState()) || event.getEntity().getMainHandItem().canPerformAction(ToolActions.AXE_DIG)))
 		{
 			// event.getPlayer().level.isClientSide()     alternates
 			event.setCanceled(true);
-			if (event.getEntity().getArmorCoverPercentage() > 0f)
+			if (event.getEntity().getArmorCoverPercentage() >= 0.5f)
 			{
 				return; // later game, accidental left-click
 			}
