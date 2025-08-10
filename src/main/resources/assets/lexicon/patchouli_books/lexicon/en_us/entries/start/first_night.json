@@ -1,0 +1,34 @@
+{
+  "name": "The first night",
+  "icon": "minecraft:zombie_head",
+  "category": "lexicon:start",
+  "sortnum": 2,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "The first night is very dangerous if you are not prepared for it. $(br2)Do not attack zombies for now. You would just damage and break your weapons. They will chase you but are too slow to catch up. $(br2)Even more importantly: stay well away from skeletons. Until you have a shield, they are far too dangerous."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "You'll also see green plant-creatures around you. They are called creepers. Normally you should stay away - they explode when they get near you and the explosion is strong enough to kill you. $(br2)The problem is - we have no other way to break stone so, you'll have to deal with one. Use your javelins to kill it. Once done, pick up $(item)gunpowder$() and pick up your javelins from the ground."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Time to head home now - you have what you need. $(br2)Put the black powder into the bowl. With one spark from a flint tool, it should break some stone for us. $(br2)Be aware - single handful of gunpowder will only break adjacent blocks and we need three for the pickaxe, so put the powder so that it is adjacent to as many stone blocks as possible. You don't want to look for another creeper."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "minecraft:bowl",
+      "recipe2": "woodentoolsremoved:black_powder_bowl"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Technically, you can avoid having to obtain black powder. One way is making a creeper explode above some stone; easy if you know what you are doing. Or, if there is a village or a ruined portal nearby, you might help yourself to a free pickaxe."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "minecraft:stone_pickaxe",
+      "text": "Either way, you'll make one or two of these. They open up stone tools, coal and iron. Quite a milestone. But switch to iron tools as soon as you can."
+    }
+  ]
+}

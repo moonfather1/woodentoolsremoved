@@ -1,0 +1,32 @@
+{
+  "name": "A new day",
+  "icon": "minecraft:stone_pickaxe",
+  "category": "lexicon:start",
+  "sortnum": 4,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": " $(li)Once you have some $(item)Stone$(), mine some more with your $(item)Pickaxe$() and craft all standard $(item)Tools$() from it.  $(br2)Stone tools have low durability and you should switch to iron tools as soon as you can afford them."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "minecraft:stone_pickaxe",
+      "recipe2": "minecraft:stone_axe"
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "minecraft:stone_hoe",
+      "recipe2": "minecraft:stone_shovel"
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "minecraft:torch",
+      "text": "Use the $(item)Coal$() you find to smelt food and ores and make $(item)Torches$().  $(br2)$(item)Torches$() and other light prevent monsters from spawning."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "minecraft:furnace",
+      "text": "$(li)For quick $(item)Food$(), kill some $(thing)Animals$() and cook the meat in a $(l:useables/furnace)$(item)Furnace$() or on $(l:useables/furnace)$(item)Campfire/Firepit$(). $(br)$(li)Try to plant some seeds."
+    }
+  ]
+}
