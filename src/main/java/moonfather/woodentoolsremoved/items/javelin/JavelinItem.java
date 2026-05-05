@@ -71,7 +71,7 @@ public class JavelinItem extends TridentItem
             Player player = (Player)p_43396_;
             int i = this.getUseDuration(p_43394_, p_43396_) - p_43397_;
             if (i >= 10) {
-                if ( !p_43395_.isClientSide) {
+                if ( !p_43395_.isClientSide()) {
                     p_43394_.hurtAndBreak(1, player, EquipmentSlot.MAINHAND);
 
                     ThrownJavelinProjectile throwntrident = new ThrownJavelinProjectile(p_43395_, player, p_43394_);

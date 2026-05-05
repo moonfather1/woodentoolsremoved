@@ -9,19 +9,19 @@ import net.minecraft.core.NonNullList;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.crafting.CampfireCookingRecipe;
 import net.minecraft.world.item.crafting.RecipeHolder;
+import net.minecraft.world.item.crafting.RecipePropertySet;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
@@ -41,14 +41,13 @@ import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.material.PushReaction;
+import net.minecraft.world.level.redstone.Orientation;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import org.apache.logging.log4j.core.appender.rolling.action.IfAccumulatedFileCount;
 
 import javax.annotation.Nullable;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Optional;
 import java.util.function.ToIntFunction;
 
@@ -75,23 +74,24 @@ public class FirepitBlock extends CampfireBlock
     }
 
 
-
     @Override
-    public void neighborChanged(BlockState state, Level level, BlockPos pos, Block block, BlockPos pos2, boolean dontknow)
+    protected void neighborChanged(BlockState state, Level level, BlockPos pos, Block block, @org.jspecify.annotations.Nullable Orientation orientation, boolean movedByPiston)
     {
-        super.neighborChanged(state, level, pos, block, pos2, dontknow);
-        if (pos2.getY() == pos.getY() - 1)
+        super.neighborChanged(state, level, pos, block, orientation, movedByPiston);
+        if (orientation != null && orientation.getDirections().contains(Direction.DOWN))  //  (pos2.getY() == pos.getY() - 1)
         {
-            BlockState below = level.getBlockState(pos2);
-            if (! level.isClientSide && ! below.isFaceSturdy(level, pos2, Direction.UP, SupportType.CENTER))
+            BlockState below = level.getBlockState(pos.below());
+            if (! level.isClientSide() && ! below.isFaceSturdy(level, pos.below(), Direction.UP, SupportType.CENTER))
             {
                 level.destroyBlock(pos, true);
             }
         }
-        if (pos2.getY() == pos.getY())
+        // if pos2.getY() == pos.getY())
+        for (Direction d : Direction.values())
         {
+            BlockPos pos2 = pos.relative(d);
             FluidState newBlock = level.getFluidState(pos2);
-            if (! level.isClientSide && ! newBlock.is(Fluids.EMPTY))
+            if (! level.isClientSide() && ! newBlock.is(Fluids.EMPTY))
             {
                 level.destroyBlock(pos, true);
             }
@@ -100,7 +100,7 @@ public class FirepitBlock extends CampfireBlock
 
     @Override
     public boolean canSurvive(BlockState blockState, LevelReader level, BlockPos pos) {
-        if (pos.getY() <= level.getMinBuildHeight())
+        if (pos.getY() <= level.getMaxY())
         {
             return false;
         }
@@ -115,7 +115,7 @@ public class FirepitBlock extends CampfireBlock
 
 
     @Override
-    public ItemStack getCloneItemStack(LevelReader world, BlockPos pos, BlockState state)
+    public ItemStack getCloneItemStack(LevelReader level, BlockPos pos, BlockState state, boolean includeData, Player player)
     {
         return RegistryManager.ItemFirepit.get().getDefaultInstance();
     }
@@ -130,18 +130,8 @@ public class FirepitBlock extends CampfireBlock
         return SHAPE_BEAM;
     }
 
-    @Override
-    public void appendHoverText(ItemStack itemStack, Item.TooltipContext context, List<Component> lines, TooltipFlag tooltipFlag)
-    {
-        super.appendHoverText(itemStack, context, lines, tooltipFlag);
-        if (OptionsHolder.COMMON.EnableFirestarter.get())
-        {
-            lines.add(TooltipForFirepitLine1);
-            lines.add(TooltipForFirepitLine2);
-        }
-    }
-    private static final Component TooltipForFirepitLine1 = Component.translatable("item.woodentoolsremoved.firepit.tooltip1").withStyle(Style.EMPTY.withColor(Constants.COLOR_GRAY_TOOLTIPS));
-    private static final Component TooltipForFirepitLine2 = Component.translatable("item.woodentoolsremoved.firepit.tooltip2").withStyle(Style.EMPTY.withColor(Constants.COLOR_GRAY_TOOLTIPS));
+    public static final Component TooltipForFirepitLine1 = Component.translatable("item.woodentoolsremoved.firepit.tooltip1").withStyle(Style.EMPTY.withColor(Constants.COLOR_GRAY_TOOLTIPS));
+    public static final Component TooltipForFirepitLine2 = Component.translatable("item.woodentoolsremoved.firepit.tooltip2").withStyle(Style.EMPTY.withColor(Constants.COLOR_GRAY_TOOLTIPS));
 
     ///////////////////////////////////////////***********************
 
@@ -164,16 +154,15 @@ public class FirepitBlock extends CampfireBlock
                 else if (! OptionsHolder.COMMON.EnableFirestarter.get())
                 {
                     // can light with empty hand
-                    campfireblockentity.dowse();
                     level.gameEvent(player, GameEvent.BLOCK_CHANGE, blockPos);
                     level.setBlock(blockPos, blockState.setValue(LIT, Boolean.valueOf(true)), 3);
                 }
                 else
                 {
                     // need firestarter
-                    player.displayClientMessage(ERROR_NEED_TOOL, true);
+                    player.sendOverlayMessage(ERROR_NEED_TOOL);
                 }
-                return InteractionResult.sidedSuccess(level.isClientSide());
+                return level.isClientSide() ? InteractionResult.SUCCESS : InteractionResult.CONSUME;
             }
         }
         return InteractionResult.PASS;
@@ -183,33 +172,30 @@ public class FirepitBlock extends CampfireBlock
 
 
     @Override
-    protected ItemInteractionResult useItemOn(ItemStack itemStack, BlockState blockState, Level level, BlockPos blockPos, Player player, InteractionHand hand, BlockHitResult blockHitResult)
+    protected InteractionResult useItemOn( ItemStack itemStack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult )
     {
-        if (level.getBlockEntity(blockPos) instanceof CampfireBlockEntity campfireblockentity)
+        if (level.getBlockEntity(pos) instanceof CampfireBlockEntity campfire)
         {
-            Optional<RecipeHolder<CampfireCookingRecipe>> optional = campfireblockentity.getCookableRecipe(itemStack);
-            if (optional.isPresent())
+            ItemStack itemInHand = player.getItemInHand(hand);
+            if (level.recipeAccess().propertySet(RecipePropertySet.CAMPFIRE_INPUT).test(itemInHand))
             {
-                if (FirepitBlock.CanPlaceFood(campfireblockentity))
+                if (level instanceof ServerLevel serverLevel && canPlaceFood(campfire) && campfire.placeFood(serverLevel, player, itemInHand))
                 {
-                    if (! level.isClientSide)
-                    {
-                        campfireblockentity.placeFood(player, player.getAbilities().instabuild ? itemStack.copy() : itemStack, optional.get().value().getCookingTime() * 2);
-                        player.awardStat(Stats.INTERACT_WITH_CAMPFIRE);
-                    }
-                    return ItemInteractionResult.sidedSuccess(player.level().isClientSide());
+                    player.awardStat(Stats.INTERACT_WITH_CAMPFIRE);
+                    return InteractionResult.SUCCESS_SERVER;
                 }
-                return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+                return InteractionResult.CONSUME;
             }
         }
-        return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+
+        return InteractionResult.PASS;
     }
 
 
 
-    private static boolean CanPlaceFood(CampfireBlockEntity campfireblockentity)
+    private static boolean canPlaceFood(CampfireBlockEntity campfireblockentity)
     {
-        for(int i = 0; i < campfireblockentity.items.size(); ++i)
+        for (int i = 0; i < campfireblockentity.items.size(); ++i)
         {
             if (campfireblockentity.items.get(i).isEmpty())
             {
@@ -234,7 +220,7 @@ public class FirepitBlock extends CampfireBlock
     @Nullable
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> p_152757_)
     {
-        if (level.isClientSide)
+        if (level.isClientSide())
         {
             if (state.getValue(LIT))
             {
@@ -269,9 +255,9 @@ public class FirepitBlock extends CampfireBlock
         // check rain amd dowse:
         if (level.getLevelData().getGameTime() % (2*20) == 13)
         {
-            if (level.getLevelData().isRaining() && level.random.nextInt(5) == 0 && level.canSeeSky(pos))
+            if (level.getLevelData().isRaining() && level.getRandom().nextInt(5) == 0 && level.canSeeSky(pos))
             {
-                dowse((Entity)null, level, pos, state);
+                dowseBasic((Entity)null, level, pos);
                 level.setBlock(pos, state.setValue(LIT, Boolean.valueOf(false)), 3);
             }
         }
@@ -282,29 +268,29 @@ public class FirepitBlock extends CampfireBlock
         // check initialization (we can't do it in newBlockEntity, it doesn't trigger after reload for saved BEs)
         FirepitBlock.CheckInitialization(e);
         // now the particles:
-        if (!e.items.get(0).isEmpty() && level.random.nextFloat() < 0.2F)
+        if (!e.items.get(0).isEmpty() && level.getRandom().nextFloat() < 0.2F)
         {
             double d0 = (double)pos.getX() + 0.5D;
             double d1 = (double)pos.getY() + 0.5D;
             double d2 = (double)pos.getZ() + 0.5D;
 
-            if (level.random.nextFloat() < 0.2F)
+            if (level.getRandom().nextFloat() < 0.2F)
             {
                 level.addParticle(ParticleTypes.SMOKE, d0, d1, d2, 0.0D, 5.0E-4D, 0.0D);
             }
-            if (level.random.nextFloat() < 0.2F)
+            if (level.getRandom().nextFloat() < 0.2F)
             {
                 level.addParticle(ParticleTypes.SMOKE, d0, d1, d2-0.3, 0.0D, 5.0E-4D, 0.0D);
             }
-            if (level.random.nextFloat() < 0.2F)
+            if (level.getRandom().nextFloat() < 0.2F)
             {
                 level.addParticle(ParticleTypes.SMOKE, d0, d1, d2+0.3, 0.0D, 5.0E-4D, 0.0D);
             }
-            if (level.random.nextFloat() < 0.2F)
+            if (level.getRandom().nextFloat() < 0.2F)
             {
                 level.addParticle(ParticleTypes.SMOKE, d0-0.3, d1, d2, 0.0D, 5.0E-4D, 0.0D);
             }
-            if (level.random.nextFloat() < 0.2F)
+            if (level.getRandom().nextFloat() < 0.2F)
             {
                 level.addParticle(ParticleTypes.SMOKE, d0+0.3, d1, d2, 0.0D, 5.0E-4D, 0.0D);
             }

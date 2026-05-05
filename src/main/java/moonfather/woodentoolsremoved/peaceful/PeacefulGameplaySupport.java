@@ -3,7 +3,7 @@ package moonfather.woodentoolsremoved.peaceful;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.BlockTags;
@@ -27,7 +27,7 @@ public class PeacefulGameplaySupport
         {
             if (event.getPosition().isPresent()) {
                 BlockPos pos = event.getPosition().get();
-                if (!event.getEntity().level().isClientSide && event.getEntity().level().random.nextInt(100) < 5) {
+                if (!event.getEntity().level().isClientSide() && event.getEntity().level().getRandom().nextInt(100) < 5) {
                     event.getEntity().level().playSound((Player) null, pos, SoundEvents.BASALT_BREAK, SoundSource.BLOCKS, 1.0F, 1.0F);
                     event.getEntity().level().setBlockAndUpdate(pos, GetBaseBlock(event.getState()).defaultBlockState());
                     Block.popResource(event.getEntity().level(), pos, new ItemStack(coalDust));
@@ -74,6 +74,6 @@ public class PeacefulGameplaySupport
 
     private static boolean checkedForCoalCust = false; private static Holder<Item> coalDust = null;
 
-    private static final TagKey<Item> TagCoalDust = ItemTags.create(ResourceLocation.fromNamespaceAndPath("c", "dusts/coal"));
-    private static final TagKey<Item> TagAxe = ItemTags.create(ResourceLocation.fromNamespaceAndPath("c", "tools/axes"));
+    private static final TagKey<Item> TagCoalDust = ItemTags.create(Identifier.fromNamespaceAndPath("c", "dusts/coal"));
+    private static final TagKey<Item> TagAxe = ItemTags.create(Identifier.fromNamespaceAndPath("c", "tools/axes"));
 }

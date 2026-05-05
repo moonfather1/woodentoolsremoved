@@ -28,7 +28,7 @@ public class EventForAttacking
                     if (event.getSource().getMsgId().equals("player"))
                     {
                         event.setNewDamage(1f);
-                        ((Player)source.getEntity()).displayClientMessage(woodenToolMessage, true);
+                        ((Player)source.getEntity()).sendOverlayMessage(woodenToolMessage);
                     }
                     else
                     {

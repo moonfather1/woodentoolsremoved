@@ -3,7 +3,7 @@ package moonfather.woodentoolsremoved.other;
 import moonfather.woodentoolsremoved.Constants;
 import moonfather.woodentoolsremoved.OptionsHolder;
 import net.minecraft.advancements.AdvancementHolder;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerPlayer;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModList;
@@ -40,9 +40,9 @@ public class EventForStoneAdvancements
     }
 
 
-    private static AdvancementHolder GetAdvancement(ServerPlayer sp, ResourceLocation id)
+    private static AdvancementHolder GetAdvancement(ServerPlayer sp, Identifier id)
     {
-        return sp.getServer().getAdvancements().get(id);
+        return sp.getAdvancements(). getServer().getAdvancements().get(id);
     }
 
 

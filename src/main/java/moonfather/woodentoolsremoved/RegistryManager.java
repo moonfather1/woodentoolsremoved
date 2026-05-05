@@ -1,6 +1,5 @@
 package moonfather.woodentoolsremoved;
 
-import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import moonfather.woodentoolsremoved.items.BlockItemEx;
 import moonfather.woodentoolsremoved.items.OptionalRecipeCondition;
@@ -14,8 +13,8 @@ import moonfather.woodentoolsremoved.other.SticksAndFlintLootModifier;
 import moonfather.woodentoolsremoved.items.javelin.ThrownJavelinProjectile;
 import moonfather.woodentoolsremoved.original_tools.BonusChestLootModifier;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.neoforged.bus.api.IEventBus;
@@ -43,16 +42,17 @@ public class RegistryManager
 		RegistryManager.CONDITIONS.register(modBus);
 	}
 
-	public static final Supplier<Item> ItemHatchet = ITEMS.register("flint_hatchet", () -> new HatchetItem());
+	private static ResourceKey<Item> id = null;
+	public static final Supplier<Item> ItemHatchet = ITEMS.register("flint_hatchet", () -> new HatchetItem(id));
 	public static final Supplier<Item> ItemMiniPick = ITEMS.register("flint_pick", () -> new PickItem());
 	public static final Supplier<Item> ItemPainting1 = ITEMS.register("painting1", () -> new Item(new Item.Properties()));
 	public static final Supplier<Item> ItemJavelin = ITEMS.register("javelin", () -> new JavelinItem());
 	public static final Supplier<Item> ItemFirestarter = ITEMS.register("firestarter", () -> new FirestarterItem());
 
 	public static final Supplier<Block> BlockBlackPowderBowl = BLOCKS.register("powder_bowl_block", () -> new BowlBlock());
-	public static final Supplier<Item> ItemBlackPowderBowl = ITEMS.register("powder_bowl", () -> BlockItemEx.Create(BlockBlackPowderBowl.get(), BowlBlock.GetItemProperties()).AppendTooltipLine(BowlBlock.TooltipLine1).AppendTooltipLine(BowlBlock.TooltipLine2));
+	public static final Supplier<Item> ItemBlackPowderBowl = ITEMS.register("powder_bowl", () -> BlockItemEx.create(BlockBlackPowderBowl.get(), BowlBlock.GetItemProperties()).AppendTooltipLine(BowlBlock.TooltipLine1).AppendTooltipLine(BowlBlock.TooltipLine2));
 	public static final Supplier<Block> BlockFirepit = BLOCKS.register("firepit_block", () -> new FirepitBlock());
-	public static final Supplier<Item> ItemFirepit = ITEMS.register("firepit", () -> new BlockItem(BlockFirepit.get(), FirepitBlock.GetItemProperties()));
+	public static final Supplier<Item> ItemFirepit = ITEMS.register("firepit", () -> BlockItemEx.create(BlockFirepit.get(), FirepitBlock.GetItemProperties()).AppendTooltipLine(OptionsHolder.COMMON.EnableFirestarter.get(), FirepitBlock.TooltipForFirepitLine1).AppendTooltipLine(OptionsHolder.COMMON.EnableFirestarter.get(), FirepitBlock.TooltipForFirepitLine2));
 
 	public static final Supplier<MapCodec<? extends IGlobalLootModifier>> StupidGLMSerializer1 = LOOT_MODIFIERS.register("loot_modifier_for_bonus_chest", BonusChestLootModifier.CODEC);
 	public static final Supplier<MapCodec<? extends IGlobalLootModifier>> StupidGLMSerializer2 = LOOT_MODIFIERS.register("loot_modifier_for_sticks_and_flint", SticksAndFlintLootModifier.CODEC);

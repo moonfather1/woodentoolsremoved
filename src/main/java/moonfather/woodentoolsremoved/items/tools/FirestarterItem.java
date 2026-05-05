@@ -11,8 +11,9 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.ProjectileUtil;
 import net.minecraft.world.item.FlintAndSteelItem;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemUseAnimation;
 import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.world.item.UseAnim;
+import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
@@ -21,15 +22,14 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
-import org.jetbrains.annotations.Nullable;
 
-import java.util.List;
+import java.util.function.Consumer;
 
 public class FirestarterItem extends FlintAndSteelItem
 {
     public FirestarterItem()
     {
-        super((new Properties()).durability(6).setNoRepair());
+        super((new Properties()).durability(6).setNoCombineRepair());
     }
 
 
@@ -41,9 +41,9 @@ public class FirestarterItem extends FlintAndSteelItem
     }
 
     @Override
-    public UseAnim getUseAnimation(ItemStack p_41452_)
+    public ItemUseAnimation getUseAnimation(ItemStack itemStack)
     {
-        return UseAnim.BRUSH;
+        return ItemUseAnimation.BRUSH;
     }
 
     private HitResult calculateHitResult(Player player)
@@ -69,10 +69,10 @@ public class FirestarterItem extends FlintAndSteelItem
                         Vec3 forward = player.position().vectorTo(blockhitresult.getBlockPos().getCenter()).normalize();
                         for (int i = 0; i < 3; i++)
                         {
-                            double d1 = level.random.nextFloat() * 0.1 + 0.05 * (level.random.nextBoolean()?1:-1);
-                            double d2 = level.random.nextFloat() * 0.1 + 0.05 * (level.random.nextBoolean()?1:-1);
-                            double d3 = level.random.nextFloat() * 0.1 + 0.05 * (level.random.nextBoolean()?1:-1);
-                            level.addParticle(ParticleTypes.SMALL_FLAME, player.position().x + forward.x, player.position().y + level.random.nextFloat() + 0.5, player.position().z + forward.z, d1, d2, d3);
+                            double d1 = level.getRandom().nextFloat() * 0.1 + 0.05 * (level.getRandom().nextBoolean()?1:-1);
+                            double d2 = level.getRandom().nextFloat() * 0.1 + 0.05 * (level.getRandom().nextBoolean()?1:-1);
+                            double d3 = level.getRandom().nextFloat() * 0.1 + 0.05 * (level.getRandom().nextBoolean()?1:-1);
+                            level.addParticle(ParticleTypes.SMALL_FLAME, player.position().x + forward.x, player.position().y + level.getRandom().nextFloat() + 0.5, player.position().z + forward.z, d1, d2, d3);
                         }
                         //sound?
                     }
@@ -109,7 +109,7 @@ public class FirestarterItem extends FlintAndSteelItem
         BlockHitResult blockhitresult = getPlayerPOVHitResult(context.getLevel(), player, ClipContext.Fluid.ANY);
         if (blockhitresult.distanceTo(player) > Constants.GAMEPLAY_FIRESTARTER_RANGE)
         {
-            player.displayClientMessage(ERROR_TOO_FAR, true);
+            player.sendOverlayMessage(ERROR_TOO_FAR);
             return InteractionResult.PASS;
         }
         else
@@ -125,12 +125,13 @@ public class FirestarterItem extends FlintAndSteelItem
 
     /////////////////////
 
+
     @Override
-    public void appendHoverText(ItemStack stack, TooltipContext tooltipContext, List<Component> lines, TooltipFlag flag)
+    public void appendHoverText(ItemStack itemStack, TooltipContext context, TooltipDisplay display, Consumer<Component> builder, TooltipFlag tooltipFlag)
     {
-        super.appendHoverText(stack, tooltipContext, lines, flag);
-        lines.add(TooltipForFirestarterLine1);
-        lines.add(TooltipForFirestarterLine2);
+        super.appendHoverText(itemStack, context, display, builder, tooltipFlag);
+        builder.accept(TooltipForFirestarterLine1);
+        builder.accept(TooltipForFirestarterLine2);
     }
     private static final Component TooltipForFirestarterLine1 = Component.translatable("item.woodentoolsremoved.firestarter.tooltip1").withStyle(Style.EMPTY.withColor(Constants.COLOR_GRAY_TOOLTIPS));
     private static final Component TooltipForFirestarterLine2 = Component.translatable("item.woodentoolsremoved.firestarter.tooltip2").withStyle(Style.EMPTY.withColor(Constants.COLOR_GRAY_TOOLTIPS));

@@ -3,12 +3,12 @@ package moonfather.woodentoolsremoved.original_tools;
 import moonfather.woodentoolsremoved.Constants;
 import moonfather.woodentoolsremoved.OptionsHolder;
 import net.minecraft.core.component.DataComponents;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.Tiers;
+import net.minecraft.world.item.ToolMaterial;
 import net.minecraft.world.item.component.ItemAttributeModifiers;
 import net.neoforged.neoforge.event.ItemAttributeModifierEvent;
 import net.neoforged.neoforge.event.ModifyDefaultComponentsEvent;
@@ -23,7 +23,7 @@ public class ToolStatistics
         event.modify(Items.WOODEN_SHOVEL, builder -> builder.set(DataComponents.MAX_DAMAGE, 18));
         event.modify(Items.WOODEN_HOE, builder -> builder.set(DataComponents.MAX_DAMAGE, 6));
 
-        float newStoneDurabilityFloat = (OptionsHolder.COMMON.StoneToolsDurabilityMultiplier.get() / 100f) * Tiers.STONE.getUses();
+        float newStoneDurabilityFloat = (OptionsHolder.COMMON.StoneToolsDurabilityMultiplier.get() / 100f) * ToolMaterial.STONE.durability();
         int newStoneDurability = (int)Math.max(newStoneDurabilityFloat, 1f);
         event.modify(Items.STONE_AXE, builder -> builder.set(DataComponents.MAX_DAMAGE, newStoneDurability));
         event.modify(Items.STONE_PICKAXE, builder -> builder.set(DataComponents.MAX_DAMAGE, newStoneDurability));
@@ -58,6 +58,6 @@ public class ToolStatistics
         }
     }
 
-    private static final ResourceLocation mini_plus_id = ResourceLocation.fromNamespaceAndPath(Constants.MODID, "mini_plus_id");
+    private static final Identifier mini_plus_id = Identifier.fromNamespaceAndPath(Constants.MODID, "mini_plus_id");
     private static final AttributeModifier mini_plus = new AttributeModifier(mini_plus_id, 0.5d, AttributeModifier.Operation.ADD_VALUE);
 }

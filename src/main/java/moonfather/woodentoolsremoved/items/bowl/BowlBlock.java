@@ -7,15 +7,13 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.stats.Stats;
 import net.minecraft.tags.BlockTags;
-import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
@@ -58,17 +56,18 @@ public class BowlBlock extends Block
 
 
     @Override
-    protected ItemInteractionResult useItemOn(ItemStack itemStack, BlockState blockState, Level level, BlockPos blockPos, Player player, InteractionHand hand, BlockHitResult blockHitResult)
+    protected InteractionResult useItemOn(ItemStack itemStack, BlockState blockState, Level level, BlockPos blockPos, Player player, InteractionHand hand, BlockHitResult blockHitResult)
     {
         if (this.IsProperActivationItem(itemStack))
         {
-            if (! level.isClientSide)
+            if (! level.isClientSide())
             {
                 this.UpdateUsedItem(itemStack, player, hand);
                 // ekusproshion
                 this.Boom(level, blockPos);
+                return InteractionResult.CONSUME;
             }
-            return ItemInteractionResult.sidedSuccess(level.isClientSide());
+            return InteractionResult.SUCCESS;
         }
         return super.useItemOn(itemStack, blockState, level, blockPos, player, hand, blockHitResult);
     }
@@ -95,7 +94,7 @@ public class BowlBlock extends Block
         if (level instanceof ServerLevel)
         {
             int chance = (direction == Direction.DOWN || direction == Direction.UP) ? 95 : 25;
-            if (((ServerLevel)level).random.nextInt(100) < chance)
+            if (((ServerLevel)level).getRandom().nextInt(100) < chance)
             {
                 this.Boom((ServerLevel)level, pos);
             }
@@ -121,17 +120,17 @@ public class BowlBlock extends Block
     }
 
 
-    private final TagKey<Block> cobblestoneTag = BlockTags.create(ResourceLocation.fromNamespaceAndPath("c","cobblestone"));
+    private final TagKey<Block> cobblestoneTag = BlockTags.create(Identifier.fromNamespaceAndPath("c","cobblestone"));
 
     private void TryDestroyStone(Level level, BlockPos pos, int chancePercentage)
     {
-        if (level.random.nextInt(100) < chancePercentage)
+        if (level.getRandom().nextInt(100) < chancePercentage)
         {
             BlockState state = level.getBlockState(pos);
             if (! state.isAir() && state.getBlock().getExplosionResistance() <= 6 && ! state.is(BlockTags.NEEDS_IRON_TOOL) && ! state.is(BlockTags.NEEDS_DIAMOND_TOOL))
             {
                 boolean baseStone = state.is(BlockTags.BASE_STONE_OVERWORLD) || state.is(BlockTags.COAL_ORES) || state.is(cobblestoneTag);
-                boolean drop = baseStone || level.random.nextInt(100) < 10;    // 10% maybe configurable
+                boolean drop = baseStone || level.getRandom().nextInt(100) < 10;    // 10% maybe configurable
                 level.destroyBlock(pos, drop);
             }
         }
@@ -154,7 +153,7 @@ public class BowlBlock extends Block
         if (pos2.getY() == pos.getY() - 1)
         {
             BlockState below = level.getBlockState(pos2);
-            if (! level.isClientSide && ! below.isFaceSturdy(level, pos2, Direction.UP, SupportType.CENTER))
+            if (! level.isClientSide() && ! below.isFaceSturdy(level, pos2, Direction.UP, SupportType.CENTER))
             {
                 level.destroyBlock(pos, true);
             }
@@ -163,7 +162,7 @@ public class BowlBlock extends Block
 
     @Override
     public boolean canSurvive(BlockState blockState, LevelReader level, BlockPos pos) {
-        if (pos.getY() <= level.getMinBuildHeight())
+        if (pos.getY() <= level.getMinY())
         {
             return false;
         }
@@ -185,7 +184,7 @@ public class BowlBlock extends Block
 
     public void onProjectileHit(Level p_57429_, BlockState p_57430_, BlockHitResult p_57431_, Projectile p_57432_)
     {
-        if (!p_57429_.isClientSide)
+        if (! p_57429_.isClientSide())
         {
             BlockPos blockpos = p_57431_.getBlockPos();
             Entity entity = p_57432_.getOwner();
@@ -214,9 +213,8 @@ public class BowlBlock extends Block
     }
 
 
-
     @Override
-    public ItemStack getCloneItemStack(LevelReader world, BlockPos pos, BlockState state)
+    public ItemStack getCloneItemStack(LevelReader level, BlockPos pos, BlockState state, boolean includeData, Player player)
     {
         return RegistryManager.ItemBlackPowderBowl.get().getDefaultInstance();
     }

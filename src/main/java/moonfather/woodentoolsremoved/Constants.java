@@ -1,6 +1,6 @@
 package moonfather.woodentoolsremoved;
 
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
@@ -16,15 +16,15 @@ public class Constants
 
     public static class Tags
     {
-        public static final TagKey<Item> FLINT = ItemTags.create(ResourceLocation.parse("c:flint"));
-        public static final TagKey<Item> IGNITES_GUNPOWDER = ItemTags.create(ResourceLocation.fromNamespaceAndPath(MODID, "ignites_gunpowder"));
+        public static final TagKey<Item> FLINT = ItemTags.create(Identifier.parse("c:flint"));
+        public static final TagKey<Item> IGNITES_GUNPOWDER = ItemTags.create(Identifier.fromNamespaceAndPath(MODID, "ignites_gunpowder"));
     }
 
     public static class Advancements
     {
-        public static final ResourceLocation STONE1 = ResourceLocation.fromNamespaceAndPath(MODID, "tut/g4_get_stone1");
-        public static final ResourceLocation STONE2 = ResourceLocation.fromNamespaceAndPath(MODID, "tut/g4_get_stone2");
-        public static final ResourceLocation STONE3 = ResourceLocation.fromNamespaceAndPath(MODID, "tut/g4_get_stone3");
-        public static final ResourceLocation PUNCHER = ResourceLocation.fromNamespaceAndPath(MODID, "tut/g2_puncher");
+        public static final Identifier STONE1 = Identifier.fromNamespaceAndPath(MODID, "tut/g4_get_stone1");
+        public static final Identifier STONE2 = Identifier.fromNamespaceAndPath(MODID, "tut/g4_get_stone2");
+        public static final Identifier STONE3 = Identifier.fromNamespaceAndPath(MODID, "tut/g4_get_stone3");
+        public static final Identifier PUNCHER = Identifier.fromNamespaceAndPath(MODID, "tut/g2_puncher");
     }
 }

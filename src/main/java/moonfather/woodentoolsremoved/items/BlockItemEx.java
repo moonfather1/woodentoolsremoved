@@ -5,13 +5,14 @@ import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.level.block.Block;
 
-import java.util.List;
+import java.util.function.Consumer;
 
 public class BlockItemEx extends BlockItem
 {
-    public static BlockItemEx Create(Block block, Item.Properties properties)
+    public static BlockItemEx create(Block block, Item.Properties properties)
     {
         return new BlockItemEx(block, properties);
     }
@@ -35,16 +36,25 @@ public class BlockItemEx extends BlockItem
         return this;
     }
 
-    @Override
-    public void appendHoverText(ItemStack stack, TooltipContext tooltipContext, List<Component> lines, TooltipFlag flag)
+    public BlockItemEx AppendTooltipLine(boolean condition, Component line)
     {
-        super.appendHoverText(stack, tooltipContext, lines, flag);
+        if (condition)
+        {
+            this.AppendTooltipLine(line);
+        }
+        return this;
+    }
+
+    @Override
+    public void appendHoverText(ItemStack itemStack, TooltipContext context, TooltipDisplay display, Consumer<Component> builder, TooltipFlag tooltipFlag)
+    {
+        super.appendHoverText(itemStack, context, display, builder, tooltipFlag);
         if (line1 != null)
         {
-            lines.add(line1);
+            builder.accept(line1);
             if (line2 != null)
             {
-                lines.add(line2);
+                builder.accept(line2);
             }
         }
     }

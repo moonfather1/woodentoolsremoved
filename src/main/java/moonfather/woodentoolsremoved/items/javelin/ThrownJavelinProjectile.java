@@ -11,10 +11,13 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.projectile.AbstractArrow;
+import net.minecraft.world.entity.projectile.ProjectileDeflection;
+import net.minecraft.world.entity.projectile.arrow.AbstractArrow;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.Vec3;
 
@@ -22,19 +25,17 @@ import javax.annotation.Nullable;
 
 public class ThrownJavelinProjectile extends AbstractArrow
 {
-    private ItemStack tridentItem = new ItemStack(RegistryManager.ItemJavelin.get());
     private boolean dealtDamage;
 
 
 
     public ThrownJavelinProjectile(Level p_37569_, LivingEntity p_37570_, ItemStack p_37571_) {
         super(RegistryManager.ThrownJavelinProjectileET.get(), p_37570_, p_37569_, p_37571_, null);
-        this.tridentItem = p_37571_.copy();
     }
 
     public ThrownJavelinProjectile(EntityType<ThrownJavelinProjectile> thrownJavelinProjectileEntityType, Level level) {
         super(thrownJavelinProjectileEntityType, level);
-        this.tridentItem = new ItemStack(RegistryManager.ItemJavelin.get());
+        this.setPickupItemStack(new ItemStack(RegistryManager.ItemJavelin.get()));
     }
 
     @Override
@@ -61,11 +62,6 @@ public class ThrownJavelinProjectile extends AbstractArrow
 
 
 
-    @Override
-    protected ItemStack getPickupItem() {
-        return this.tridentItem.copy();
-    }
-
     @Nullable
     protected EntityHitResult findHitEntity(Vec3 p_37575_, Vec3 p_37576_) {
         return this.dealtDamage ? null : super.findHitEntity(p_37575_, p_37576_);
@@ -76,30 +72,31 @@ public class ThrownJavelinProjectile extends AbstractArrow
     @Override
     protected void onHitEntity(EntityHitResult p_37573_) {
         Entity entity = p_37573_.getEntity();
-        float f = 7.0F;
+        float dmg = 7.0F;
         Entity entity1 = this.getOwner();
-        DamageSource damagesource = this.damageSources().trident(this, (Entity)(entity1 == null ? this : entity1));
+        DamageSource damageSource = this.damageSources().trident(this, (Entity)(entity1 == null ? this : entity1));
         if (this.level() instanceof ServerLevel serverlevel) {
-            f = EnchantmentHelper.modifyDamage(serverlevel, this.getWeaponItem(), entity, damagesource, f);
+            dmg = EnchantmentHelper.modifyDamage(serverlevel, this.getWeaponItem(), entity, damageSource, dmg);
         }
 
         this.dealtDamage = true;
-        if (entity.hurt(damagesource, f)) {
+        if (entity.hurtOrSimulate(damageSource, dmg)) {
             if (entity.getType() == EntityType.ENDERMAN) {
                 return;
             }
 
             if (this.level() instanceof ServerLevel serverlevel1) {
-                EnchantmentHelper.doPostAttackEffectsWithItemSource(serverlevel1, entity, damagesource, this.getWeaponItem());
+                EnchantmentHelper.doPostAttackEffectsWithItemSource(serverlevel1, entity, damageSource, this.getWeaponItem());
             }
 
             if (entity instanceof LivingEntity livingentity) {
-                this.doKnockback(livingentity, damagesource);
+                this.doKnockback(livingentity, damageSource);
                 this.doPostHurtEffects(livingentity);
             }
         }
 
-        this.setDeltaMovement(this.getDeltaMovement().multiply(-0.01, -0.1, -0.01));
+        this.deflect(ProjectileDeflection.REVERSE, entity, this.owner, false);
+        this.setDeltaMovement(this.getDeltaMovement().multiply(0.02, 0.2, 0.02));
         this.playSound(SoundEvents.TRIDENT_HIT, 1.0F, 1.0F);
     }
 
@@ -130,24 +127,22 @@ public class ThrownJavelinProjectile extends AbstractArrow
     }
 
     @Override
-    public void readAdditionalSaveData(CompoundTag tag) {
-        super.readAdditionalSaveData(tag);
-        if (tag.contains("Trident", 10)) {
-            this.tridentItem = ItemStack.parse(this.registryAccess(), tag.getCompound("Trident")).orElse(this.getDefaultPickupItem());
-        }
-        this.dealtDamage = tag.getBoolean("DealtDamage");
+    protected void readAdditionalSaveData(ValueInput input)
+    {
+        super.readAdditionalSaveData(input);
+        this.dealtDamage = input.getBooleanOr("DealtDamage", false);
     }
 
     @Override
-    public void addAdditionalSaveData(CompoundTag p_37582_) {
-        super.addAdditionalSaveData(p_37582_);
-        p_37582_.put("Trident", this.tridentItem.save(this.registryAccess(), new CompoundTag()));
-        p_37582_.putBoolean("DealtDamage", this.dealtDamage);
+    protected void addAdditionalSaveData(ValueOutput output)
+    {
+        super.addAdditionalSaveData(output);
+        output.putBoolean("DealtDamage", this.dealtDamage);
     }
 
     @Override
     protected float getWaterInertia() {
-        return 0.99F;
+        return 0.59F;
     }
 
     @Override

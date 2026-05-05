@@ -9,7 +9,7 @@ import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Player;
@@ -25,7 +25,6 @@ import net.neoforged.fml.ModList;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
-import net.minecraft.world.item.Tiers;
 import org.slf4j.Logger;
 
 import java.util.HashMap;
@@ -63,7 +62,7 @@ public class EventForPunchingLogs
 	{
 		if (! event.getEntity().getMainHandItem().isEmpty())
 		{
-			ResourceLocation toolId = BuiltInRegistries.ITEM.getKey(event.getEntity().getMainHandItem().getItem());
+			Identifier toolId = BuiltInRegistries.ITEM.getKey(event.getEntity().getMainHandItem().getItem());
 			//if ( event.getEntity().getMainHandItem().getItem() instanceof AxeItem && (((AxeItem)event.getEntity().getMainHandItem().getItem()).getTier().equals(Tiers.WOOD) && (toolId == null || ! toolId.getNamespace().equals("silentgear")))
 			//		|| event.getEntity().getMainHandItem().getItem() instanceof PickaxeItem && ! event.getEntity().getMainHandItem().isCorrectToolForDrops(Blocks.STONE.defaultBlockState()))
 			if ( event.getEntity().getMainHandItem().getItem() instanceof AxeItem && (((AxeItem)event.getEntity().getMainHandItem().getItem()).getTier().equals(Tiers.WOOD) && (toolId == null || ! toolId.getNamespace().equals("silentgear")))
@@ -73,7 +72,7 @@ public class EventForPunchingLogs
 			{
 				if (ShouldShowMessage(event.getEntity()))
 				{
-					event.getEntity().displayClientMessage(woodenToolMessage, true);
+					event.getEntity().sendOverlayMessage(woodenToolMessage);
 				}
 				event.setCanceled(true);
 				return;
@@ -89,7 +88,7 @@ public class EventForPunchingLogs
 				if (TetraSupport.IsWoodenTetraTool(event.getEntity().getMainHandItem()))
 				{
 					if (ShouldShowMessage(event.getEntity())) {
-						event.getEntity().displayClientMessage(tetraWoodenToolMessage, true);
+						event.getEntity().sendOverlayMessage(tetraWoodenToolMessage);
 					}
 					event.setCanceled(true);
 					return;
@@ -129,12 +128,12 @@ public class EventForPunchingLogs
 				{
 					event.getEntity().hurt(event.getEntity().damageSources().flyIntoWall(), 1);
 					int m = event.getEntity().level().getRandom().nextInt(handHurtsMessages.length);
-					event.getEntity().displayClientMessage(handHurtsMessages[m], true);
+					event.getEntity().sendOverlayMessage(handHurtsMessages[m]);
 				}
 				else
 				{
 					int m = event.getEntity().level().getRandom().nextInt(handNoEffectMessages.length);
-					event.getEntity().displayClientMessage(handNoEffectMessages[m], true);
+					event.getEntity().sendOverlayMessage(handNoEffectMessages[m]);
 				}
 			}
 		}
