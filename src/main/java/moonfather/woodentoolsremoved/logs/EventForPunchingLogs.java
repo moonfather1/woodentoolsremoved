@@ -1,6 +1,7 @@
 package moonfather.woodentoolsremoved.logs;
 
 import com.mojang.logging.LogUtils;
+import moonfather.woodentoolsremoved.Constants;
 import moonfather.woodentoolsremoved.other.AdvancementForPunchingLogs;
 import moonfather.woodentoolsremoved.other.TetraSupport;
 import moonfather.woodentoolsremoved.peaceful.PeacefulGameplaySupport;
@@ -63,12 +64,19 @@ public class EventForPunchingLogs
 	{
 		if (! event.getEntity().getMainHandItem().isEmpty())
 		{
-			ResourceLocation toolId = BuiltInRegistries.ITEM.getKey(event.getEntity().getMainHandItem().getItem());
+			ItemStack inHand = event.getEntity().getMainHandItem();
+			if (inHand.is(Items.STONE_PICKAXE) && ModList.get().isLoaded("overgeared"))
+			{
+				return; // can't ask for isCorrectToolForDrops(Blocks.IRON_ORE
+			}
+			ResourceLocation toolId = BuiltInRegistries.ITEM.getKey(inHand.getItem());
 			//if ( event.getEntity().getMainHandItem().getItem() instanceof AxeItem && (((AxeItem)event.getEntity().getMainHandItem().getItem()).getTier().equals(Tiers.WOOD) && (toolId == null || ! toolId.getNamespace().equals("silentgear")))
 			//		|| event.getEntity().getMainHandItem().getItem() instanceof PickaxeItem && ! event.getEntity().getMainHandItem().isCorrectToolForDrops(Blocks.STONE.defaultBlockState()))
-			if ( event.getEntity().getMainHandItem().getItem() instanceof AxeItem && (((AxeItem)event.getEntity().getMainHandItem().getItem()).getTier().equals(Tiers.WOOD) && (toolId == null || ! toolId.getNamespace().equals("silentgear")))
-					|| event.getEntity().getMainHandItem().getItem() instanceof PickaxeItem pick && ! event.getEntity().getMainHandItem().isCorrectToolForDrops(Blocks.IRON_ORE.defaultBlockState()) && ! pick.getTier().equals(Tiers.GOLD)
-					|| toolId.toString().equals("tconstruct:pickaxe") && event.getEntity().getMainHandItem().get(DataComponents.CUSTOM_DATA).getUnsafe().getCompound("tic_stats").getString("tconstruct:harvest_tier").equals("minecraft:wood")
+			if (  inHand.is(Constants.Tags.AXE_USELESS)
+				    || inHand.is(Constants.Tags.PICKAXE_USELESS)
+					|| inHand.getItem() instanceof AxeItem && ! inHand.is(Constants.Tags.AXE_USEFUL) && (((AxeItem) inHand.getItem()).getTier().equals(Tiers.WOOD) && (toolId == null || ! toolId.getNamespace().equals("silentgear")))
+					|| inHand.getItem() instanceof PickaxeItem pick && ! inHand.is(Constants.Tags.PICKAXE_USEFUL) && ! inHand.isCorrectToolForDrops(Blocks.IRON_ORE.defaultBlockState()) && ! pick.getTier().equals(Tiers.GOLD)
+				//todo:	|| toolId.toString().equals("tconstruct:pickaxe") && inHand.get(DataComponents.CUSTOM_DATA).getUnsafe().getCompound("tic_stats").getString("tconstruct:harvest_tier").equals("minecraft:wood")
 			)
 			{
 				if (ShouldShowMessage(event.getEntity()))
@@ -84,9 +92,9 @@ public class EventForPunchingLogs
                 checkedForTetra = true;
             }
 
-            if (usingTetra && BuiltInRegistries.ITEM.getKey(event.getEntity().getMainHandItem().getItem()).toString().equals(TetraSupport.DoubleToolId))
+            if (usingTetra && BuiltInRegistries.ITEM.getKey(inHand.getItem()).toString().equals(TetraSupport.DoubleToolId))
             {
-				if (TetraSupport.IsWoodenTetraTool(event.getEntity().getMainHandItem()))
+				if (TetraSupport.IsWoodenTetraTool(inHand))
 				{
 					if (ShouldShowMessage(event.getEntity())) {
 						event.getEntity().displayClientMessage(tetraWoodenToolMessage, true);

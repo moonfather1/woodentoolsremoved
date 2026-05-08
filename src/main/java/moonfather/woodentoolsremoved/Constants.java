@@ -18,6 +18,10 @@ public class Constants
     {
         public static final TagKey<Item> FLINT = ItemTags.create(ResourceLocation.parse("c:flint"));
         public static final TagKey<Item> IGNITES_GUNPOWDER = ItemTags.create(ResourceLocation.fromNamespaceAndPath(MODID, "ignites_gunpowder"));
+        public static final TagKey<Item> AXE_USEFUL = ItemTags.create(ResourceLocation.fromNamespaceAndPath(MODID, "useful_axe"));
+        public static final TagKey<Item> AXE_USELESS = ItemTags.create(ResourceLocation.fromNamespaceAndPath(MODID, "useless_axe"));
+        public static final TagKey<Item> PICKAXE_USEFUL = ItemTags.create(ResourceLocation.fromNamespaceAndPath(MODID, "useful_pickaxe"));
+        public static final TagKey<Item> PICKAXE_USELESS = ItemTags.create(ResourceLocation.fromNamespaceAndPath(MODID, "useless_pickaxe"));
     }
 
     public static class Advancements
