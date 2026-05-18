@@ -1,0 +1,6 @@
+{
+  "replace": false,
+  "values": [
+      { "id": "harder_progression_mod:flint_pick", "required": false }
+  ]
+}

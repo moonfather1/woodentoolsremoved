@@ -168,7 +168,7 @@ dependencies {
     //runtimeOnly fg.deobf("curse.maven:silent-gear-297039:4735730")
 
     //runtimeOnly fg.deobf("curse.maven:jei-238222:5419575")
-    runtimeOnly fg.deobf("curse.maven:jei-238222:5793297") // newer for tc
+    //runtimeOnly fg.deobf("curse.maven:jei-238222:5793297") // newer for tc
 	
 	//runtimeOnly fg.deobf("curse.maven:tinkers-construct-74072:6111032")
 	//runtimeOnly fg.deobf("curse.maven:mantle-74924:6105891")
@@ -192,13 +192,13 @@ dependencies {
 	//runtimeOnly fg.deobf("curse.maven:kotlin-for-forge-351264:5402061")
 	//runtimeOnly fg.deobf("curse.maven:cloth-config-348521:4973441")
 	
-	runtimeOnly fg.deobf("curse.maven:patchouli-306770:4892162")
-	runtimeOnly fg.deobf("curse.maven:lexicon-615275:5561987")
+	//runtimeOnly fg.deobf("curse.maven:patchouli-306770:4892162")
+	//runtimeOnly fg.deobf("curse.maven:lexicon-615275:5561987")
 	
-	runtimeOnly fg.deobf("curse.maven:spartan-weaponry-278141:5597663")
+	//runtimeOnly fg.deobf("curse.maven:spartan-weaponry-278141:5597663")
 
-	runtimeOnly fg.deobf("curse.maven:powerful-dummy-1276893:6825983")
-    runtimeOnly fg.deobf("curse.maven:jade-324717:6106101")
+	//runtimeOnly fg.deobf("curse.maven:powerful-dummy-1276893:6825983")
+    //runtimeOnly fg.deobf("curse.maven:jade-324717:6106101")
 }
 
 // This block of code expands all declared replace properties in the specified resource targets.

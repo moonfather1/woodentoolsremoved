@@ -1,5 +1,6 @@
 package moonfather.woodentoolsremoved.logs;
 
+import moonfather.woodentoolsremoved.Constants;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.block.Blocks;
@@ -15,6 +16,14 @@ public class ToolResolver
 
     public static boolean isWoodenAxe(ItemStack stack)
     {
+        if (stack.is(Constants.Tags.USEFUL_AXE))
+        {
+            return false;
+        }
+        if (stack.is(Constants.Tags.USELESS_AXE))
+        {
+            return true;
+        }
         if (! (stack.getItem() instanceof TieredItem tieredItem))
         {
             return false;
@@ -45,6 +54,14 @@ public class ToolResolver
 
     public static boolean isWoodenPickaxe(ItemStack stack)
     {
+        if (stack.is(Constants.Tags.USEFUL_PICKAXE))
+        {
+            return false;
+        }
+        if (stack.is(Constants.Tags.USELESS_PICKAXE))
+        {
+            return true;
+        }
         int key = stack.hashCode() + 2002;
         Boolean cached = toolsCached.get(key);
         if (cached != null)

@@ -19,6 +19,10 @@ public class Constants
     {
         public static final TagKey<Item> FLINT = ItemTags.create(new ResourceLocation("forge:flint"));
         public static final TagKey<Item> IGNITES_GUNPOWDER = ItemTags.create(new ResourceLocation(MODID, "ignites_gunpowder"));
+        public static final TagKey<Item> USEFUL_PICKAXE = ItemTags.create(new ResourceLocation(MODID, "useful_pickaxe"));
+        public static final TagKey<Item> USELESS_PICKAXE = ItemTags.create(new ResourceLocation(MODID, "useless_pickaxe"));
+        public static final TagKey<Item> USEFUL_AXE = ItemTags.create(new ResourceLocation(MODID, "useful_axe"));
+        public static final TagKey<Item> USELESS_AXE = ItemTags.create(new ResourceLocation(MODID, "useless_axe"));
     }
 		
     public static class Advancements
