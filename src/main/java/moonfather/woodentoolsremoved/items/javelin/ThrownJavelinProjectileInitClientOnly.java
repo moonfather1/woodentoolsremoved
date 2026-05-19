@@ -13,15 +13,24 @@ import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 @EventBusSubscriber(bus=EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public class ThrownJavelinProjectileInitClientOnly
 {
+        @SubscribeEvent
+        public static void onClientSetup(FMLClientSetupEvent event)
+        {
+                event.enqueueWork(() -> {
+                    ItemProperties.register(RegistryManager.ItemJavelin.get(), ResourceLocation.withDefaultNamespace("throwing"), (p_234996_, p_234997_, p_234998_, p_234999_) -> {
+                        return p_234998_ != null && p_234998_.isUsingItem() && p_234998_.getUseItem() == p_234996_ ? 1.0F : 0.0F;
+                    });
+                });  // enqueue was likely unnecessary here but let's put it.
+        }
+
+
+
 	@SubscribeEvent
-	public static void onClientSetup(FMLClientSetupEvent event)
+	public static void registerLayerDefinition(EntityRenderersEvent.RegisterRenderers event)
 	{
 		EntityRenderers.register(RegistryManager.ThrownJavelinProjectileET.get(), ThrownJavelinProjectileRenderer::new);
-
-		ItemProperties.register(RegistryManager.ItemJavelin.get(), ResourceLocation.withDefaultNamespace("throwing"), (p_234996_, p_234997_, p_234998_, p_234999_) -> {
-			return p_234998_ != null && p_234998_.isUsingItem() && p_234998_.getUseItem() == p_234996_ ? 1.0F : 0.0F;
-		});
 	}
+
 
 
 	@SubscribeEvent
