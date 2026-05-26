@@ -1,6 +1,7 @@
 package moonfather.woodentoolsremoved.other;
 
 import moonfather.woodentoolsremoved.Constants;
+import net.minecraft.advancements.AdvancementHolder;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 
@@ -10,7 +11,11 @@ public class AdvancementForPunchingLogs
     {
         if (player instanceof ServerPlayer sp)
         {
-            sp.getAdvancements().award(sp.getServer().getAdvancements().get(Constants.Advancements.PUNCHER), "impossible_bucket2");
+            AdvancementHolder ah = sp.level().getServer().getAdvancements().get(Constants.Advancements.PUNCHER);
+            if (ah != null)
+            {
+                sp.getAdvancements().award(ah, "impossible_bucket2");
+            }
         }
     }
 }

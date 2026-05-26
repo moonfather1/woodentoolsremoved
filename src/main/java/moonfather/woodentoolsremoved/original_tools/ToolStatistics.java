@@ -15,28 +15,31 @@ import net.neoforged.neoforge.event.ModifyDefaultComponentsEvent;
 
 public class ToolStatistics
 {
-    public static void OnDefaultComponentCreation(ModifyDefaultComponentsEvent event)
+    public static void onDefaultComponentCreation(ModifyDefaultComponentsEvent event)
     {
         event.modify(Items.WOODEN_AXE, builder -> builder.set(DataComponents.MAX_DAMAGE, 6));
         event.modify(Items.WOODEN_PICKAXE, builder -> builder.set(DataComponents.MAX_DAMAGE, 6));
         event.modify(Items.WOODEN_SWORD, builder -> builder.set(DataComponents.MAX_DAMAGE, 6));
         event.modify(Items.WOODEN_SHOVEL, builder -> builder.set(DataComponents.MAX_DAMAGE, 18));
         event.modify(Items.WOODEN_HOE, builder -> builder.set(DataComponents.MAX_DAMAGE, 6));
+        event.modify(Items.WOODEN_SPEAR, (builder, _, _) -> builder.set(DataComponents.MAX_DAMAGE, 6));// todo replace deprecated with this
 
-        float newStoneDurabilityFloat = (OptionsHolder.COMMON.StoneToolsDurabilityMultiplier.get() / 100f) * ToolMaterial.STONE.durability();
+        double newStoneDurabilityFloat = (OptionsHolder.COMMON.StoneToolsDurabilityMultiplier.get() / 100d) * ToolMaterial.STONE.durability();
+        newStoneDurabilityFloat = Math.floor(newStoneDurabilityFloat);
         int newStoneDurability = (int)Math.max(newStoneDurabilityFloat, 1f);
         event.modify(Items.STONE_AXE, builder -> builder.set(DataComponents.MAX_DAMAGE, newStoneDurability));
         event.modify(Items.STONE_PICKAXE, builder -> builder.set(DataComponents.MAX_DAMAGE, newStoneDurability));
-        event.modify(Items.STONE_SWORD, builder -> builder.set(DataComponents.MAX_DAMAGE, newStoneDurability));
+        event.modify(Items.STONE_SWORD, builder -> builder.set(DataComponents.MAX_DAMAGE, (int) (newStoneDurability *0.2)));
         event.modify(Items.STONE_SHOVEL, builder -> builder.set(DataComponents.MAX_DAMAGE, newStoneDurability));
         event.modify(Items.STONE_HOE, builder -> builder.set(DataComponents.MAX_DAMAGE, newStoneDurability));
+        event.modify(Items.STONE_SPEAR, builder -> builder.set(DataComponents.MAX_DAMAGE, (int) (newStoneDurability *0.8)));
     }
 
 
 
-    public static void OnItemAttributeQuery(ItemAttributeModifierEvent event)
+    public static void onItemAttributeQuery(ItemAttributeModifierEvent event)
     {
-        if ((event.getItemStack().is(Items.WOODEN_AXE) || event.getItemStack().is(Items.WOODEN_PICKAXE) || event.getItemStack().is(Items.WOODEN_SWORD)))
+        if ((event.getItemStack().is(Items.WOODEN_AXE) || event.getItemStack().is(Items.WOODEN_PICKAXE) || event.getItemStack().is(Items.WOODEN_SWORD) || event.getItemStack().is(Items.WOODEN_SPEAR)))
         {
             boolean hasMinus = false;
             for (ItemAttributeModifiers.Entry modifier : event.getModifiers())

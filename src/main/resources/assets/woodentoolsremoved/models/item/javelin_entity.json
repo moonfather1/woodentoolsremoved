@@ -1,8 +1,10 @@
 {
     "credit": "Made with Blockbench",
     "textures": {
-        "ent": "woodentoolsremoved:item/special_javelin_entity"
+        "ent": "woodentoolsremoved:item/special_javelin_entity",
+        "particle": "woodentoolsremoved:item/javelin"
     },
+    "gui_light": "front",
     "elements": [
         {
             "name": "javelin_1",

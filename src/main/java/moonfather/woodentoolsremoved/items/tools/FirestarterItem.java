@@ -4,15 +4,13 @@ import moonfather.woodentoolsremoved.Constants;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.ProjectileUtil;
-import net.minecraft.world.item.FlintAndSteelItem;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.ItemUseAnimation;
-import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.*;
 import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.ClipContext;
@@ -27,9 +25,9 @@ import java.util.function.Consumer;
 
 public class FirestarterItem extends FlintAndSteelItem
 {
-    public FirestarterItem()
+    public FirestarterItem(ResourceKey<Item> key)
     {
-        super((new Properties()).durability(6).setNoCombineRepair());
+        super((new Properties()).durability(6).setNoCombineRepair().setId(key));
     }
 
 

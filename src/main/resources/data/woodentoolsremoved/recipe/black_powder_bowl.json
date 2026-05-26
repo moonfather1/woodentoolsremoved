@@ -5,12 +5,8 @@
     "b"
   ],
   "key": {
-    "g": {
-      "item": "minecraft:gunpowder"
-    },
-    "b": {
-      "item": "minecraft:bowl" 
-    }
+    "g": "minecraft:gunpowder",
+    "b": "minecraft:bowl"
   },
   "result": {
     "id": "woodentoolsremoved:powder_bowl",

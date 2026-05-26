@@ -9,6 +9,7 @@ import net.minecraft.core.NonNullList;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -19,9 +20,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.CampfireCookingRecipe;
-import net.minecraft.world.item.crafting.RecipeHolder;
-import net.minecraft.world.item.crafting.RecipePropertySet;
+import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
@@ -48,14 +47,13 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 
 import javax.annotation.Nullable;
 import java.util.HashSet;
-import java.util.Optional;
 import java.util.function.ToIntFunction;
 
 public class FirepitBlock extends CampfireBlock
 {
-    public FirepitBlock()
+    public FirepitBlock(ResourceKey<Block> id)
     {
-        super(false /*spawnParticles*/, 0 /*fireDamage*/, BlockBehaviour.Properties.of().strength(1.0F).sound(SoundType.GRAVEL).lightLevel(litBlockEmission(7)).noOcclusion().mapColor(MapColor.COLOR_BROWN).pushReaction(PushReaction.DESTROY));
+        super(false /*spawnParticles*/, 0 /*fireDamage*/, BlockBehaviour.Properties.of().strength(1.0F).sound(SoundType.GRAVEL).lightLevel(litBlockEmission(7)).noOcclusion().mapColor(MapColor.COLOR_BROWN).pushReaction(PushReaction.DESTROY).setId(id));
     }
 
     private static ToIntFunction<BlockState> litBlockEmission(int lightValue)
@@ -68,7 +66,7 @@ public class FirepitBlock extends CampfireBlock
 
 
 
-    public static Item.Properties GetItemProperties()
+    public static Item.Properties getItemProperties()
     {
         return new Item.Properties();
     }
@@ -78,13 +76,12 @@ public class FirepitBlock extends CampfireBlock
     protected void neighborChanged(BlockState state, Level level, BlockPos pos, Block block, @org.jspecify.annotations.Nullable Orientation orientation, boolean movedByPiston)
     {
         super.neighborChanged(state, level, pos, block, orientation, movedByPiston);
-        if (orientation != null && orientation.getDirections().contains(Direction.DOWN))  //  (pos2.getY() == pos.getY() - 1)
+        // used to be if (pos2.getY() == pos.getY() - 1)
+        // can't check that as of 26.1.   we don't know which neighbor block has changed anymore,
+        BlockState below = level.getBlockState(pos.below());
+        if (! level.isClientSide() && ! below.isFaceSturdy(level, pos.below(), Direction.UP, SupportType.CENTER))
         {
-            BlockState below = level.getBlockState(pos.below());
-            if (! level.isClientSide() && ! below.isFaceSturdy(level, pos.below(), Direction.UP, SupportType.CENTER))
-            {
-                level.destroyBlock(pos, true);
-            }
+            level.destroyBlock(pos, true);
         }
         // if pos2.getY() == pos.getY())
         for (Direction d : Direction.values())
@@ -100,7 +97,7 @@ public class FirepitBlock extends CampfireBlock
 
     @Override
     public boolean canSurvive(BlockState blockState, LevelReader level, BlockPos pos) {
-        if (pos.getY() <= level.getMaxY())
+        if (pos.getY() <= level.getMinY())
         {
             return false;
         }
@@ -177,6 +174,10 @@ public class FirepitBlock extends CampfireBlock
         if (level.getBlockEntity(pos) instanceof CampfireBlockEntity campfire)
         {
             ItemStack itemInHand = player.getItemInHand(hand);
+            if (itemInHand.isEmpty())
+            {
+                return InteractionResult.TRY_WITH_EMPTY_HAND;  // this is stupid
+            }
             if (level.recipeAccess().propertySet(RecipePropertySet.CAMPFIRE_INPUT).test(itemInHand))
             {
                 if (level instanceof ServerLevel serverLevel && canPlaceFood(campfire) && campfire.placeFood(serverLevel, player, itemInHand))
@@ -246,22 +247,29 @@ public class FirepitBlock extends CampfireBlock
 
     ///////////////////////////////////////////////////////////
 
-    private static void CookTickOverride(Level level, BlockPos pos, BlockState state, CampfireBlockEntity e)
-    {
+    private static void CookTickOverride(Level level, BlockPos pos, BlockState state, CampfireBlockEntity e) {
         // check initialization (we can't do it in newBlockEntity, it doesn't trigger after reload for saved BEs)
         FirepitBlock.CheckInitialization(e);
         // cooking function
-        CampfireBlockEntity.cookTick(level, pos, state, e);
-        // check rain amd dowse:
+        if (level instanceof ServerLevel sl)
+        {
+            if (quickCheck == null)
+            {
+                quickCheck = RecipeManager.createCheck(RecipeType.CAMPFIRE_COOKING);
+            }
+            CampfireBlockEntity.cookTick(sl, pos, state, e, quickCheck);
+        }
+        // check rain and dowse:
         if (level.getLevelData().getGameTime() % (2*20) == 13)
         {
-            if (level.getLevelData().isRaining() && level.getRandom().nextInt(5) == 0 && level.canSeeSky(pos))
+            if (level.isRainingAt(pos.above()) && level.getRandom().nextInt(5) == 0 && level.canSeeSky(pos))
             {
-                dowseBasic((Entity)null, level, pos);
+                dowse((Entity)null, level, pos, state);
                 level.setBlock(pos, state.setValue(LIT, Boolean.valueOf(false)), 3);
             }
         }
     }
+    private static RecipeManager.CachedCheck<SingleRecipeInput, CampfireCookingRecipe> quickCheck = null;
 
     private static void ParticleTickOverride(Level level, BlockPos pos, BlockState state, CampfireBlockEntity e)
     {

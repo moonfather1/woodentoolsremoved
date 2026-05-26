@@ -22,7 +22,7 @@
       "modid": "silentgear"
     },
     {
-      "type": "neoforge:false"
+      "type": "neoforge:never"
     }
   ]
 }

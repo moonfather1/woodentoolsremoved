@@ -1,0 +1,55 @@
+{
+  "model":
+  {
+    "type": "minecraft:select",
+
+    "property": "minecraft:display_context",
+    "fallback": {
+      "type": "minecraft:model",
+      "model": "woodentoolsremoved:item/javelin_inventory"
+    },
+
+    "cases": [
+      {
+        "when": "thirdperson_righthand",
+        "model":
+        {
+          "type": "minecraft:condition",
+          "property": "minecraft:using_item",
+          "on_true":
+          {
+            "type": "minecraft:model",
+            "model": "woodentoolsremoved:item/javelin_entity_reverse"
+          },
+          "on_false":
+          {
+            "type": "minecraft:model",
+            "model": "woodentoolsremoved:item/javelin_entity"
+          }
+        }
+      },
+      {
+        "when": "thirdperson_lefthand",
+        "model":
+        {
+          "type": "minecraft:condition",
+          "property": "minecraft:using_item",
+          "on_true":
+          {
+            "type": "minecraft:model",
+            "model": "woodentoolsremoved:item/javelin_entity_reverse"
+          },
+          "on_false":
+          {
+            "type": "minecraft:model",
+            "model": "woodentoolsremoved:item/javelin_entity"
+          }
+        }
+      }
+    ]
+  },
+  "properties": {
+    "hand_animation_on_swap": true,
+    "oversized_in_gui": false
+  }
+}

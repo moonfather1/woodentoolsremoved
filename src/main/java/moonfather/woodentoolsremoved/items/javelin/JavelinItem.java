@@ -1,10 +1,10 @@
 package moonfather.woodentoolsremoved.items.javelin;
 
 import com.google.common.collect.ImmutableMultimap;
-import com.google.common.collect.Multimap;
 import moonfather.woodentoolsremoved.Constants;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
@@ -15,28 +15,22 @@ import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.projectile.AbstractArrow;
+import net.minecraft.world.entity.projectile.arrow.AbstractArrow;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.component.ItemAttributeModifiers;
+import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.level.Level;
-import org.jetbrains.annotations.Nullable;
 
-import java.util.List;
+import java.util.function.Consumer;
 
 public class JavelinItem extends TridentItem
 {
-    private final Multimap<Attribute, AttributeModifier> defaultModifiers;
-
-    public JavelinItem()
+    public JavelinItem(ResourceKey<Item> key)
     {
-        super(JavelinItem.GetProperties());
-        ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
-        builder.put(Attributes.ATTACK_DAMAGE.value(), new AttributeModifier(BASE_ATTACK_DAMAGE_ID,5.0D, AttributeModifier.Operation.ADD_VALUE));
-        builder.put(Attributes.ATTACK_SPEED.value(), new AttributeModifier(BASE_ATTACK_SPEED_ID, -3.0D, AttributeModifier.Operation.ADD_VALUE));
-        this.defaultModifiers = builder.build();
+        super(JavelinItem.getProperties().setId(key));
     }
 
-    private static Properties GetProperties()
+    private static Properties getProperties()
     {
         Item.Properties properties = new Properties();
         properties.durability(6);
@@ -60,47 +54,46 @@ public class JavelinItem extends TridentItem
 
 
 
-    public int getEnchantmentValue() {
-        return 0;
-    }
-
     /// copy-pasta:
 
-    public void releaseUsing(ItemStack p_43394_, Level p_43395_, LivingEntity p_43396_, int p_43397_) {
-        if (p_43396_ instanceof Player) {
-            Player player = (Player)p_43396_;
-            int i = this.getUseDuration(p_43394_, p_43396_) - p_43397_;
-            if (i >= 10) {
-                if ( !p_43395_.isClientSide()) {
-                    p_43394_.hurtAndBreak(1, player, EquipmentSlot.MAINHAND);
 
-                    ThrownJavelinProjectile throwntrident = new ThrownJavelinProjectile(p_43395_, player, p_43394_);
+    @Override
+    public boolean releaseUsing(ItemStack itemStack, Level level, LivingEntity livingEntity, int remainingTime)
+    {
+        if (livingEntity instanceof Player player) {
+            int timeHeld = this.getUseDuration(itemStack, livingEntity) - remainingTime;
+            if (timeHeld >= 10) {
+                if ( !level.isClientSide()) {
+                    itemStack.hurtAndBreak(1, player, EquipmentSlot.MAINHAND);
+
+                    ThrownJavelinProjectile throwntrident = new ThrownJavelinProjectile(level, player, itemStack);
                     throwntrident.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0F, 2.5F + (float)0 * 0.5F, 1.0F);
-                    if (player.getAbilities().instabuild) {
+                    if (player.hasInfiniteMaterials()) {
                         throwntrident.pickup = AbstractArrow.Pickup.CREATIVE_ONLY;
                     }
 
-                    p_43395_.addFreshEntity(throwntrident);
-                    p_43395_.playSound((Player)null, throwntrident, SoundEvents.TRIDENT_THROW.value(), SoundSource.PLAYERS, 1.0F, 1.0F);
-                    if (! player.getAbilities().instabuild) {
-                        player.getInventory().removeItem(p_43394_);
+                    level.addFreshEntity(throwntrident);
+                    level.playSound((Player)null, throwntrident, SoundEvents.TRIDENT_THROW.value(), SoundSource.PLAYERS, 1.0F, 1.0F);
+                    if (! player.hasInfiniteMaterials()) {
+                        player.getInventory().removeItem(itemStack);
                     }
                 }
 
                 player.awardStat(Stats.ITEM_USED.get(this));
             }
         }
+        return false;
     }
 
     ///////////// info ///////////////////////
 
     @Override
-    public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> lines, TooltipFlag flags)
+    public void appendHoverText(ItemStack itemStack, TooltipContext context, TooltipDisplay display, Consumer<Component> builder, TooltipFlag tooltipFlag)
     {
-        super.appendHoverText(stack, context, lines, flags);
-        if (stack.getDamageValue() == stack.getMaxDamage() - 1)
+        super.appendHoverText(itemStack, context, display, builder, tooltipFlag);
+        if (itemStack.getDamageValue() == itemStack.getMaxDamage() - 1)
         {
-            lines.add(line1);
+            builder.accept(line1);
         }
     }
 

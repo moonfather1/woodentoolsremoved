@@ -33,6 +33,9 @@
 	"item.woodentoolsremoved.original.tooltip2": "Бескорисно је. Направи прави алат од тврђих материјала.",
 	"item.woodentoolsremoved.tetra.tooltip": "Алатке са дрвеном главом су бескорисне. Покушајте да користите кремен или камен.",
 	"item.woodentoolsremoved.javelin1dur.tooltip": "Превише је оштећено да га бациш. Још један замах и готово.",
+	"item.woodentoolsremoved.barrier1": "(not craftable)",
+	"item.woodentoolsremoved.barrier1.tooltip1": "Flint pick is available only if simple mode is turned on in config.",
+
 
 	"item.woodentoolsremoved.peaceful.tooltip1": "Није баш чврсто, али требало би да сруши дрво.",
 	"item.woodentoolsremoved.peaceful.tooltip2": "Такође вам може помоћи да добијете угаљ из лежишта угља у камену.",

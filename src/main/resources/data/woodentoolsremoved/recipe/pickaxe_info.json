@@ -1,13 +1,10 @@
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    " # ",
-    " s#",
-    "s  "
+    "b"
   ],
   "key": {
-    "#": "#woodentoolsremoved:flint_for_tools",
-    "s": "#c:rods/wooden"
+    "b": "woodentoolsremoved:barrier1"
   },
   "result": {
     "id": "woodentoolsremoved:flint_pick",
@@ -17,8 +14,11 @@
   "neoforge:conditions":
   [
     {
-      "type": "woodentoolsremoved:optional",
-      "flag_code": "allow_pick"
+      "type": "neoforge:not",
+      "value": {
+            "type": "woodentoolsremoved:optional",
+            "flag_code": "allow_pick"
+          }
     }
   ]
 }

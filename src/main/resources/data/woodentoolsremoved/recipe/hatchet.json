@@ -5,12 +5,8 @@
     "s "
   ],
   "key": {
-    "f": {
-      "tag": "woodentoolsremoved:flint_for_tools"
-    },
-    "s": {
-      "tag": "c:rods/wooden"
-    }
+    "f": "#woodentoolsremoved:flint_for_tools",
+    "s": "#c:rods/wooden"
   },
   "category": "equipment",
   "result": {

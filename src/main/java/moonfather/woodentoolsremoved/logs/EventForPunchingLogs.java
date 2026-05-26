@@ -1,6 +1,7 @@
 package moonfather.woodentoolsremoved.logs;
 
 import com.mojang.logging.LogUtils;
+import moonfather.woodentoolsremoved.items.ToolMaterialResolver;
 import moonfather.woodentoolsremoved.other.AdvancementForPunchingLogs;
 import moonfather.woodentoolsremoved.other.TetraSupport;
 import moonfather.woodentoolsremoved.peaceful.PeacefulGameplaySupport;
@@ -58,73 +59,67 @@ public class EventForPunchingLogs
 
 
 	@SubscribeEvent
-	public static void OnBreakSpeed(PlayerEvent.BreakSpeed event)
+	public static void onBreakSpeed(PlayerEvent.BreakSpeed event)
 	{
 		if (! event.getEntity().getMainHandItem().isEmpty())
 		{
-			Identifier toolId = BuiltInRegistries.ITEM.getKey(event.getEntity().getMainHandItem().getItem());
-			//if ( event.getEntity().getMainHandItem().getItem() instanceof AxeItem && (((AxeItem)event.getEntity().getMainHandItem().getItem()).getTier().equals(Tiers.WOOD) && (toolId == null || ! toolId.getNamespace().equals("silentgear")))
-			//		|| event.getEntity().getMainHandItem().getItem() instanceof PickaxeItem && ! event.getEntity().getMainHandItem().isCorrectToolForDrops(Blocks.STONE.defaultBlockState()))
-			if ( event.getEntity().getMainHandItem().getItem() instanceof AxeItem && (((AxeItem)event.getEntity().getMainHandItem().getItem()).getTier().equals(Tiers.WOOD) && (toolId == null || ! toolId.getNamespace().equals("silentgear")))
-					|| event.getEntity().getMainHandItem().getItem() instanceof PickaxeItem pick && ! event.getEntity().getMainHandItem().isCorrectToolForDrops(Blocks.IRON_ORE.defaultBlockState()) && ! pick.getTier().equals(Tiers.GOLD)
-					|| toolId.toString().equals("tconstruct:pickaxe") && event.getEntity().getMainHandItem().get(DataComponents.CUSTOM_DATA).getUnsafe().getCompound("tic_stats").getString("tconstruct:harvest_tier").equals("minecraft:wood")
+			if (event.getState().is(BlockTags.LOGS) && ToolMaterialResolver.isWoodenAxe(event.getEntity().getMainHandItem())
+				|| ToolMaterialResolver.isWoodenPickaxe(event.getEntity().getMainHandItem())
 			)
 			{
-				if (ShouldShowMessage(event.getEntity()))
+				if (shouldShowMessage(event.getEntity()))
 				{
 					event.getEntity().sendOverlayMessage(woodenToolMessage);
 				}
 				event.setCanceled(true);
 				return;
 			}
+
             if (! checkedForTetra)
             {
                 usingTetra = ModList.get().isLoaded("tetra");
                 checkedForTetra = true;
             }
-
-            if (usingTetra && BuiltInRegistries.ITEM.getKey(event.getEntity().getMainHandItem().getItem()).toString().equals(TetraSupport.DoubleToolId))
-            {
-				if (TetraSupport.IsWoodenTetraTool(event.getEntity().getMainHandItem()))
+			if (usingTetra && TetraSupport.IsWoodenTetraTool(event.getEntity().getMainHandItem()))
+			{
+				if (shouldShowMessage(event.getEntity()))
 				{
-					if (ShouldShowMessage(event.getEntity())) {
-						event.getEntity().sendOverlayMessage(tetraWoodenToolMessage);
-					}
-					event.setCanceled(true);
-					return;
+					event.getEntity().sendOverlayMessage(tetraWoodenToolMessage);
 				}
-            }
+				event.setCanceled(true);
+				return;
+			}
 		}
 
 		if (event.getState().is(BlockTags.LOGS) && ! event.getEntity().getMainHandItem().isCorrectToolForDrops(event.getState()))
 		{
-			// event.getPlayer().level.isClientSide()     alternates
-			event.setCanceled(true);
-			if (event.getEntity().getArmorCoverPercentage() > 0f)
-			{
-				return; // later game, accidental left-click
-			}
 			if (! event.getEntity().getMainHandItem().isEmpty() && event.getEntity().getMainHandItem().is(Tags.Items.TOOLS))
 			{
 				event.setNewSpeed(event.getOriginalSpeed() / 8);
 				event.setCanceled(false);
 				return;
 			}
-			if (! event.getEntity().level().isClientSide() && ShouldGiveAdvancement(event.getEntity()))
+			// event.getPlayer().level.isClientSide()     alternates
+			event.setCanceled(true);
+			if (event.getEntity().getArmorCoverPercentage() > 0f)
 			{
-				if (ModList.get().isLoaded("multimine") && (event.getPosition().isEmpty() || ShouldAbortMultiMine(event.getEntity(), event.getPosition().get())))
+				return; // later game, accidental left-click
+			}
+			if (! event.getEntity().level().isClientSide() && shouldGiveAdvancement(event.getEntity()))
+			{
+				if (ModList.get().isLoaded("multimine") && (event.getPosition().isEmpty() || shouldAbortMultiMine(event.getEntity(), event.getPosition().get())))
 				{
 					return; // this mod keeps asking about break speed after we stop hitting the block.
 				}
 				AdvancementForPunchingLogs.Grant(event.getEntity());
 			}
-			if (! event.getEntity().level().isClientSide() && ShouldShowMessage(event.getEntity()))
+			if (! event.getEntity().level().isClientSide() && shouldShowMessage(event.getEntity()))
 			{
-				if (ModList.get().isLoaded("multimine") && (event.getPosition().isEmpty() || ShouldAbortMultiMine(event.getEntity(), event.getPosition().get())))
+				if (ModList.get().isLoaded("multimine") && (event.getPosition().isEmpty() || shouldAbortMultiMine(event.getEntity(), event.getPosition().get())))
 				{
 					return; // this mod keeps asking about break speed after we stop hitting the block.
 				}
-				if (ShouldHurtPlayer(event.getEntity()))
+				if (shouldHurtPlayer(event.getEntity()))
 				{
 					event.getEntity().hurt(event.getEntity().damageSources().flyIntoWall(), 1);
 					int m = event.getEntity().level().getRandom().nextInt(handHurtsMessages.length);
@@ -150,7 +145,7 @@ public class EventForPunchingLogs
 	private static final Map<UUID, Long> prevClientMessageTick = new HashMap<>();
 	private static final Map<UUID, Long> lastHurtPlayerTick = new HashMap<>();
 
-	private static boolean ShouldShowMessage(Player player)
+	private static boolean shouldShowMessage(Player player)
 	{
 		Long last = lastClientMessageTick.get(player.getUUID());
 		if (last == null)
@@ -172,7 +167,7 @@ public class EventForPunchingLogs
 	}
 
 
-	private static boolean ShouldHurtPlayer(Player player)
+	private static boolean shouldHurtPlayer(Player player)
 	{
 		Long last = lastHurtPlayerTick.get(player.getUUID());
 		if (last == null)
@@ -193,7 +188,7 @@ public class EventForPunchingLogs
 	}
 
 
-	private static boolean ShouldGiveAdvancement(Player player)
+	private static boolean shouldGiveAdvancement(Player player)
 	{
 		Long last = lastClientMessageTick.get(player.getUUID());
 		if (last == null)
@@ -229,7 +224,7 @@ public class EventForPunchingLogs
 		return level.clip(new ClipContext(vec3, vec31, ClipContext.Block.OUTLINE, ClipContext.Fluid.NONE, player));
 	}
 
-	private static boolean ShouldAbortMultiMine(Player player, BlockPos clickedBlock)
+	private static boolean shouldAbortMultiMine(Player player, BlockPos clickedBlock)
 	{
 		BlockHitResult blockhitresult = getPlayerPOVHitResult(player.level(), player);
 		return blockhitresult.getType() == HitResult.Type.MISS ||

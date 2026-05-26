@@ -13,7 +13,7 @@
     "show_toast": false,
     "announce_to_chat": false,
     "hidden": false,
-    "background": "minecraft:textures/block/podzol_top.png"
+    "background": "minecraft:block/podzol_top"
   },
   "criteria": {
     "unlock_right_away": {

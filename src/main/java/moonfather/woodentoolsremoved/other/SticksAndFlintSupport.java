@@ -18,7 +18,7 @@ public class SticksAndFlintSupport
             return false;
         }
         CompoundTag tag = player.getPersistentData();
-        int blocks = tag.getInt("gravel_blocks_broken");
+        int blocks = tag.getIntOr("gravel_blocks_broken", 0);
         blocks += 1;
         if (blocks > 20)
         {

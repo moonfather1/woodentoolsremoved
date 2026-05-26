@@ -1,22 +1,23 @@
 package moonfather.woodentoolsremoved.items.tools;
 
-import moonfather.woodentoolsremoved.items.FlintToolTier;
+import moonfather.woodentoolsremoved.Constants;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 
 public class PickItem extends Item
 {
-	public PickItem()
+	public PickItem(ResourceKey<Item> key)
 	{
-		super(FlintToolTier.getInstance(), PickItem.GetProperties());
+		super(PickItem.getProperties().setId(key));
 	}
 
-	private static Item.Properties GetProperties()
+	private static Item.Properties getProperties()
 	{
 		Item i = Items.IRON_PICKAXE;
 		Item.Properties properties = new Item.Properties();
-		// properties.durability(12); comes from tier now
-		properties.attributes(DiggerItem.createAttributes(FlintToolTier.getInstance(), 1.0F, -3.0F));
+		properties.pickaxe(Constants.Materials.FLINT, 1.0F, -3.0F);
+		properties.durability(6);
 		return properties;
 	}
 }

@@ -32,7 +32,9 @@
 	"item.woodentoolsremoved.original.tooltip1": "This is a model only.",
 	"item.woodentoolsremoved.original.tooltip2": "It's useless. Make a real tool from harder materials.",
 	"item.woodentoolsremoved.tetra.tooltip": "Wooden tool heads are useless. Try using flint or stone.",
-	"item.woodentoolsremoved.javelin1dur.tooltip": "It's too damaged to throw it. One more swing and it's gone.",
+	"item.woodentoolsremoved.javelin1dur.tooltip": "It's too damaged to throw it. One more jab and it's gone.",
+	"item.woodentoolsremoved.barrier1": "(not craftable)",
+	"item.woodentoolsremoved.barrier1.tooltip1": "Flint pick is available only if simple mode is turned on in config.",
 
 	"item.woodentoolsremoved.peaceful.tooltip1": "Not very sturdy but it should take down a tree.",
 	"item.woodentoolsremoved.peaceful.tooltip2": "Also might help you get coal from a coal deposit in stone.",

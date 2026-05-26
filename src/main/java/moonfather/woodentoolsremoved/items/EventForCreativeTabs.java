@@ -7,7 +7,7 @@ import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 
 public class EventForCreativeTabs
 {
-	public static void OnCreativeModeTab(BuildCreativeModeTabContentsEvent event)
+	public static void onCreativeModeTab(BuildCreativeModeTabContentsEvent event)
 	{
 		if (event.getTabKey().equals(CreativeModeTabs.TOOLS_AND_UTILITIES))
 		{

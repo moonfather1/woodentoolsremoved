@@ -6,12 +6,8 @@
     "gsg"
   ],
   "key": {
-    "g": {
-      "tag": "c:gravels"
-    },
-    "s": {
-      "tag": "c:rods/wooden"
-    }
+    "g": "#c:gravels",
+    "s": "#c:rods/wooden"
   },
   "result": {
     "id": "woodentoolsremoved:firepit",

@@ -15,6 +15,7 @@ public class TetraSupport
 
     public static boolean IsWoodenTetraTool(ItemStack tool)
     {
+        // BuiltInRegistries.ITEM.getKey(event.getEntity().getMainHandItem().getItem()).toString().equals(TetraSupport.DoubleToolId)
         return false;         //todo: disabled
     }
 

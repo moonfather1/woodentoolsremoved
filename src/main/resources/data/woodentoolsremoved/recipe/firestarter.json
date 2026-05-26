@@ -2,12 +2,8 @@
   "type": "minecraft:crafting_shapeless",
   "category": "equipment",
   "ingredients": [
-    {
-      "tag": "c:gravels"
-    },
-    {
-      "tag": "c:flint"
-    }
+    "#c:gravels",
+    "#c:flint"
   ],
   "result": {
     "id": "woodentoolsremoved:firestarter"

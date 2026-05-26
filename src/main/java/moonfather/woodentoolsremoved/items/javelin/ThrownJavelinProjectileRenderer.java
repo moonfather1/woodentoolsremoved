@@ -1,26 +1,25 @@
 package moonfather.woodentoolsremoved.items.javelin;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 import moonfather.woodentoolsremoved.Constants;
-import net.minecraft.client.model.EntityModel;
+import net.minecraft.client.model.Model;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
-import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.entity.*;
+import net.minecraft.client.renderer.entity.state.ThrownTridentRenderState;
+import net.minecraft.client.renderer.rendertype.RenderTypes;
+import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.Mth;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
+import net.minecraft.resources.Identifier;
+import net.minecraft.util.Unit;
 
-@OnlyIn(Dist.CLIENT)
-public class ThrownJavelinProjectileRenderer extends EntityRenderer<ThrownJavelinProjectile>
+public class ThrownJavelinProjectileRenderer extends EntityRenderer<ThrownJavelinProjectile, ThrownTridentRenderState>
 {
-	private static final ResourceLocation TEXTURE_LOCATION = ResourceLocation.fromNamespaceAndPath(Constants.MODID, "textures/entity/javelin.png");
+	private static final Identifier TEXTURE_LOCATION = Identifier.fromNamespaceAndPath(Constants.MODID, "textures/entity/javelin.png");
 	private final JavelinModel model;
 
 	public ThrownJavelinProjectileRenderer(EntityRendererProvider.Context context) {
@@ -28,32 +27,46 @@ public class ThrownJavelinProjectileRenderer extends EntityRenderer<ThrownJaveli
 		this.model = new JavelinModel(context.bakeLayer(JavelinModel.LAYER_LOCATION));
 	}
 
-	public void render(ThrownJavelinProjectile p_116111_, float p_116112_, float p_116113_, PoseStack p_116114_, MultiBufferSource p_116115_, int p_116116_) {
-		p_116114_.pushPose();
-		p_116114_.mulPose(Axis.YP.rotationDegrees(Mth.lerp(p_116113_, p_116111_.yRotO, p_116111_.getYRot()) - 90.0F));
-		p_116114_.mulPose(Axis.ZP.rotationDegrees(Mth.lerp(p_116113_, p_116111_.xRotO, p_116111_.getXRot()) + 90.0F));
-		VertexConsumer vertexconsumer = ItemRenderer.getFoilBufferDirect(p_116115_, this.model.renderType(this.getTextureLocation(p_116111_)), false, false/*foil*/);
-		this.model.renderToBuffer(p_116114_, vertexconsumer, p_116116_, OverlayTexture.NO_OVERLAY);
-		p_116114_.popPose();
-		super.render(p_116111_, p_116112_, p_116113_, p_116114_, p_116115_, p_116116_);
+
+
+	@Override
+	public void submit(ThrownTridentRenderState state, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, CameraRenderState camera) {
+		poseStack.pushPose();
+		poseStack.mulPose(Axis.YP.rotationDegrees(state.yRot - 90.0F));
+		poseStack.mulPose(Axis.ZP.rotationDegrees(state.xRot + 90.0F));
+		submitNodeCollector.order(0)
+				.submitModel(this.model, Unit.INSTANCE, poseStack, TEXTURE_LOCATION, state.lightCoords, OverlayTexture.NO_OVERLAY, state.outlineColor, null);
+		poseStack.popPose();
+		super.submit(state, poseStack, submitNodeCollector, camera);
 	}
 
-	public ResourceLocation getTextureLocation(ThrownJavelinProjectile p_116109_) {
-		return TEXTURE_LOCATION;
+
+	@Override
+	public ThrownTridentRenderState createRenderState() {
+		return new ThrownTridentRenderState();
 	}
 
-	///////////////////////////////////////
+	@Override
+	public void extractRenderState(ThrownJavelinProjectile entity, ThrownTridentRenderState state, float partialTicks) {
+		super.extractRenderState(entity, state, partialTicks);
+		state.yRot = entity.getYRot(partialTicks);
+		state.xRot = entity.getXRot(partialTicks);
+		state.isFoil = false;
+	}
 
-	public class JavelinModel extends EntityModel<ThrownJavelinProjectile> {
-		// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
-		public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(Constants.MODID, "javelin"), "main");
-		private final ModelPart bb_main;
+////////////////////////////////////////////////////////////////////
 
-		public JavelinModel(ModelPart root) {
-			this.bb_main = root.getChild("bb_main");
+	public static class JavelinModel extends Model<Unit>
+	{
+		public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(Identifier.fromNamespaceAndPath(Constants.MODID, "javelin"), "main");
+
+		public JavelinModel(ModelPart root)
+		{
+			super(root, RenderTypes::entitySolid);
 		}
 
-		public static LayerDefinition createBodyLayer() {
+		public static LayerDefinition createLayer()
+		{
 			MeshDefinition meshdefinition = new MeshDefinition();
 			PartDefinition partdefinition = meshdefinition.getRoot();
 
@@ -64,19 +77,7 @@ public class ThrownJavelinProjectileRenderer extends EntityRenderer<ThrownJaveli
 					.texOffs(13, 25).addBox(-3.0F, -29.0F, 0.0F, 1.0F, 2.0F, 1.0F, new CubeDeformation(0.0F))
 					.texOffs(13, 17).addBox(0.0F, -26.0F, 0.0F, 1.0F, 1.0F, 1.0F, new CubeDeformation(0.0F))
 					.texOffs(14, 8).addBox(1.0F, -28.0F, 0.0F, 1.0F, 2.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 24.0F, 0.0F));
-
 			return LayerDefinition.create(meshdefinition, 32, 32);
-		}
-
-		@Override
-		public void setupAnim(ThrownJavelinProjectile entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
-
-		}
-
-		@Override
-		public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, int p_350308_)
-		{
-			bb_main.render(poseStack, vertexConsumer, packedLight, packedOverlay);
 		}
 	}
 }

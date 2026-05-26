@@ -42,7 +42,7 @@ public class EventForStoneAdvancements
 
     private static AdvancementHolder GetAdvancement(ServerPlayer sp, Identifier id)
     {
-        return sp.getAdvancements(). getServer().getAdvancements().get(id);
+        return sp.level().getServer().getAdvancements().get(id);
     }
 
 

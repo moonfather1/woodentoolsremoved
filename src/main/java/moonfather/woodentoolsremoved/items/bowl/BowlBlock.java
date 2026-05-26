@@ -8,6 +8,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.stats.Stats;
 import net.minecraft.tags.BlockTags;
@@ -23,24 +24,26 @@ import net.minecraft.world.item.*;
 import net.minecraft.world.level.*;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.FluidState;
+import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.level.material.PushReaction;
+import net.minecraft.world.level.redstone.Orientation;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
-
-import javax.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 
 public class BowlBlock extends Block
 {
     public static final Component TooltipLine1 = Component.translatable("item.woodentoolsremoved.powder_bowl.tooltip1").withStyle(Style.EMPTY.withColor(Constants.COLOR_GRAY_TOOLTIPS));
     public static final Component TooltipLine2 = Component.translatable("item.woodentoolsremoved.powder_bowl.tooltip2").withStyle(Style.EMPTY.withColor(Constants.COLOR_GRAY_TOOLTIPS));
 
-    public BowlBlock()
+    public BowlBlock(ResourceKey<Block> blockResourceKey)
     {
-        super(Properties.of().instabreak().pushReaction(PushReaction.DESTROY).explosionResistance(1e-5f).ignitedByLava().forceSolidOff());
+        super(Properties.of().instabreak().pushReaction(PushReaction.DESTROY).explosionResistance(1e-5f).ignitedByLava().forceSolidOff().setId(blockResourceKey));
     }
 
-    public static Item.Properties GetItemProperties()
+    public static Item.Properties getItemProperties()
     {
         return new Item.Properties().craftRemainder(Items.BOWL);
     }
@@ -62,9 +65,9 @@ public class BowlBlock extends Block
         {
             if (! level.isClientSide())
             {
-                this.UpdateUsedItem(itemStack, player, hand);
+                this.updateUsedItem(itemStack, player, hand);
                 // ekusproshion
-                this.Boom(level, blockPos);
+                this.boom(level, blockPos);
                 return InteractionResult.CONSUME;
             }
             return InteractionResult.SUCCESS;
@@ -96,7 +99,7 @@ public class BowlBlock extends Block
             int chance = (direction == Direction.DOWN || direction == Direction.UP) ? 95 : 25;
             if (((ServerLevel)level).getRandom().nextInt(100) < chance)
             {
-                this.Boom((ServerLevel)level, pos);
+                this.boom((ServerLevel)level, pos);
             }
         }
 
@@ -105,24 +108,24 @@ public class BowlBlock extends Block
 
 
 
-    private void Boom(Level level, BlockPos pos)
+    private void boom(Level level, BlockPos pos)
     {
         level.setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());
         float force = 0.7F;
         level.explode(null, pos.getX()+0.5f, pos.getY()+0.3f, pos.getZ()+0.5f, force, Level.ExplosionInteraction.NONE);
         BlockPos.MutableBlockPos pos2 = new BlockPos.MutableBlockPos(pos.getX(), pos.getY(), pos.getZ());
-        this.TryDestroyStone(level, pos2.move( 0, -1, 0 ), 100);
-        this.TryDestroyStone(level, pos2.move( 0, +2,  0), 100);
-        this.TryDestroyStone(level, pos2.move(-1, -1,  0),  90);
-        this.TryDestroyStone(level, pos2.move(+2,  0,  0),  90);
-        this.TryDestroyStone(level, pos2.move(-1,  0, -1),  90);
-        this.TryDestroyStone(level, pos2.move( 0,  0, +2),  90);
+        this.tryDestroyStone(level, pos2.move( 0, -1, 0 ), 100);
+        this.tryDestroyStone(level, pos2.move( 0, +2,  0), 100);
+        this.tryDestroyStone(level, pos2.move(-1, -1,  0),  90);
+        this.tryDestroyStone(level, pos2.move(+2,  0,  0),  90);
+        this.tryDestroyStone(level, pos2.move(-1,  0, -1),  90);
+        this.tryDestroyStone(level, pos2.move( 0,  0, +2),  90);
     }
 
 
     private final TagKey<Block> cobblestoneTag = BlockTags.create(Identifier.fromNamespaceAndPath("c","cobblestone"));
 
-    private void TryDestroyStone(Level level, BlockPos pos, int chancePercentage)
+    private void tryDestroyStone(Level level, BlockPos pos, int chancePercentage)
     {
         if (level.getRandom().nextInt(100) < chancePercentage)
         {
@@ -139,21 +142,29 @@ public class BowlBlock extends Block
 
 
     @Override
-    public void onCaughtFire(BlockState state, Level world, BlockPos pos, @Nullable net.minecraft.core.Direction face, @Nullable LivingEntity igniter)
+    public boolean onCaughtFire(BlockState state, Level level, BlockPos pos, @org.jspecify.annotations.Nullable Direction direction, @org.jspecify.annotations.Nullable LivingEntity igniter)
     {
-        this.Boom(world, pos);
+        this.boom(level, pos);
+        return true;
     }
 
-
-
     @Override
-    public void neighborChanged(BlockState state, Level level, BlockPos pos, Block block, BlockPos pos2, boolean dontknow)
+    protected void neighborChanged(BlockState state, Level level, BlockPos pos, Block block, @Nullable Orientation orientation, boolean movedByPiston)
     {
-        super.neighborChanged(state, level, pos, block, pos2, dontknow);
-        if (pos2.getY() == pos.getY() - 1)
+        super.neighborChanged(state, level, pos, block, orientation, movedByPiston);
+        // used to be if (pos2.getY() == pos.getY() - 1)
+        // can't check that as of 26.1.   we don't know which neighbor block has changed anymore,
+        BlockState below = level.getBlockState(pos.below());
+        if (! level.isClientSide() && ! below.isFaceSturdy(level, pos.below(), Direction.UP, SupportType.CENTER))
         {
-            BlockState below = level.getBlockState(pos2);
-            if (! level.isClientSide() && ! below.isFaceSturdy(level, pos2, Direction.UP, SupportType.CENTER))
+            level.destroyBlock(pos, true);
+        }
+        // if pos2.getY() == pos.getY())
+        for (Direction d : Direction.values())
+        {
+            BlockPos pos2 = pos.relative(d);
+            FluidState newBlock = level.getFluidState(pos2);
+            if (! level.isClientSide() && ! newBlock.is(Fluids.EMPTY))
             {
                 level.destroyBlock(pos, true);
             }
@@ -161,7 +172,8 @@ public class BowlBlock extends Block
     }
 
     @Override
-    public boolean canSurvive(BlockState blockState, LevelReader level, BlockPos pos) {
+    public boolean canSurvive(BlockState blockState, LevelReader level, BlockPos pos)
+    {
         if (pos.getY() <= level.getMinY())
         {
             return false;
@@ -177,26 +189,28 @@ public class BowlBlock extends Block
 
 
 
+    @Override
     public boolean dropFromExplosion(Explosion p_57427_)
     {
         return false;
     }
 
-    public void onProjectileHit(Level p_57429_, BlockState p_57430_, BlockHitResult p_57431_, Projectile p_57432_)
+    @Override
+    public void onProjectileHit(Level level, BlockState p_57430_, BlockHitResult p_57431_, Projectile p_57432_)
     {
-        if (! p_57429_.isClientSide())
+        if (! level.isClientSide() && level instanceof ServerLevel sl)
         {
             BlockPos blockpos = p_57431_.getBlockPos();
             Entity entity = p_57432_.getOwner();
-            if (p_57432_.isOnFire() && p_57432_.mayInteract(p_57429_, blockpos))
+            if (p_57432_.isOnFire() && p_57432_.mayInteract(sl, blockpos))
             {
-                onCaughtFire(p_57430_, p_57429_, blockpos, null, entity instanceof LivingEntity ? (LivingEntity)entity : null);
-                p_57429_.removeBlock(blockpos, false);
+                onCaughtFire(p_57430_, level, blockpos, null, entity instanceof LivingEntity ? (LivingEntity)entity : null);
+                level.removeBlock(blockpos, false);
             }
         }
     }
 
-    private void UpdateUsedItem(ItemStack stack, Player player, InteractionHand hand)
+    private void updateUsedItem(ItemStack stack, Player player, InteractionHand hand)
     {
         if (! player.hasInfiniteMaterials())
         {

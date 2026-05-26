@@ -14,14 +14,19 @@ public class ModFlintTools
 {
     public ModFlintTools(IEventBus modEventBus, ModContainer modContainer)
     {
-        // flint tool stats
-        // stone/copper stats
+        // alias firepit_block to firepit
+        // +  adva bg
+        // adva maybe initial toast
+        // adva puncher
+        // +  tag logs and stone
+        // try sg bow
+        // 4 tags
         modContainer.registerConfig(ModConfig.Type.COMMON, OptionsHolder.COMMON_SPEC);
-        RegistryManager.Init(modEventBus);
+        RegistryManager.init(modEventBus);
         modEventBus.addListener(this::commonSetup);
-        modEventBus.addListener(EventForCreativeTabs::OnCreativeModeTab);
-        modEventBus.addListener(ToolStatistics::OnDefaultComponentCreation);
-        NeoForge.EVENT_BUS.addListener(ToolStatistics::OnItemAttributeQuery);
+        modEventBus.addListener(EventForCreativeTabs::onCreativeModeTab);
+        modEventBus.addListener(ToolStatistics::onDefaultComponentCreation);
+        NeoForge.EVENT_BUS.addListener(ToolStatistics::onItemAttributeQuery);
     }
 
     private void commonSetup(final FMLCommonSetupEvent event)
