@@ -6,18 +6,13 @@ import moonfather.woodentoolsremoved.other.AdvancementForPunchingLogs;
 import moonfather.woodentoolsremoved.other.TetraSupport;
 import moonfather.woodentoolsremoved.peaceful.PeacefulGameplaySupport;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.component.DataComponents;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
-import net.minecraft.resources.Identifier;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.*;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
@@ -111,7 +106,7 @@ public class EventForPunchingLogs
 				{
 					return; // this mod keeps asking about break speed after we stop hitting the block.
 				}
-				AdvancementForPunchingLogs.Grant(event.getEntity());
+				AdvancementForPunchingLogs.grant(event.getEntity());
 			}
 			if (! event.getEntity().level().isClientSide() && shouldShowMessage(event.getEntity()))
 			{
@@ -196,7 +191,7 @@ public class EventForPunchingLogs
 			return false;
 		}
 		Long lastHurt = lastHurtPlayerTick.get(player.getUUID());
-		if (player.level().getGameTime() - last > 3*20 /*time for msg*/ && (lastHurt != null && player.level().getGameTime() - lastHurt > 1.5*20/*recently hurt*/))
+		if (player.level().getGameTime() - last > 3*20 /*time for msg*/ && (lastHurt != null && player.level().getGameTime() - lastHurt > 4.5*20/*recently hurt*/))
 		{
 			return true;
 		}

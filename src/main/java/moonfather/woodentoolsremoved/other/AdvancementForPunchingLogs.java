@@ -7,7 +7,7 @@ import net.minecraft.world.entity.player.Player;
 
 public class AdvancementForPunchingLogs
 {
-    public static void Grant(Player player)
+    public static void grant(Player player)
     {
         if (player instanceof ServerPlayer sp)
         {

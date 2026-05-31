@@ -7,7 +7,7 @@
       "organic",
       "wood"
     ],
-    "gear_type_blacklist": [],
+    "gear_type_blacklist": ["silentgear:pickaxe", "silentgear:axe", "silentgear:sword", "silentgear:trident", "silentgear:spear"],
     "ingredient": "#minecraft:planks",
     "part_substitutes": {
       "silentgear:rod": "minecraft:stick"
