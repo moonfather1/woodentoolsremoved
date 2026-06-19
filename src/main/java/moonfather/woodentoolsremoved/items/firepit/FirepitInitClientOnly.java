@@ -1,6 +1,6 @@
 package moonfather.woodentoolsremoved.items.firepit;
 
-import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.entity.BlockEntityTypes;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -20,6 +20,6 @@ public class FirepitInitClientOnly
 	@SubscribeEvent
 	public static void registerLayerDefinition(EntityRenderersEvent.RegisterRenderers event)
 	{
-		event.registerBlockEntityRenderer(BlockEntityType.CAMPFIRE,	FirepitRenderer::new);
+		event.registerBlockEntityRenderer(BlockEntityTypes.CAMPFIRE,	FirepitRenderer::new);
 	}
 }

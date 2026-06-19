@@ -64,7 +64,7 @@ public class FirestarterItem extends FlintAndSteelItem
                     boolean doParticles = ticksRemaining < 5;        // ticksRemaining % 12 == 0 || ticksRemaining == 3;
                     if (doParticles)
                     {
-                        Vec3 forward = player.position().vectorTo(blockhitresult.getBlockPos().getCenter()).normalize();
+                        Vec3 forward = player.position().vectorTo(blockhitresult.getLocation()).normalize();
                         for (int i = 0; i < 3; i++)
                         {
                             double d1 = level.getRandom().nextFloat() * 0.1 + 0.05 * (level.getRandom().nextBoolean()?1:-1);

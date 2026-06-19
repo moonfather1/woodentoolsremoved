@@ -1,14 +1,13 @@
 package moonfather.woodentoolsremoved.items.javelin;
 
 import moonfather.woodentoolsremoved.RegistryManager;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EntityTypes;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.ProjectileDeflection;
@@ -81,7 +80,7 @@ public class ThrownJavelinProjectile extends AbstractArrow
 
         this.dealtDamage = true;
         if (entity.hurtOrSimulate(damageSource, dmg)) {
-            if (entity.getType() == EntityType.ENDERMAN) {
+            if (entity.getType() == EntityTypes.ENDERMAN) {
                 return;
             }
 

@@ -17,13 +17,14 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
+import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 
 public class PeacefulGameplaySupport
 {
     public static void CheckForHittingCoalOre(PlayerEvent.BreakSpeed event)
     {
-        if (HaveCoalDust() && event.getState().is(BlockTags.COAL_ORES) && event.getEntity().getMainHandItem().is(TagAxe) && event.getEntity().level().getDifficulty().equals(Difficulty.PEACEFUL))
+        if (HaveCoalDust() && event.getState().is(Tags.Blocks.ORES_COAL) && event.getEntity().getMainHandItem().is(TagAxe) && event.getEntity().level().getDifficulty().equals(Difficulty.PEACEFUL))
         {
             if (event.getPosition().isPresent()) {
                 BlockPos pos = event.getPosition().get();

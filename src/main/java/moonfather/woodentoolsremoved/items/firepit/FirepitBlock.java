@@ -28,10 +28,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.CampfireBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.SupportType;
-import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.entity.BlockEntityTicker;
-import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.minecraft.world.level.block.entity.CampfireBlockEntity;
+import net.minecraft.world.level.block.entity.*;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
@@ -210,37 +207,38 @@ public class FirepitBlock extends CampfireBlock
 
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state)
     {
-        if (! BlockEntityType.CAMPFIRE.validBlocks.contains(this))
+        if (! BlockEntityTypes.CAMPFIRE.validBlocks.contains(this))
         {
-            BlockEntityType.CAMPFIRE.validBlocks = new HashSet<>(BlockEntityType.CAMPFIRE.validBlocks);
-            BlockEntityType.CAMPFIRE.validBlocks.add(this);
+            BlockEntityTypes.CAMPFIRE.validBlocks = new HashSet<>(BlockEntityTypes.CAMPFIRE.validBlocks);
+            BlockEntityTypes.CAMPFIRE.validBlocks.add(this);
         }
-        return BlockEntityType.CAMPFIRE.create(pos, state);
+        return BlockEntityTypes.CAMPFIRE.create(pos, state);
     }
 
     @Nullable
+    @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> p_152757_)
     {
         if (level.isClientSide())
         {
             if (state.getValue(LIT))
             {
-                return createTickerHelper(p_152757_, BlockEntityType.CAMPFIRE, FirepitBlock::ParticleTickOverride);
+                return createTickerHelper(p_152757_, BlockEntityTypes.CAMPFIRE, FirepitBlock::ParticleTickOverride);
             }
             else
             {
-                return createTickerHelper(p_152757_, BlockEntityType.CAMPFIRE, FirepitBlock::NoopTickOverride);
+                return createTickerHelper(p_152757_, BlockEntityTypes.CAMPFIRE, FirepitBlock::NoopTickOverride);
             }
         }
         else
         {
             if (state.getValue(LIT))
             {
-                return createTickerHelper(p_152757_, BlockEntityType.CAMPFIRE, FirepitBlock::CookTickOverride);
+                return createTickerHelper(p_152757_, BlockEntityTypes.CAMPFIRE, FirepitBlock::CookTickOverride);
             }
             else
             {
-                return createTickerHelper(p_152757_, BlockEntityType.CAMPFIRE, FirepitBlock::CooldownTickOverride);
+                return createTickerHelper(p_152757_, BlockEntityTypes.CAMPFIRE, FirepitBlock::CooldownTickOverride);
             }
         }
     }

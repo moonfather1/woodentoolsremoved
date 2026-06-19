@@ -31,6 +31,7 @@ import net.minecraft.world.level.redstone.Orientation;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import net.neoforged.neoforge.common.Tags;
 import org.jspecify.annotations.Nullable;
 
 public class BowlBlock extends Block
@@ -132,7 +133,7 @@ public class BowlBlock extends Block
             BlockState state = level.getBlockState(pos);
             if (! state.isAir() && state.getBlock().getExplosionResistance() <= 6 && ! state.is(BlockTags.NEEDS_IRON_TOOL) && ! state.is(BlockTags.NEEDS_DIAMOND_TOOL))
             {
-                boolean baseStone = state.is(BlockTags.BASE_STONE_OVERWORLD) || state.is(BlockTags.COAL_ORES) || state.is(cobblestoneTag);
+                boolean baseStone = state.is(BlockTags.BASE_STONE_OVERWORLD) || state.is(Tags.Blocks.ORES_COAL) || state.is(cobblestoneTag);
                 boolean drop = baseStone || level.getRandom().nextInt(100) < 10;    // 10% maybe configurable
                 level.destroyBlock(pos, drop);
             }
