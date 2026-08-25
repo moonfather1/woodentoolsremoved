@@ -32,7 +32,7 @@ updateJSONURL="https://api.modrinth.com/updates/uazDNzUx/forge_updates.json?neof
 displayURL="https://modrinth.com/mod/wooden-tools-are-dumb" #optional
 
 # A file name (in the root of the mod JAR) containing a logo for display
-logoFile="logo.png" #optional
+bannerFile="logo.png" #optional
 
 # A text field displayed in the mod UI
 #credits="" #optional
