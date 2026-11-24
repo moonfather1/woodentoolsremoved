@@ -38,8 +38,7 @@ public class OptionalRecipeCondition implements ICondition
 		}
 		else if (this.flagCode.equals("allow_firepit"))
 		{
-			return OptionsHolder.IsResolvedModeHard()
-					&& (! ModList.get().isLoaded("tconstruct") || OptionsHolder.COMMON.ForceHardModeWithTC.get());
+			return true;
 		}
 		else if (this.flagCode.equals("hard_mode"))
 		{

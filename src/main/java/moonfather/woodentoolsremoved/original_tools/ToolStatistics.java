@@ -28,7 +28,7 @@ public class ToolStatistics
         newStoneDurabilityFloat = Math.floor(newStoneDurabilityFloat);
         int newStoneDurability = (int)Math.max(newStoneDurabilityFloat, 1f);
         event.modify(Items.STONE_AXE, builder -> builder.set(DataComponents.MAX_DAMAGE, newStoneDurability));
-        event.modify(Items.STONE_PICKAXE, builder -> builder.set(DataComponents.MAX_DAMAGE, newStoneDurability));
+        event.modify(Items.STONE_PICKAXE, builder -> builder.set(DataComponents.MAX_DAMAGE, (int) (newStoneDurability *0.5)));
         event.modify(Items.STONE_SWORD, builder -> builder.set(DataComponents.MAX_DAMAGE, (int) (newStoneDurability *0.2)));
         event.modify(Items.STONE_SHOVEL, builder -> builder.set(DataComponents.MAX_DAMAGE, newStoneDurability));
         event.modify(Items.STONE_HOE, builder -> builder.set(DataComponents.MAX_DAMAGE, newStoneDurability));

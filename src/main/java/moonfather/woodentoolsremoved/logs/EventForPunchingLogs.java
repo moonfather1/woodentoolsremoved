@@ -58,17 +58,20 @@ public class EventForPunchingLogs
 	{
 		if (! event.getEntity().getMainHandItem().isEmpty())
 		{
-			if (event.getState().is(BlockTags.LOGS) && ToolMaterialResolver.isWoodenAxe(event.getEntity().getMainHandItem())
-				|| ToolMaterialResolver.isWoodenPickaxe(event.getEntity().getMainHandItem())
-			)
-			{
-				if (shouldShowMessage(event.getEntity()))
-				{
-					event.getEntity().sendOverlayMessage(woodenToolMessage);
-				}
-				event.setCanceled(true);
-				return;
-			}
+            if (event.getEntity().getMainHandItem().is(Tags.Items.MINING_TOOL_TOOLS))
+            {
+                if (event.getState().is(BlockTags.LOGS) && ToolMaterialResolver.isWoodenAxe(event.getEntity().getMainHandItem())
+                        || ToolMaterialResolver.isWoodenPickaxe(event.getEntity().getMainHandItem())
+                )
+                {
+                    if (shouldShowMessage(event.getEntity()))
+                    {
+                        event.getEntity().sendOverlayMessage(woodenToolMessage);
+                    }
+                    event.setCanceled(true);
+                    return;
+                }
+            }
 
             if (! checkedForTetra)
             {
